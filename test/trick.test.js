@@ -57,8 +57,9 @@ describe("#trick", function () {
             };
 
         tricked = trick("./testModules/A/moduleA.js", null, injections);
-        expect(tricked.process).to.be(process); // the process object itself should not be changed
-        expect(tricked.process.argv).to.be.eql(injections.process.argv);
+        expect(tricked.process).not.to.be(process);
+        expect(process.argv).not.to.eql(injections.process.argv);
+        expect(tricked.process).to.eql(injections.process);
         expect(tricked.console).to.be(123);
     });
     it("should inject custom scripts", function () {
