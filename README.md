@@ -70,7 +70,7 @@ var injections = {
 rewiredModule = rewire("./myModuleA.js", null, injections);
 
 // You can also pass a script to inject
-rewiredModule = rewire("./myModuleA.js", null, "console.log('hellooo');");
+rewiredModule = rewire("./myModuleA.js", null, "console.log('hellooo');"); // prints "hellooo"
 
 
 
