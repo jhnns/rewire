@@ -95,13 +95,13 @@ rewire("./myModuleA.js", null, null, null, false) === require("./myModuleA.js");
 
 ##API
 
-**rewire(***filename, mocks\*, injections\*, leaks\*, cache=true*) \* = optional
+**rewire(***filename, mocks, injections, leaks, cache*) 
 
-- *{!String} **filename***: Path to the module that shall be rewired. Use it exactly like require().
-- *{Object} **mocks***: An object with mocks. Keys should be the exactly same like they're required in the target module. So if you write ```require("../../myModules/myModuleA.js")``` you need to pass ```{"../../myModules/myModuleA.js": myModuleAMock}```.
-- *{Object|String} **injections***: If you pass an object, all keys of the object will be ```var```s within the module. You can also eval a string. **Please note**: All scripts are injected at the end of the module. So if there is any code in your module that is executed during ```require()```, your injected variables will be undefined at this point. For example: passing ```{console: {...}}``` will cause all calls of ```console.log()``` to throw an exception if they're executed during ```require()```.
-- *{Array&lt;String&gt;} **leaks***: An array with variable names that should be exported. These variables are accessible via ```myModule.__```
-- *{Boolean=true} **cache***: Indicates whether the rewired module should be cached by node so subsequent calls of ```require()``` will return the rewired module. Subsequent calls of ```rewire()``` will always overwrite the cache.
+- *{!String} filename*: Path to the module that shall be rewired. Use it exactly like require().
+- *{Object} mocks (optional)*: An object with mocks. Keys should be the exactly same like they're required in the target module. So if you write ```require("../../myModules/myModuleA.js")``` you need to pass ```{"../../myModules/myModuleA.js": myModuleAMock}```.
+- *{Object|String} injections (optional)*: If you pass an object, all keys of the object will be ```var```s within the module. You can also eval a string. **Please note**: All scripts are injected at the end of the module. So if there is any code in your module that is executed during ```require()```, your injected variables will be undefined at this point. For example: passing ```{console: {...}}``` will cause all calls of ```console.log()``` to throw an exception if they're executed during ```require()```.
+- *{Array&lt;String&gt;} leaks (optional)*: An array with variable names that should be exported. These variables are accessible via ```myModule.__```
+- *{Boolean=true} cache (optional)*: Indicates whether the rewired module should be cached by node so subsequent calls of ```require()``` will return the rewired module. Subsequent calls of ```rewire()``` will always overwrite the cache.
 
 -----------------------------------------------------------------
 
