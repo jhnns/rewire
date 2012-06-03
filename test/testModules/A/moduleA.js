@@ -11,11 +11,22 @@ var path = require("path"),
 
 var myPrivateVar = "Hello I'm very private";
 
-// expose all required modules to test for mocks
-exports.fs = fs;
-exports.b = b;
-exports.c = c;
-exports.toSrc = toSrc;
-exports.index = index;
-exports.process = process;
-exports.console = console;
+function myPrivateFunction() {
+    return "Hello I'm very private";
+}
+
+function exportAll() {
+    // expose all required modules to test for mocks
+    exports.fs = fs;
+    exports.b = b;
+    exports.c = c;
+    exports.toSrc = toSrc;
+    exports.index = index;
+    exports.process = process;
+    exports.console = console;
+}
+
+exportAll();
+exports.exportAll = exportAll;
+
+

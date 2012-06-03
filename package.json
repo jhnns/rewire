@@ -1,5 +1,5 @@
 {
-    "name" : "trick",
+    "name" : "rewire",
     "version" : "0.1.0",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
@@ -17,7 +17,7 @@
     "main" : "lib/index.js",
     "bugs" : {
         "email" : "mail@johannesewald.de",
-        "url" : "https://github.com/jhnns/trick/issues"
+        "url" : "https://github.com/jhnns/rewire/issues"
     },
     "licenses" : {
         "type" : "MIT",
@@ -25,7 +25,7 @@
     },
     "repositories" : {
         "type" : "git",
-        "url" : "https://github.com/jhnns/trick"
+        "url" : "https://github.com/jhnns/rewire"
     },
     "engines" : {
         "node" : "0.6.x"
