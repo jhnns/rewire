@@ -88,7 +88,7 @@ rewiredModule.__.myPrivateVar2; // returns former private myPrivateVar2
 // By disabling the module cache the rewired module will not be cached.
 // Any later require()-calls within other modules will now return the original
 // module again instead of the rewired. Caching is enabled by default.
-rewiredModule = rewire("./myModuleA.js", null, null, null, false);
+rewire("./myModuleA.js", null, null, null, false) === require("./myModuleA.js"); // = false
 ```
 
 -----------------------------------------------------------------
