@@ -32,7 +32,7 @@ var rewire = require("rewire"),
 // Default
 ////////////////////////////////
 // rewire acts exactly like require when omitting all other params
-rewiredModule = rewire("./myModuleA.js");
+rewire("./myModuleA.js") === require("./myModuleA.js"); // = true
 
 
 
@@ -44,6 +44,7 @@ var mockedModuleB = {},
     };
 
 // The rewired module will now use your mock instead of moduleB.js.
+// Just make sure that the path is exactly as in myModuleA.js required.
 rewiredModule = rewire("./myModuleA.js", mocks);
 
 
