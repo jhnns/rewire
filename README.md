@@ -78,8 +78,8 @@ var leaks = ["myPrivateVar1", "myPrivateVar2"];
 
 // rewire exports variables under the special "__"-object.
 rewiredModule = rewire("./myModuleA.js", null, null, leaks);
-console.log(rewiredModule.__.myPrivateVar1);
-console.log(rewiredModule.__.myPrivateVar2);
+rewiredModule.__.myPrivateVar1; // returns former private myPrivateVar1
+rewiredModule.__.myPrivateVar2; // returns former private myPrivateVar2
 
 
 
