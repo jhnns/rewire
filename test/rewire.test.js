@@ -109,4 +109,15 @@ describe("#rewire", function () {
         rewired.requireIndex();
         expect(rewired.index.b).not.to.be(rewired);
     });
+    it("should not influence the original node require if nothing has been required within the rewired module", function () {
+        var moduleCMock = {},
+            moduleB,
+            mocks = {
+                "../C/moduleC.js": moduleCMock
+            };
+
+        rewire("./testModules/C/moduleC.js", mocks); // nothing happens here because moduleC doesn't require anything
+        moduleB = require("./testModules/A/moduleA.js"); // if restoring the original node require didn't worked, the mock would be applied now
+        expect(moduleB.c).not.to.be(moduleCMock);
+    });
 });
