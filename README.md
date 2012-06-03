@@ -39,11 +39,13 @@ rewire("./myModuleA.js") === require("./myModuleA.js"); // = true
 // Mocks
 ////////////////////////////////
 var mockedModuleB = {},
+    mockedFs = {},
     mocks = {
+        "fs": mockedFs,
         "path/to/moduleB.js": mockedModuleB
     };
 
-// The rewired module will now use your mock instead of moduleB.js.
+// The rewired module will now use your mocks instead of fs and moduleB.js.
 // Just make sure that the path is exactly as in myModuleA.js required.
 rewiredModule = rewire("./myModuleA.js", mocks);
 
