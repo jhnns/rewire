@@ -141,7 +141,7 @@ Removes all rewired modules from `require.cache`. Every `require()` will now ret
 
 ## Please note
 ### mocks
-Keys should be the exactly the same like they're required in the target module.
+Keys should be exactly the same like they're required in the target module.
 So if you write `require("../../myModules/myModuleA.js")` you need to pass
 `{"../../myModules/myModuleA.js": myModuleAMock}`.
 
