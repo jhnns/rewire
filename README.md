@@ -14,6 +14,7 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 **Debugging is fully supported.**
 
 -----------------------------------------------------------------
+<br />
 
 Installation
 ------------
@@ -21,6 +22,7 @@ Installation
 `npm install rewire`
 
 -----------------------------------------------------------------
+<br />
 
 Examples
 --------
@@ -102,40 +104,90 @@ rewire.reset();
 ```
 
 -----------------------------------------------------------------
+<br />
 
 ##API
 
 **rewire(***filename, mocks, injections, leaks, cache***)**
 
-Returns the rewired module.
-
 - *{!String} filename*: <br/>
 Path to the module that shall be rewired. Use it exactly like require().
 
 - *{Object} mocks (optional)*: <br/>
-An object with mocks. Keys should be the exactly the same like they're required in the target module. So if you write `require("../../myModules/myModuleA.js")` you need to pass `{"../../myModules/myModuleA.js": myModuleAMock}`.
+An object with mocks.
 
 - *{Object|String} injections (optional)*: <br />
-If you pass an object, all keys of the object will be `var`s within the module. You can also eval a string. **Please note**: All scripts are injected at the end of the module. So if there is any code in your module that is executed during `require()`, your injected variables will be undefined at this point. For example: passing `{console: null}` will cause all calls of `console.log()` to throw an exception if they're executed during `require()`.
+If you pass an object, all keys of the object will be `var`s within the module. You can also eval a string.
 
 - *{Array&lt;String&gt;} leaks (optional)*: <br/>
-An array with variable names that should be exported. These variables are accessible via `myModule.__`
-
+An array with variable names that should be exported. These variables are accessible via `myModule.__`.
 
 - *{Boolean=true} cache (optional)*: <br />
-Indicates whether the rewired module should be cached by node so subsequent calls of `require()` will return the rewired module. Further calls of `rewire()` will always overwrite the cache.
+Indicates whether the rewired module should be cached by node so subsequent calls of `require()` will
+return the rewired module. Further calls of `rewire()` will always overwrite the cache.
+
+Returns the rewired module.
 
 **rewire.reset()**
 
-Removes all rewired modules from `require.cache`. Every `require()` will now return the original module again. <br />**Please note:** You should call this before every unit test to ensure a clean test environment.
+Removes all rewired modules from `require.cache`. Every `require()` will now return the original module again.
 
 -----------------------------------------------------------------
+<br />
+
+## Please note
+### mocks
+Keys should be the exactly the same like they're required in the target module.
+So if you write `require("../../myModules/myModuleA.js")` you need to pass
+`{"../../myModules/myModuleA.js": myModuleAMock}`.
+
+### injections
+All scripts are injected at the end of the module. So if there is any code in your module
+that is executed during `require()`, your injected variables will be undefined at this point.
+
+Imagine `rewire("./myModule.js", null, {console: null});`:
+
+```javascript
+console.log("Hello");   // ouch, that won't work. console is undefined at this point because of hoisting
+
+// End of module ///////////////
+// rewire will inject here
+var console = null;
+```
+
+### leaks
+Leaks are executed at the end of the module. If a `var` is undefined at this point you
+won't be able to access the leak (because `undefined`-values are [copied by value](http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language)).
+A good approach to this is:
+
+```javascript
+var myLeaks = {};
+
+module.exports = function (someValue) {
+   myLeaks.someValue = someValue;
+};
+
+// End of module ///////////////
+// rewire will inject here
+module.exports.__ = {myLeaks: myLeaks};
+```
+
+Because ```myLeaks``` is defined at the end of the module, you're able to access the leak object and all leaks that
+are attached to it later during runtime. Because myLeaks is not exposed under regular circumstances your
+module interface stays clean.
+
+### reset
+You should call this before every unit test to ensure a clean test environment.
+
+-----------------------------------------------------------------
+<br />
 
 ## Credits
 
 This module is inspired by the great [injectr](https://github.com/nathanmacinnes/injectr "injectr")-module.
 
 -----------------------------------------------------------------
+<br />
 
 ## License
 
