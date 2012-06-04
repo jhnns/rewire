@@ -9,12 +9,6 @@ var path = require("path"),
     toSrc = require("toSrc"),   // node_modules path
     index = require("../");     // index.js path
 
-var myPrivateVar = "Hello I'm very private";
-
-function myPrivateFunction() {
-    return "Hello I'm very private";
-}
-
 function exportAll() {
     // expose all required modules to test for mocks
     exports.fs = fs;

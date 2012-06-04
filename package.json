@@ -1,6 +1,6 @@
 {
     "name" : "rewire",
-    "version" : "0.1.1",
+    "version" : "0.1.2",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
         "dependency",

@@ -70,18 +70,22 @@ describe("rewire", function () {
         rewired.exportAll();
         expect(rewired.console).to.be(456);
     });
-    it("should leak private variables", function () {
+    it("should leak private variables with both exports-styles (exports.bla = bla and module.exports = bla)", function () {
         var rewired,
             leaks = ["myPrivateVar"];
 
-        rewired = rewire("./testModules/A/moduleA.js", null, null, leaks);
+        rewired = rewire("./testModules/privateModules/privateModuleA.js", null, null, leaks);
+        expect(rewired.__.myPrivateVar).to.be("Hello I'm very private");
+        rewired = rewire("./testModules/privateModules/privateModuleB.js", null, null, leaks);
         expect(rewired.__.myPrivateVar).to.be("Hello I'm very private");
     });
-    it("should leak private functions", function () {
+    it("should leak private functions with both exports-styles (exports.bla = bla and module.exports = bla)", function () {
         var rewired,
             leaks = ["myPrivateFunction"];
 
-        rewired = rewire("./testModules/A/moduleA.js", null, null, leaks);
+        rewired = rewire("./testModules/privateModules/privateModuleA.js", null, null, leaks);
+        expect(rewired.__.myPrivateFunction()).to.be("Hello I'm very private");
+        rewired = rewire("./testModules/privateModules/privateModuleB.js", null, null, leaks);
         expect(rewired.__.myPrivateFunction()).to.be("Hello I'm very private");
     });
     it("should leak nothing on demand", function () {
