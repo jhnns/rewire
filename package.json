@@ -15,6 +15,7 @@
         "web" : "http://johannesewald.de"
     },
     "main" : "lib/index.js",
+    "homepage": "http://jhnns.github.com/rewire",
     "bugs" : {
         "url" : "http://github.com/jhnns/rewire/issues",
         "email" : "mail@johannesewald.de"

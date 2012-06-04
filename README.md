@@ -97,7 +97,7 @@ rewire("./myModuleA.js", null, null, null, false) !== require("./myModuleA.js");
 
 ##API
 
-**rewire(***filename, mocks, injections, leaks, cache*) 
+**rewire(***filename, mocks, injections, leaks, cache***)** 
 
 - *{!String} filename*: Path to the module that shall be rewired. Use it exactly like require().
 - *{Object} mocks (optional)*: An object with mocks. Keys should be the exactly the same like they're required in the target module. So if you write ```require("../../myModules/myModuleA.js")``` you need to pass ```{"../../myModules/myModuleA.js": myModuleAMock}```.
