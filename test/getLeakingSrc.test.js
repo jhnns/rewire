@@ -3,7 +3,7 @@
 var expect = require("expect.js"),
     getLeakingWrapper = require("../lib/getLeakingSrc.js");
 
-describe("#getLeakingWrapper", function () {
+describe("getLeakingWrapper", function () {
     it("should return 'exports.__ = {};'", function () {
         expect(getLeakingWrapper([])).to.be("exports.__ = {};");
     });

@@ -18,7 +18,7 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 Installation
 ------------
 
-```npm install rewire```
+`npm install rewire`
 
 -----------------------------------------------------------------
 
@@ -45,8 +45,9 @@ var mockedModuleB = {},
         "path/to/moduleB.js": mockedModuleB
     };
 
-// The rewired module will now use your mocks instead of fs and moduleB.js.
-// Just make sure that the path is exactly as in myModuleA.js required.
+// The rewired module will now use your mocks instead of fs
+// and moduleB.js. Just make sure that the path is exactly as
+// in myModuleA.js required.
 rewiredModule = rewire("./myModuleA.js", mocks);
 
 
@@ -70,7 +71,8 @@ var injections = {
 rewiredModule = rewire("./myModuleA.js", null, injections);
 
 // You can also pass a script to inject
-rewiredModule = rewire("./myModuleA.js", null, "console.log('hellooo');"); // prints "hellooo"
+rewiredModule =
+   rewire("./myModuleA.js", null, "console.log('hellooo');"); // prints "hellooo"
 
 
 
@@ -88,22 +90,44 @@ rewiredModule.__.myPrivateVar2; // returns former private myPrivateVar2
 // Cache
 ////////////////////////////////
 // By disabling the module cache the rewired module will not be cached.
-// Any later require()-calls within other modules will now return the original
-// module again instead of the rewired. Caching is enabled by default.
-rewire("./myModuleA.js", null, null, null, false) !== require("./myModuleA.js"); // = true
+// Any require()-calls will now return the original module again instead
+// of the rewired. Caching is enabled by default.
+rewire("./myModuleA.js", null, null, null, false) !==
+    require("./myModuleA.js"); // = true
+
+// This removes all rewired modules from require.cache.
+rewire.reset();
+// IMPORTANT: You should call this before every unit test to ensure
+// a clean test environment.
 ```
 
 -----------------------------------------------------------------
 
 ##API
 
-**rewire(***filename, mocks, injections, leaks, cache***)** 
+**rewire(***filename, mocks, injections, leaks, cache***)**
 
-- *{!String} filename*: Path to the module that shall be rewired. Use it exactly like require().
-- *{Object} mocks (optional)*: An object with mocks. Keys should be the exactly the same like they're required in the target module. So if you write ```require("../../myModules/myModuleA.js")``` you need to pass ```{"../../myModules/myModuleA.js": myModuleAMock}```.
-- *{Object|String} injections (optional)*: If you pass an object, all keys of the object will be ```var```s within the module. You can also eval a string. **Please note**: All scripts are injected at the end of the module. So if there is any code in your module that is executed during ```require()```, your injected variables will be undefined at this point. For example: passing ```{console: null}``` will cause all calls of ```console.log()``` to throw an exception if they're executed during ```require()```.
-- *{Array&lt;String&gt;} leaks (optional)*: An array with variable names that should be exported. These variables are accessible via ```myModule.__```
-- *{Boolean=true} cache (optional)*: Indicates whether the rewired module should be cached by node so subsequent calls of ```require()``` will return the rewired module. Further calls of ```rewire()``` will always overwrite the cache.
+Returns the rewired module.
+
+- *{!String} filename*: <br/>
+Path to the module that shall be rewired. Use it exactly like require().
+
+- *{Object} mocks (optional)*: <br/>
+An object with mocks. Keys should be the exactly the same like they're required in the target module. So if you write `require("../../myModules/myModuleA.js")` you need to pass `{"../../myModules/myModuleA.js": myModuleAMock}`.
+
+- *{Object|String} injections (optional)*: <br />
+If you pass an object, all keys of the object will be `var`s within the module. You can also eval a string. **Please note**: All scripts are injected at the end of the module. So if there is any code in your module that is executed during `require()`, your injected variables will be undefined at this point. For example: passing `{console: null}` will cause all calls of `console.log()` to throw an exception if they're executed during `require()`.
+
+- *{Array&lt;String&gt;} leaks (optional)*: <br/>
+An array with variable names that should be exported. These variables are accessible via `myModule.__`
+
+
+- *{Boolean=true} cache (optional)*: <br />
+Indicates whether the rewired module should be cached by node so subsequent calls of `require()` will return the rewired module. Further calls of `rewire()` will always overwrite the cache.
+
+**rewire.reset()**
+
+Removes all rewired modules from `require.cache`. Every `require()` will now return the original module again. <br />**Please note:** You should call this before every unit test to ensure a clean test environment.
 
 -----------------------------------------------------------------
 
