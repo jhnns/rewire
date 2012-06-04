@@ -82,10 +82,14 @@ rewiredModule =
 ////////////////////////////////
 var leaks = ["myPrivateVar1", "myPrivateVar2"];
 
-// rewire exports variables under the special "__"-object.
+// This will inject
+// module.exports._ = {myPrivateVar1: myPrivateVar1, myPrivateVar2: myPrivateVar2}
+// at the bottom of the module.
 rewiredModule = rewire("./myModuleA.js", null, null, leaks);
-rewiredModule.__.myPrivateVar1; // returns former private myPrivateVar1
-rewiredModule.__.myPrivateVar2; // returns former private myPrivateVar2
+
+// You now can access your private varialbes under the special __-object
+rewiredModule.__.myPrivateVar1; // returns former private variable myPrivateVar1
+rewiredModule.__.myPrivateVar2; // returns former private variable myPrivateVar2
 
 
 
