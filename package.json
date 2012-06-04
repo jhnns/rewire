@@ -15,8 +15,14 @@
         "web" : "http://johannesewald.de"
     },
     "main" : "lib/index.js",
-    "bugs" : "https://github.com/jhnns/rewire/issues",
-    "repository": "git://github.com/pandaa/toSrc.git",
+    "bugs" : {
+        "url" : "http://github.com/jhnns/rewire/issues",
+        "email" : "mail@johannesewald.de"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/jhnns/rewire.git"
+    },
     "engines" : {
         "node" : "0.6.x"
     },
