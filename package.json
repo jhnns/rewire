@@ -15,18 +15,8 @@
         "web" : "http://johannesewald.de"
     },
     "main" : "lib/index.js",
-    "bugs" : {
-        "email" : "mail@johannesewald.de",
-        "url" : "https://github.com/jhnns/rewire/issues"
-    },
-    "licenses" : {
-        "type" : "MIT",
-        "url" : "http: //www.opensource.org/licenses/mit-license.php"
-    },
-    "repositories" : {
-        "type" : "git",
-        "url" : "https://github.com/jhnns/rewire"
-    },
+    "bugs" : "https://github.com/jhnns/rewire/issues",
+    "repository": "git://github.com/pandaa/toSrc.git",
     "engines" : {
         "node" : "0.6.x"
     },
