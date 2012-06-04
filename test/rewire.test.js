@@ -11,7 +11,6 @@ var testModules = [
         path.resolve(__dirname, "./testModules/C/moduleC.js")
     ];
 
-
 function cleanRequireCache() {
     var i;
 
@@ -20,7 +19,7 @@ function cleanRequireCache() {
     }
 }
 
-describe("#rewire", function () {
+describe("rewire", function () {
     beforeEach(cleanRequireCache);  // ensuring a clean test environment
     it("should work like require() when omitting all other params", function () {
         expect(rewire("./testModules/A/moduleA.js")).to.be(require("./testModules/A/moduleA.js"));
@@ -119,5 +118,14 @@ describe("#rewire", function () {
         rewire("./testModules/C/moduleC.js", mocks); // nothing happens here because moduleC doesn't require anything
         moduleB = require("./testModules/A/moduleA.js"); // if restoring the original node require didn't worked, the mock would be applied now
         expect(moduleB.c).not.to.be(moduleCMock);
+    });
+    describe("#reset", function () {
+        it("should remove all rewired modules from cache", function () {
+            var rewired = rewire("./testModules/B/moduleB.js");
+
+            expect(require("./testModules/B/moduleB.js")).to.be(rewired);
+            rewire.reset();
+            expect(require("./testModules/B/moduleB.js")).not.to.be(rewired);
+        });
     });
 });

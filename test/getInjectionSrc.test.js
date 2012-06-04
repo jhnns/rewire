@@ -3,7 +3,7 @@
 var expect = require("expect.js"),
     getInjectionSrc = require("../lib/getInjectionSrc.js");
 
-describe("#getMonkeyPatchSrc", function () {
+describe("getMonkeyPatchSrc", function () {
     it("should return ''", function () {
         var expectedSrc = "",
             subject = {};
