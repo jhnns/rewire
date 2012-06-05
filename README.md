@@ -13,6 +13,10 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 
 **Debugging is fully supported.**
 
+##Important note:
+
+rewire works currently only with node >=0.6.15. In doubt run `npm test`.
+
 -----------------------------------------------------------------
 <br />
 
