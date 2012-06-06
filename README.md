@@ -13,10 +13,6 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 
 **Debugging is fully supported.**
 
-##Important note:
-
-rewire works currently only with node >=0.6.15. In doubt run `npm test`.
-
 -----------------------------------------------------------------
 <br />
 
@@ -24,6 +20,11 @@ Installation
 ------------
 
 `npm install rewire`
+
+### For older node versions
+
+rewire is tested with node 0.6.x. I recommend to run the unit tests via `mocha` in the rewire-folder before
+using rewire with older node versions.
 
 -----------------------------------------------------------------
 <br />
