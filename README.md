@@ -21,8 +21,7 @@ Installation
 
 `npm install rewire`
 
-### For older node versions
-
+**For older node versions:**<br />
 rewire is tested with node 0.6.x. I recommend to run the unit tests via `mocha` in the rewire-folder before
 using rewire with older node versions.
 
