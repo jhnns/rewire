@@ -4,7 +4,7 @@ rewire
 
 rewire allows you to modify the behaviour of modules for better unit testing. You may
 
-- provide mocks for other modules
+- introduce mocks for other modules
 - leak private variables
 - override variables within the module
 - inject your own scripts
@@ -32,83 +32,74 @@ Examples
 --------
 
 ```javascript
-var rewire = require("rewire"),
-    rewiredModule;
+var rewire = require("rewire");
 
-// Default
-////////////////////////////////
 // rewire acts exactly like require when omitting all other params
 rewire("./myModuleA.js") === require("./myModuleA.js"); // = true
+```
 
-
-
-// Mocks
-////////////////////////////////
-var mockedModuleB = {},
-    mockedFs = {},
-    mocks = {
-        "fs": mockedFs,
-        "path/to/moduleB.js": mockedModuleB
-    };
-
+### Mocks
+```javascript
+// You can introduce your own mocks for modules that are required:
+rewiredModule = rewire("./myModuleA.js", {
+    "fs": {
+        readFile: function (path, encoding, cb) { cb(null, "Success!"); }
+    },
+    "../path/to/moduleB.js": myMockForModuleB
+});
 // The rewired module will now use your mocks instead of fs
 // and moduleB.js. Just make sure that the path is exactly as
 // in myModuleA.js required.
-rewiredModule = rewire("./myModuleA.js", mocks);
+```
 
-
-
-// Injections
-////////////////////////////////
-var injections = {
-        console: {
-            log: function () { /* be quiet */ }
-        },
-        process: { argv: ["someArgs"] },
-        __filename: "some/other/dir"
-    };
+### Injections
+```javascript
+// You can inject your own mocks for internal or global objects.
+// These injections are only visible within the module.
+rewiredModule = rewire("./myModuleA.js", null, {
+    console: {
+        log: function () { /* be quiet */ }
+    },
+    process: { argv: ["some", "other", "args"] },
+    __filename: "some/other/dir"
+});
 
 // This will inject
 // var console = {log: function () { /* be quiet */ }};
-// var process = {argv: ["someArgs"] };
+// var process = {argv: ["some", "other", "args"]};
 // var __filename = "some/other/dir";
-// at the bottom of the module.
-// This way you can override private variables within the module
-rewiredModule = rewire("./myModuleA.js", null, injections);
+// at the end of the module.
 
-// You can also pass a script to inject
-rewiredModule =
-   rewire("./myModuleA.js", null, "console.log('hellooo');"); // prints "hellooo"
+// You can also pass a script to inject at the end
+rewiredModule = rewire("./myModuleA.js", null, "console.log('hello');");
+// This will print "hello" when the module loads
+```
 
-
-
-// Leaks
-////////////////////////////////
-var leaks = ["myPrivateVar1", "myPrivateVar2"];
+### Leaks
+```javascript
+// You can expose private variables for unit tests
+rewiredModule = rewire("./myModuleA.js", null, null, ["myVar1", "myVar2");
 
 // This will inject
-// module.exports._ = {myPrivateVar1: myPrivateVar1, myPrivateVar2: myPrivateVar2}
-// at the bottom of the module.
-rewiredModule = rewire("./myModuleA.js", null, null, leaks);
+// module.exports.__ = {myVar1: myVar1, myVar2: myVar2}
+// at the end of the module.
 
-// You now can access your private varialbes under the special __-object
-rewiredModule.__.myPrivateVar1; // returns former private variable myPrivateVar1
-rewiredModule.__.myPrivateVar2; // returns former private variable myPrivateVar2
+// You can access now your private variables under the special.__-object
+console.log(rewiredModule.__.myVar1);
+console.log(rewiredModule.__.myVar2);
+```
 
+### Cache
+```javascript
+// You can disable caching of the rewired module. Any require()-calls will
+// now return the original module again instead of the rewired.
+// Caching is enabled by default.
+rewire("./myModuleA.js", null, null, null, false) === require("./myModuleA.js");
+// = false
 
-
-// Cache
-////////////////////////////////
-// By disabling the module cache the rewired module will not be cached.
-// Any require()-calls will now return the original module again instead
-// of the rewired. Caching is enabled by default.
-rewire("./myModuleA.js", null, null, null, false) !==
-    require("./myModuleA.js"); // = true
-
-// This removes all rewired modules from require.cache.
+// You can also delete all rewired modules from the cache by one call.
 rewire.reset();
-// IMPORTANT: You should call this before every unit test to ensure
-// a clean test environment.
+// You should call this after every unit test to ensure a clean test environment.
 ```
 
 -----------------------------------------------------------------
@@ -122,7 +113,7 @@ rewire.reset();
 Path to the module that shall be rewired. Use it exactly like require().
 
 - *{Object} mocks (optional)*: <br/>
-An object with mocks.
+An object with module mocks. Keys should reflect the required path of the module.
 
 - *{Object|String} injections (optional)*: <br />
 If you pass an object, all keys of the object will be `var`s within the module. You can also eval a string.
@@ -144,14 +135,13 @@ Removes all rewired modules from `require.cache`. Every `require()` will now ret
 <br />
 
 ## Please note
-### mocks
-Keys should be exactly the same like they're required in the target module.
+### Keys should be exactly the same like they're required in the target module
 So if you write `require("../../myModules/myModuleA.js")` you need to pass
 `{"../../myModules/myModuleA.js": myModuleAMock}`.
 
-### injections
-All scripts are injected at the end of the module. So if there is any code in your module
-that is executed during `require()`, your injected variables will be undefined at this point.
+### All scripts are injected at the end of the module
+So if there is any code in your module that is executed during `require()`, your
+injected variables will be undefined at this point.
 
 Imagine `rewire("./myModule.js", null, {console: null});`:
 
@@ -163,10 +153,11 @@ console.log("Hello");   // ouch, that won't work. console is undefined at this p
 var console = null;
 ```
 
-### leaks
-Leaks are executed at the end of the module. If a `var` is undefined at this point you
-won't be able to access the leak (because `undefined`-values are [copied by value](http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language)).
-A good approach to this is:
+### Leaks are executed at the end of the module.
+All variables, that are [copied by value](http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language)
+will not be updated anymore.
+
+A good approach to solve this would be:
 
 ```javascript
 var myLeaks = {};
@@ -174,18 +165,15 @@ var myLeaks = {};
 module.exports = function (someValue) {
    myLeaks.someValue = someValue;
 };
-
-// End of module ///////////////
-// rewire will inject here
-module.exports.__ = {myLeaks: myLeaks};
 ```
 
-Because ```myLeaks``` is defined at the end of the module, you're able to access the leak object and all leaks that
-are attached to it later during runtime. Because myLeaks is not exposed under regular circumstances your
-module interface stays clean.
+And then: ```rewire("myModuleA.js", null, null, ["myLeaks"]);```
 
-### reset
-You should call this before every unit test to ensure a clean test environment.
+Because ```myLeaks``` is defined at the end of the module, you're able to access the leak object and all leaks that
+are attached to it later during runtime.
+
+### Call rewire.reset() after every unit test
+All ```require()```s will now return the original module again.
 
 -----------------------------------------------------------------
 <br />
