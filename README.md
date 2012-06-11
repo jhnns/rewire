@@ -1,4 +1,4 @@
-rewire
+rewire [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 =====
 **Dependency injection for node.js applications**.
 
