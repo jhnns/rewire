@@ -4,132 +4,151 @@ var path = require("path"),
     expect = require("expect.js"),
     rewire = require("../lib/index.js");
 
-var testModules = [
-        path.resolve(__dirname, "./testModules/index.js"),
-        path.resolve(__dirname, "./testModules/A/moduleA.js"),
-        path.resolve(__dirname, "./testModules/B/moduleB.js"),
-        path.resolve(__dirname, "./testModules/C/moduleC.js")
-    ];
+var testModules = {
+        A: path.resolve(__dirname, "./testModules/moduleA.js"),
+        B: path.resolve(__dirname, "./testModules/moduleB.js"),
+        someOtherModule: path.resolve(__dirname, "./testModules/someOtherModule.js"),
+        emptyModule: path.resolve(__dirname, "./testModules/emptyModule.js")
+    };
 
 function cleanRequireCache() {
-    var i;
+    var moduleName,
+        modulePath;
 
-    for (i = 0; i < testModules.length; i++) {
-        delete require.cache[testModules[i]];
+    for (moduleName in testModules) {
+        if (testModules.hasOwnProperty(moduleName)) {
+            modulePath = testModules[moduleName];
+            delete require.cache[modulePath];
+        }
     }
 }
 
 describe("rewire", function () {
     beforeEach(cleanRequireCache);  // ensuring a clean test environment
-    it("should work like require() when omitting all other params", function () {
-        expect(rewire("./testModules/A/moduleA.js")).to.be(require("./testModules/A/moduleA.js"));
+    it("should work like require()", function () {
+        expect(rewire("./testModules/moduleA.js")).to.be(require("./testModules/moduleA.js"));
+        cleanRequireCache();
+        expect(rewire("../test/testModules/moduleA.js")).to.be(require("../test/testModules/moduleA.js"));
+        cleanRequireCache();
+        expect(rewire(testModules.A)).to.be(require(testModules.A));
     });
-    it("should require all mocks", function () {
-        var rewired,
-            fsMock = {},
-            mocks = {},
-            moduleBMock = {},
-            moduleCMock = {},
-            toSrcMock = {},
-            indexMock = {};
-
-        mocks["fs"] = fsMock;
-        mocks[path.resolve(__dirname, "./testModules/B/moduleB.js")] = moduleBMock;
-        mocks["../C/moduleC.js"] = moduleCMock;
-        mocks["toSrc"] = toSrcMock;
-        mocks["../"] = indexMock;
-
-        rewired = rewire("./testModules/A/moduleA.js", mocks);
-        expect(rewired.fs).to.be(fsMock);
-        expect(rewired.b).to.be(moduleBMock);
-        expect(rewired.c).to.be(moduleCMock);
-        expect(rewired.toSrc).to.be(toSrcMock);
-        expect(rewired.index).to.be(indexMock);
+    it("should modify the module so it provides a __set__ - function", function () {
+        expect(rewire(testModules.A).__set__).to.be.a(Function);
+        expect(rewire(testModules.B).__set__).to.be.a(Function);
     });
-    it("should inject object modifications", function () {
-        var rewired,
-            injections = {
-                process: {
-                    argv: ["arg1", "arg2", "arg3"]
-                },
-                console: 123
+    it("should modify the module so it provides a __get__ - function", function () {
+        expect(rewire(testModules.A).__get__).to.be.a(Function);
+        expect(rewire(testModules.B).__get__).to.be.a(Function);
+    });
+    it("should not influence other modules", function () {
+        var rewiredModuleA = rewire(testModules.A);
+
+        expect(require(testModules.someOtherModule).__set__).to.be(undefined);
+        expect(require(testModules.someOtherModule).__get__).to.be(undefined);
+        expect(require("fs").__set__).to.be(undefined);
+        expect(require("fs").__get__).to.be(undefined);
+    });
+    it("should not influence global objects by default", function () {
+        expect(function () {
+            rewire(testModules.A).checkSomeGlobals();
+            rewire(testModules.B).checkSomeGlobals();
+        }).to.not.throwException();
+    });
+    it("should provide the ability to set private vars", function () {
+        var rewiredModuleA = rewire(testModules.A),
+            newObj = {};
+
+        expect(rewiredModuleA.getMyNumber()).to.be(0);
+        rewiredModuleA.__set__("myNumber", 2);
+        expect(rewiredModuleA.getMyNumber()).to.be(2);
+        rewiredModuleA.__set__("myObj", newObj);
+        expect(rewiredModuleA.getMyObj()).to.be(newObj);
+    });
+    it("should provide the ability to get private vars", function () {
+        var rewiredModuleA = rewire(testModules.A);
+
+        expect(rewiredModuleA.__get__("myNumber")).to.be(rewiredModuleA.getMyNumber());
+        expect(rewiredModuleA.__get__("myObj")).to.be(rewiredModuleA.getMyObj());
+    });
+    it("should provide the ability to inject mocks", function (done) {
+        var rewiredModuleA = rewire(testModules.A),
+            mockedFs = {
+                readFileSync: function (file) {
+                    expect(file).to.be("bla.txt");
+                    done();
+                }
             };
 
-        rewired = rewire("./testModules/A/moduleA.js", null, injections);
-        rewired.exportAll();
-        expect(rewired.process).not.to.be(process);
-        expect(process.argv).not.to.eql(injections.process.argv);
-        expect(rewired.process).to.eql(injections.process);
-        expect(rewired.console).to.be(123);
+        rewiredModuleA.__set__("fs", mockedFs);
+        rewiredModuleA.readFileSync();
     });
-    it("should inject custom scripts", function () {
-        var rewired,
-            script = "var console = 456;";
+    it("should not influence other modules when injecting mocks", function () {
+        var rewiredModuleA = rewire(testModules.A),
+            someOtherModule,
+            mockedFs = {};
 
-        rewired = rewire("./testModules/A/moduleA.js", null, script);
-        rewired.exportAll();
-        expect(rewired.console).to.be(456);
+        rewiredModuleA.__set__("fs", mockedFs);
+        someOtherModule = require(testModules.someOtherModule);
+        expect(someOtherModule.fs).not.to.be(mockedFs);
     });
-    it("should leak private variables with both exports-styles (exports.bla = bla and module.exports = bla)", function () {
-        var rewired,
-            leaks = ["myPrivateVar"];
+    it("should provide the ability to mock global objects just within the module", function () {
+        var rewiredModuleA = rewire(testModules.A),
+            rewiredModuleB = rewire(testModules.B),
+            consoleMock = {},
+            processMock = {},
+            newFilename = "myFile.js";
 
-        rewired = rewire("./testModules/privateModules/privateModuleA.js", null, null, leaks);
-        expect(rewired.__.myPrivateVar).to.be("Hello I'm very private");
-        rewired = rewire("./testModules/privateModules/privateModuleB.js", null, null, leaks);
-        expect(rewired.__.myPrivateVar).to.be("Hello I'm very private");
-    });
-    it("should leak private functions with both exports-styles (exports.bla = bla and module.exports = bla)", function () {
-        var rewired,
-            leaks = ["myPrivateFunction"];
-
-        rewired = rewire("./testModules/privateModules/privateModuleA.js", null, null, leaks);
-        expect(rewired.__.myPrivateFunction()).to.be("Hello I'm very private");
-        rewired = rewire("./testModules/privateModules/privateModuleB.js", null, null, leaks);
-        expect(rewired.__.myPrivateFunction()).to.be("Hello I'm very private");
-    });
-    it("should leak nothing on demand", function () {
-        var rewired;
-
-        rewired = rewire("./testModules/A/moduleA.js");
-        expect(rewired.__).to.be(undefined);
+        rewiredModuleA.__set__({
+            console: consoleMock,
+            process: processMock
+        });
+        rewiredModuleA.__set__("__filename", newFilename);
+        rewiredModuleB.__set__({
+            console: consoleMock,
+            process: processMock
+        });
+        rewiredModuleB.__set__("__filename", newFilename);
+        expect(rewiredModuleA.getConsole()).to.be(consoleMock);
+        expect(rewiredModuleB.getConsole()).to.be(consoleMock);
+        expect(console).not.to.be(consoleMock);
+        expect(rewiredModuleA.getProcess()).to.be(processMock);
+        expect(rewiredModuleB.getProcess()).to.be(processMock);
+        expect(process).not.to.be(processMock);
+        expect(rewiredModuleA.getFilename()).to.be(newFilename);
+        expect(rewiredModuleB.getFilename()).to.be(newFilename);
     });
     it("should cache the rewired module", function () {
         var rewired;
 
-        rewired = rewire("./testModules/B/moduleB.js");
-        rewired.requireIndex();
-        expect(rewired.index.b).to.be(rewired);
+        rewired = rewire(testModules.someOtherModule);
+        expect(require(testModules.A).someOtherModule).to.be(rewired);
         cleanRequireCache();
-        rewired = rewire("./testModules/B/moduleB.js", null, null, null, true);
-        rewired.requireIndex();
-        expect(rewired.index.b).to.be(rewired);
+        rewired = rewire(testModules.someOtherModule, true);
+        expect(require(testModules.A).someOtherModule).to.be(rewired);
     });
     it("should not cache the rewired module on demand", function () {
         var rewired;
 
-        rewired = rewire("./testModules/B/moduleB.js", null, null, null, false);
-        rewired.requireIndex();
-        expect(rewired.index.b).not.to.be(rewired);
+        rewired = rewire(testModules.someOtherModule, false);
+        expect(require(testModules.A).someOtherModule).not.to.be(rewired);
     });
     it("should not influence the original node require if nothing has been required within the rewired module", function () {
-        var moduleCMock = {},
-            moduleB,
-            mocks = {
-                "../C/moduleC.js": moduleCMock
-            };
-
-        rewire("./testModules/C/moduleC.js", mocks); // nothing happens here because moduleC doesn't require anything
-        moduleB = require("./testModules/A/moduleA.js"); // if restoring the original node require didn't worked, the mock would be applied now
-        expect(moduleB.c).not.to.be(moduleCMock);
+        rewire(testModules.emptyModule); // nothing happens here because emptyModule doesn't require anything
+        expect(require(testModules.A).__set__).to.be(undefined); // if restoring the original node require didn't worked, the module would have a setter
+    });
+    it("subsequent calls of rewire should always return a new instance", function () {
+        expect(rewire(testModules.A)).not.to.be(rewire(testModules.A));
     });
     describe("#reset", function () {
         it("should remove all rewired modules from cache", function () {
-            var rewired = rewire("./testModules/B/moduleB.js");
+            var rewiredModuleA = rewire(testModules.A),
+                rewiredModuleB = rewire(testModules.B);
 
-            expect(require("./testModules/B/moduleB.js")).to.be(rewired);
+            expect(require(testModules.A)).to.be(rewiredModuleA);
+            expect(require(testModules.B)).to.be(rewiredModuleB);
             rewire.reset();
-            expect(require("./testModules/B/moduleB.js")).not.to.be(rewired);
+            expect(require(testModules.A)).not.to.be(rewiredModuleA);
+            expect(require(testModules.B)).not.to.be(rewiredModuleB);
         });
     });
 });

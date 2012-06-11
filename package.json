@@ -1,13 +1,15 @@
 {
     "name" : "rewire",
-    "version" : "0.1.3",
+    "version" : "0.2.0",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
         "dependency",
         "injection",
         "mock",
         "unit",
-        "test"
+        "test",
+        "leak",
+        "inspect"
     ],
     "author" : {
         "name" : "Johannes Ewald",
@@ -26,9 +28,6 @@
     },
     "engines" : {
         "node" : "0.6.x"
-    },
-    "dependencies": {
-        "toSrc": "0.1.x"
     },
     "devDependencies": {
         "mocha": "1.1.x",
