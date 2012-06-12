@@ -2,8 +2,7 @@ rewire [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=mas
 =====
 **Dependency injection for node.js applications**.
 
-rewire adds a special setter and getter that allow you to modify the behaviour of modules
-for better unit testing. You may
+rewire adds a special setter and getter to modify the behaviour of modules for better unit testing. You may
 
 - introduce mocks for other modules
 - leak private variables
