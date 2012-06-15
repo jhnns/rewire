@@ -63,6 +63,7 @@ describe("rewire", function () {
         expect(rewiredModuleA.getMyNumber()).to.be(2);
         rewiredModuleA.__set__("myObj", newObj);
         expect(rewiredModuleA.getMyObj()).to.be(newObj);
+        rewiredModuleA.__set__("env", "ENVENV");
     });
     it("should provide the ability to get private vars", function () {
         var rewiredModuleA = rewire(testModules.A);

@@ -19,7 +19,14 @@ describe("__set__", function () {
     beforeEach(function () {
         moduleFake = {
             myNumber: 0,    // copy by value
-            myObj: {}       // copy by reference
+            myObj: {},       // copy by reference
+
+            // these variables are used within the set method
+            // because there is a eval() statement within the set method
+            // these variables should not override same-named vars of the module
+            key: "key",
+            env: "env",
+            src: "src"
         };
 
         vm.runInNewContext(
@@ -66,6 +73,9 @@ describe("__set__", function () {
                 notExistingAsWell: "blabla"
             });
         }).to.throwException(expectReferenceError);
+    });
+    it("should not clash with vars used within the set method", function () {
+
     });
     it("should throw a TypeError when passing misfitting params", function () {
         expect(function () {

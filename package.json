@@ -1,6 +1,6 @@
 {
     "name" : "rewire",
-    "version" : "0.2.0",
+    "version" : "0.2.1",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
         "dependency",
@@ -27,7 +27,7 @@
         "url": "git://github.com/jhnns/rewire.git"
     },
     "engines" : {
-        "node" : "0.6.x"
+        "node" : "0.8.x"
     },
     "devDependencies": {
         "mocha": "1.1.x",

@@ -3,6 +3,7 @@
 var someOtherModule = require("./someOtherModule.js"),
     myNumber = 0,   // copy by value
     myObj = {},     // copy by reference
+    env = "bla",
     fs = require("fs");
 
 // We need getters and setters for private vars to check if our injected setters and getters actual work
