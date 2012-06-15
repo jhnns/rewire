@@ -1,4 +1,4 @@
-rewire [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
+rewire
 =====
 **Dependency injection for node.js applications**.
 
@@ -11,6 +11,8 @@ rewire adds a special setter and getter to modules so you can modify their behav
 rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own require to load the module. Thus your module behaves exactly the same in your test environment as under regular circumstances (except your modifications).
 
 **Debugging is fully supported.**
+
+[![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 
 -----------------------------------------------------------------
 <br />
