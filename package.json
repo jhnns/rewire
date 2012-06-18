@@ -30,7 +30,7 @@
         "node" : "<=0.8.x"
     },
     "devDependencies": {
-        "mocha": "1.1.x",
+        "mocha": "1.2.x",
         "expect.js": "0.1.x"
     },
     "scripts" : {
