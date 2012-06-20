@@ -1,5 +1,3 @@
-"use strict"; // run code in ES5 strict mode
-
 var expect = require("expect.js"),
     vm = require("vm"),
     __get__ = require("../lib/__get__.js"),

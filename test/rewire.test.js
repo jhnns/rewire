@@ -1,4 +1,6 @@
-"use strict"; // run code in ES5 strict mode
+// Don't run code in ES5 strict mode.
+// In case this module was in strict mode, all other modules called by this would also be strict.
+// But when testing if the strict mode is preserved, we must ensure that this module is NOT strict.
 
 var path = require("path"),
     expect = require("expect.js"),
@@ -8,8 +10,14 @@ var testModules = {
         A: path.resolve(__dirname, "./testModules/moduleA.js"),
         B: path.resolve(__dirname, "./testModules/moduleB.js"),
         someOtherModule: path.resolve(__dirname, "./testModules/someOtherModule.js"),
-        emptyModule: path.resolve(__dirname, "./testModules/emptyModule.js")
+        emptyModule: path.resolve(__dirname, "./testModules/emptyModule.js"),
+        strictModule: path.resolve(__dirname, "./testModules/strictModule.js")
     };
+
+
+function checkForTypeError(err) {
+    expect(err.constructor).to.be(TypeError);
+}
 
 function cleanRequireCache() {
     var moduleName,
@@ -139,6 +147,13 @@ describe("rewire", function () {
     });
     it("subsequent calls of rewire should always return a new instance", function () {
         expect(rewire(testModules.A)).not.to.be(rewire(testModules.A));
+    });
+    it("should preserve the strict mode", function () {
+        var strictModule = rewire(testModules.strictModule);
+
+        expect(function () {
+            strictModule.doSomethingUnstrict();
+        }).to.throwException(checkForTypeError);
     });
     describe("#reset", function () {
         it("should remove all rewired modules from cache", function () {

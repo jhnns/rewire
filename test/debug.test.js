@@ -1,5 +1,3 @@
-"use strict"; // run code in ES5 strict mode
-
 var rewire = require("../lib/index.js");
 
 // add breakpoints in testModules/debuggerModule.js and debug this file with your IDE to
