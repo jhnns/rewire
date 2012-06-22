@@ -31,7 +31,8 @@
     },
     "devDependencies": {
         "mocha": "1.2.x",
-        "expect.js": "0.1.x"
+        "expect.js": "0.1.x",
+        "browserify": "1.13.x"
     },
     "scripts" : {
         "test" : "mocha"

@@ -3,6 +3,7 @@
 var someOtherModule = require("./someOtherModule.js"),
     myNumber = 0,   // copy by value
     myObj = {},     // copy by reference
+    env = "bla",
     fs = require("fs");
 
 // We need getters and setters for private vars to check if our injected setters and getters actual work
@@ -36,9 +37,6 @@ function checkSomeGlobals() {
     if (typeof console === "undefined") {
         throw new ReferenceError("console is undefined");
     }
-    if (typeof Buffer === "undefined") {
-        throw new ReferenceError("Buffer is undefined");
-    }
     if (typeof __filename === "undefined") {
         throw new ReferenceError("__filename is undefined");
     }
@@ -62,20 +60,14 @@ function getFilename() {
     return __filename;
 }
 
-function main() {
-
-}
-
-main.setMyNumber = setMyNumber;
-main.getMyNumber = getMyNumber;
-main.setMyObj = setMyObj;
-main.getMyObj = getMyObj;
-main.readFileSync = readFileSync;
-main.checkSomeGlobals = checkSomeGlobals;
-main.getConsole = getConsole;
-main.getProcess = getProcess;
-main.getFilename = getFilename;
-main.someOtherModule = someOtherModule;
-
 // different styles of exports in moduleA.js and moduleB.js
-module.exports = main;
+exports.setMyNumber = setMyNumber;
+exports.getMyNumber = getMyNumber;
+exports.setMyObj = setMyObj;
+exports.getMyObj = getMyObj;
+exports.readFileSync = readFileSync;
+exports.checkSomeGlobals = checkSomeGlobals;
+exports.getConsole = getConsole;
+exports.getProcess = getProcess;
+exports.getFilename = getFilename;
+exports.someOtherModule = someOtherModule;
