@@ -1,6 +1,6 @@
 {
     "name" : "rewire",
-    "version" : "0.2.2",
+    "version" : "0.3.0",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
         "dependency",
@@ -35,6 +35,6 @@
         "browserify": "1.13.x"
     },
     "scripts" : {
-        "test" : "mocha"
+        "test" : "mocha -R spec"
     }
 }

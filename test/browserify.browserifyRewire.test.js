@@ -2,8 +2,7 @@ var vm = require("vm"),
     fs = require("fs"),
     pathUtil = require("path"),
     expect = require("expect.js"),
-    browserify = require("browserify"),
-    browserifyMiddleware = require("../lib/index.js").browserify;
+    browserify = require("browserify");
 
 /**
  * Executes the source in a context that pretends to be a browser
@@ -96,12 +95,13 @@ describe("browserifyRewire", function () {
         });
     });
     it("should run all sharedTestCases without exception", function (done) {
-        var b = browserify(),
+        var b = browserify({debug: true}),
+            middleware = require("rewire").browserify,
             browserOutput = __dirname + "/browser/browseroutput.js",
             browserBundle,
             vmBundle;
 
-        b.use(browserifyMiddleware);
+        b.use(middleware);
         b.require(__dirname + "/testModules/sharedTestCases.js");
         vmBundle = b.bundle();
         browserBundle = vmBundle;
