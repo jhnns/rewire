@@ -37,7 +37,7 @@ function cleanRequireCache() {
     }
 }
 
-describe("rewire " + (typeof window === "undefined"? "in node.js": "in the browser"), function () {
+describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), function () {
     beforeEach(cleanRequireCache);  // ensuring a clean test environment
     it("should work like require()", function () {
         expect(rewire("./moduleA.js")).to.be(require("./moduleA.js"));
@@ -109,25 +109,19 @@ describe("rewire " + (typeof window === "undefined"? "in node.js": "in the brows
         var rewiredModuleA = rewire("./moduleA.js"),
             rewiredModuleB = rewire("./moduleB.js"),
             consoleMock = {},
-            processMock = {},
             newFilename = "myFile.js";
 
         rewiredModuleA.__set__({
-            console: consoleMock,
-            process: processMock
+            console: consoleMock
         });
         rewiredModuleA.__set__("__filename", newFilename);
         rewiredModuleB.__set__({
-            console: consoleMock,
-            process: processMock
+            console: consoleMock
         });
         rewiredModuleB.__set__("__filename", newFilename);
         expect(rewiredModuleA.getConsole()).to.be(consoleMock);
         expect(rewiredModuleB.getConsole()).to.be(consoleMock);
         expect(console).not.to.be(consoleMock);
-        expect(rewiredModuleA.getProcess()).to.be(processMock);
-        expect(rewiredModuleB.getProcess()).to.be(processMock);
-        expect(process).not.to.be(processMock);
         expect(rewiredModuleA.getFilename()).to.be(newFilename);
         expect(rewiredModuleB.getFilename()).to.be(newFilename);
     });

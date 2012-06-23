@@ -31,9 +31,6 @@ function checkSomeGlobals() {
     if (typeof global === "undefined") {
         throw new ReferenceError("global is undefined");
     }
-    if (typeof process === "undefined") {
-        throw new ReferenceError("process is undefined");
-    }
     if (typeof console === "undefined") {
         throw new ReferenceError("console is undefined");
     }
@@ -52,10 +49,6 @@ function getConsole() {
     return console;
 }
 
-function getProcess() {
-    return process;
-}
-
 function getFilename() {
     return __filename;
 }
@@ -68,6 +61,5 @@ exports.getMyObj = getMyObj;
 exports.readFileSync = readFileSync;
 exports.checkSomeGlobals = checkSomeGlobals;
 exports.getConsole = getConsole;
-exports.getProcess = getProcess;
 exports.getFilename = getFilename;
 exports.someOtherModule = someOtherModule;
