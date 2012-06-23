@@ -27,8 +27,8 @@ rewire is tested with node 0.6.x - 0.7.x. I recommend to run the unit tests via 
 **Use with [browserify](https://github.com/substack/node-browserify):**<br />
 
 ```javascript
-// debug=true splits the source in seperate files in chrome's developer inspector
-var b = require("browserify")({debug: true});
+var b = require("browserify")({debug: true}); // debug=true splits the source in seperate files in chrome's developer
+ tools
 
 b.use(require("rewire").browserify);
 ```
