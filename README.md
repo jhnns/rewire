@@ -12,7 +12,7 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 
 **Debugging is fully supported.**
 
-Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify). Thus you can mock your modules also in the browser.
+Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify). Thus you can mock your modules in the browser as well.
 
 <br />
 
