@@ -12,7 +12,7 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 
 **Debugging is fully supported.**
 
-[![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
+Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify). Thus you can mock your modules also in the browser.
 
 <br />
 
@@ -22,7 +22,16 @@ Installation
 `npm install rewire`
 
 **For older node versions:**<br />
-rewire is tested with node 0.7.x. I recommend to run the unit tests via `mocha` in the rewire-folder before using rewire with older node versions.
+rewire is tested with node 0.6.x - 0.7.x. I recommend to run the unit tests via `mocha` in the rewire-folder before using rewire with older node versions.
+
+**Use with [browserify](https://github.com/substack/node-browserify):**<br />
+
+```javascript
+// debug=true splits the source in seperate files in chrome's developer inspector
+var b = require("browserify")({debug: true});
+
+b.use(require("rewire").browserify);
+```
 
 <br />
 
@@ -34,8 +43,7 @@ var rewire = require("rewire");
 
 
 // rewire acts exactly like require.
-var myRewiredModule = rewire("../lib/myModule.js");
-myRewiredModule === require("../lib/myModule.js"); // = true
+var myModule = rewire("../lib/myModule.js");
 
 
 // Your module will now export a special setter and getter for private variables.
@@ -67,8 +75,8 @@ myModule.__set__({
 });
 
 
-// You may also override globals. These changes are only within the module,
-// so you don't have to be afraid that other modules are influenced by your mock.
+// You may also override globals. These changes are only within the module, so
+// you don't have to be concerned that other modules are influenced by your mock.
 myModule.__set__({
     console: {
         log: function () { /* be quiet */ }
@@ -91,6 +99,7 @@ assert.ok(myModule.__get__("currentState") === "idle");
 
 // You can also disable caching when loading the rewired module. All
 // subsequent calls of require() will than return the original module again.
+rewire("./myModule.js") === require("./myModule.js"); // = true
 rewire("./myModule.js", false) === require("./myModule.js"); // = false
 
 
