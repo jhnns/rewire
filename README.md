@@ -22,7 +22,7 @@ Installation
 `npm install rewire`
 
 **For older node versions:**<br />
-rewire is tested with node 0.6.x - 0.7.x. I recommend to run the unit tests via `mocha` in the rewire-folder before using rewire with older node versions.
+rewire is tested with node 0.6.x - 0.8.x. I recommend to run the unit tests via `mocha` in the rewire-folder before using rewire with older node versions.
 
 **Use with [browserify](https://github.com/substack/node-browserify):**<br />
 
