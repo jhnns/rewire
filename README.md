@@ -110,7 +110,7 @@ rewire("./myModule.js") === rewire("./myModule.js"); // = false
 
 // If you want to remove all your rewired modules from
 // cache just call rewire.reset().
-// Do this before every unit test to ensure a clean testing environment.
+// Do this after every single unit test to ensure a clean testing environment.
 rewire.reset();
 ```
 
