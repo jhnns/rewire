@@ -13,6 +13,7 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 **Debugging is fully supported.**
 
 Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify). Thus you can mock your modules in the browser as well.
+**Update:** *rewire seems to be [broken with browserify >= 1.13.4](https://github.com/jhnns/rewire/issues/5). I'm working on that.*
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 
