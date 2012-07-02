@@ -26,19 +26,13 @@ function cleanRequireCache() {
     for (moduleName in testModules) {
         if (testModules.hasOwnProperty(moduleName)) {
             modulePath = testModules[moduleName];
-            if (typeof window === "undefined") {
-                delete require.cache[modulePath];
-            } else {
-                if (typeof window.browserifyRequire.modules[modulePath]._cached === "object") {
-                    delete window.browserifyRequire.modules[modulePath]._cached;
-                }
-            }
+            delete require.cache[modulePath];
         }
     }
 }
 
 describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), function () {
-    beforeEach(cleanRequireCache);  // ensuring a clean test environment
+    afterEach(cleanRequireCache);  // ensuring a clean test environment
     it("should work like require()", function () {
         expect(rewire("./moduleA.js")).to.be(require("./moduleA.js"));
         cleanRequireCache();
@@ -62,7 +56,7 @@ describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), 
         expect(require("fs").__set__).to.be(undefined);
         expect(require("fs").__get__).to.be(undefined);
     });
-    it("should not influence global objects by default", function () {
+    it("should not override/influence global objects by default", function () {
         // This should throw no exception
         rewire("./moduleA.js").checkSomeGlobals();
         rewire("./moduleB.js").checkSomeGlobals();
@@ -112,18 +106,14 @@ describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), 
             newFilename = "myFile.js";
 
         rewiredModuleA.__set__({
-            console: consoleMock
+            console: consoleMock,
+            __filename: newFilename
         });
-        rewiredModuleA.__set__("__filename", newFilename);
-        rewiredModuleB.__set__({
-            console: consoleMock
-        });
-        rewiredModuleB.__set__("__filename", newFilename);
         expect(rewiredModuleA.getConsole()).to.be(consoleMock);
-        expect(rewiredModuleB.getConsole()).to.be(consoleMock);
+        expect(rewiredModuleB.getConsole()).not.to.be(consoleMock);
         expect(console).not.to.be(consoleMock);
         expect(rewiredModuleA.getFilename()).to.be(newFilename);
-        expect(rewiredModuleB.getFilename()).to.be(newFilename);
+        expect(rewiredModuleB.getFilename()).not.to.be(newFilename);
     });
     it("should cache the rewired module", function () {
         var rewired;
@@ -140,19 +130,28 @@ describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), 
         rewired = rewire("./someOtherModule.js", false);
         expect(require("./moduleA.js").someOtherModule).not.to.be(rewired);
     });
-    it("should not influence the original node require if nothing has been required within the rewired module", function () {
+    it("should not influence the original require if nothing has been required within the rewired module", function () {
         rewire("./emptyModule.js"); // nothing happens here because emptyModule doesn't require anything
         expect(require("./moduleA.js").__set__).to.be(undefined); // if restoring the original node require didn't worked, the module would have a setter
+
     });
     it("subsequent calls of rewire should always return a new instance", function () {
         expect(rewire("./moduleA.js")).not.to.be(rewire("./moduleA.js"));
     });
-    it("should preserve the strict mode", function () {
+    it("should preserve the strict mode (not IE)", function () {
         var strictModule = rewire("./strictModule.js");
 
         expect(function () {
             strictModule.doSomethingUnstrict();
         }).to.throwException(checkForTypeError);
+    });
+    it("should return a fresh instance of the module", function () {
+        var someOtherModule = require("./someOtherModule.js"),
+            rewiredSomeOtherModule;
+
+        someOtherModule.fs = "This has been modified";
+        rewiredSomeOtherModule = rewire("./someOtherModule.js");
+        expect(rewiredSomeOtherModule.fs).not.to.be("This has been modified");
     });
     describe("#reset", function () {
         it("should remove all rewired modules from cache", function () {

@@ -20,7 +20,15 @@ function runInFakeBrowserContext(src, filename) {
             afterEach: afterEach,
             setTimeout: setTimeout
         },
-        console: console
+        console: console,
+        setTimeout: setTimeout,
+        clearTimeout: clearTimeout,
+        setInterval: setInterval,
+        clearInterval: clearInterval,
+        parseFloat: parseFloat,
+        parseInt: parseInt,
+        encodeURIComponent: function () {},
+        decodeURIComponent: function () {}
     }, filename);
 }
 
@@ -28,8 +36,10 @@ describe("browserifyRewire", function () {
     before(require("./testHelpers/createFakePackageJSON.js"));
     after(require("./testHelpers/removeFakePackageJSON.js"));
     it("should attach __set__ and __get__ to the exports-obj", function (done) {
-        var context,
+        var pathToBrowserfiyRewire = pathUtil.resolve(__dirname, "../lib/browserify/browserifyRewire.js"),
+            context,
             exportsObj = {},
+            moduleObj = {exports: exportsObj},
             returnedObj,
             browserifyRewire;
 
@@ -38,13 +48,14 @@ describe("browserifyRewire", function () {
         function moduleA() {
             "use strict";
 
-            browserifyRewire.register("/a.js", null, null);
+            browserifyRewire.register("/a.js", null, null, null);
             returnedObj = browserifyRewire("/a.js", "/b.js");
         }
 
         function moduleB() {
             "use strict";
-            browserifyRewire.register("/b.js", setter, getter);
+
+            browserifyRewire.register("/b.js", moduleObj, setter, getter);
 
             return exportsObj;
         }
@@ -53,51 +64,60 @@ describe("browserifyRewire", function () {
             return "/b.js";
         }
 
-        function fakeRequire(requirePath) {
-            if (requirePath === "path") {
-                return pathUtil;
-            } else {
-                return moduleB();
+        function fakeRequire(path, parentModulePath) {
+            var module;
+
+            if (path === "../browser/shims.js") {
+                return;
+            } else if (path === "../getImportGlobalsSrc.js") {
+                return require("../lib/getImportGlobalsSrc.js");
             }
+
+            module = moduleB();
+
+            expect(path).to.be("/b.js");
+            expect(parentModulePath).to.be("/a.js");
+            fakeRequire.cache["/b.js"] = module;
+
+            return module;
         }
         fakeRequire.resolve = fakeResolve;
+        fakeRequire.cache =  {};
 
         function setter() {}
         function getter() {}
 
         context = {
-            require: fakeRequire,
             module: {},
             console: console,
             window: {
-                browserifyRequire: {
-                     modules: {
-                        "/b.js": {
-                            _cached : {}
-                        }
-                     }
-                }
-            }
+                browserifyRequire: fakeRequire
+            },
+            require: fakeRequire
         };
 
-        fs.readFile(pathUtil.resolve(__dirname, "../lib/browserify/browserifyRewire.js"), "utf8", function onBrowserifyRewireRead(err, src) {
-            vm.runInNewContext(src, context);
+        fs.readFile(pathToBrowserfiyRewire, "utf8", function onBrowserifyRewireRead(err, src) {
+            vm.runInNewContext(src, context, pathToBrowserfiyRewire);
             browserifyRewire = context.module.exports;
 
             moduleA();
 
-            expect(returnedObj).not.to.be(exportsObj);
             expect(returnedObj.__set__).to.be(setter);
             expect(returnedObj.__get__).to.be(getter);
-            expect(context.window.browserifyRequire.modules["/b.js"]._cached).to.be(returnedObj);
+            // Because browserify does not create the module-object newly when executing the module
+            // again we have to copy the module object deeply and store that copy in the
+            // cache. Therefore we're checking here if the returned exports-object and the
+            // cached module-object are an independent copy.
+            expect(returnedObj).not.to.be(exportsObj);
+            expect(context.window.browserifyRequire.cache["/b.js"]).not.to.be(moduleObj);
 
             done();
         });
     });
-    it("should run all sharedTestCases without exception", function (done) {
+    it("should run all sharedTestCases without exception", function () {
         var b = browserify({debug: true}),
             middleware = require("rewire").browserify,
-            browserOutput = __dirname + "/browser/browseroutput.js",
+            browserOutput = __dirname + "/browserify/bundle.js",
             browserBundle,
             vmBundle;
 
@@ -108,6 +128,7 @@ describe("browserifyRewire", function () {
 
         // Setup for mocha
         browserBundle += 'window.onload = function () {' +
+            'console.log("These tests will only work in all browsers with the console being opened");' +
             'mocha.setup("bdd");' +
             'window.browserifyRequire("/test/testModules/sharedTestCases.js");' +
             'mocha.run();' +
@@ -116,11 +137,9 @@ describe("browserifyRewire", function () {
         vmBundle += 'window.browserifyRequire("/test/testModules/sharedTestCases.js");';
 
         // Output for browser-testing
-        fs.mkdir(__dirname + "/browser", function onMkDir() {
-            fs.writeFile(browserOutput, browserBundle, "utf8", done);
+        fs.writeFileSync(browserOutput, browserBundle, "utf8");
 
-            // This should throw no exception.
-            runInFakeBrowserContext(vmBundle, browserOutput);
-        });
+        // This should throw no exception.
+        runInFakeBrowserContext(vmBundle, browserOutput);
     });
 });
