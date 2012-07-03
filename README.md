@@ -12,8 +12,7 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 
 **Debugging is fully supported.**
 
-Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify). Thus you can mock your modules in the browser as well.
-**Update:** *rewire seems to be [broken with browserify >= 1.13.4](https://github.com/jhnns/rewire/issues/5). I'm working on that.*
+Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify).
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 
@@ -25,12 +24,12 @@ Installation
 `npm install rewire`
 
 **For older node versions:**<br />
-rewire is tested with node 0.6.x - 0.8.x. I recommend to run the unit tests via `mocha` in the rewire-folder before using rewire with older node versions.
+rewire is tested with node 0.6.x - 0.8.x. I recommend to run the unit tests via `mocha` in the rewire-folder before
+using rewire with other node versions.
 
 **Use with [browserify](https://github.com/substack/node-browserify):**<br />
 
 ```javascript
-// debug=true splits the source in seperate files in chrome's developer tools
 var b = require("browserify")({debug: true});
 
 b.use(require("rewire").browserify);
