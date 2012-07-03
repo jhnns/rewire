@@ -12,7 +12,8 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 
 **Debugging is fully supported.**
 
-Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify).
+Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify). You just
+have to add rewire as a middleware (see below).
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 
@@ -34,6 +35,8 @@ var b = require("browserify")({debug: true});
 
 b.use(require("rewire").browserify);
 ```
+
+After that rewire works exactly as in node.
 
 <br />
 
