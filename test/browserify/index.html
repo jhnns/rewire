@@ -5,5 +5,13 @@
     <script src="bundle.js" type="text/javascript"></script>
 </head>
 <body>
+  <script type="text/javascript">
+      window.onload = function () {
+          console.log("These tests will only work in all browsers with the console open");
+          mocha.setup("bdd");
+          enableTests();
+          mocha.run();
+      };
+  </script>
   <div id="mocha"></div>
 </body>

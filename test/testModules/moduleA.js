@@ -52,41 +52,43 @@ function checkSomeGlobals() {
     if (typeof __filename !== "string") {
         throw new ReferenceError("__filename is not a string");
     }
-    //TODO add accurate checks here
-    if (typeof setTimeout === "undefined") {
-        throw new ReferenceError("setTimeout is undefined");
+    if (typeof setTimeout !== "function") {
+        throw new ReferenceError("setTimeout is not a function");
     }
-    if (typeof clearTimeout === "undefined") {
-        throw new ReferenceError("clearTimeout is undefined");
+    if (typeof clearTimeout !== "function") {
+        throw new ReferenceError("clearTimeout is not a function");
     }
-    if (typeof setInterval === "undefined") {
-        throw new ReferenceError("setInterval is undefined");
+    if (typeof setInterval !== "function") {
+        throw new ReferenceError("setInterval is not a function");
     }
-    if (typeof clearInterval === "undefined") {
-        throw new ReferenceError("clearInterval is undefined");
+    if (typeof clearInterval !== "function") {
+        throw new ReferenceError("clearInterval is not a function");
     }
-    if (typeof Error === "undefined") {
-        throw new ReferenceError("Error is undefined");
+    if (typeof Error !== "function") {
+        throw new ReferenceError("Error is not a function");
     }
-    if (typeof parseFloat === "undefined") {
-        throw new ReferenceError("parseFloat is undefined");
+    if (typeof parseFloat !== "function") {
+        throw new ReferenceError("parseFloat is not a function");
     }
-    if (typeof parseInt === "undefined") {
-        throw new ReferenceError("parseInt is undefined");
+    if (typeof parseInt !== "function") {
+        throw new ReferenceError("parseInt is not a function");
     }
     if (typeof window === "undefined") {
-        if (typeof process === "undefined") {
-            throw new ReferenceError("process is undefined");
+        if (typeof process !== "object") {
+            throw new ReferenceError("process is not an object");
         }
-        if (typeof Buffer === "undefined") {
-            throw new ReferenceError("Buffer is undefined");
+        if (typeof Buffer !== "function") {
+            throw new ReferenceError("Buffer is not a function");
         }
     } else {
-        if (typeof encodeURIComponent === "undefined") {
-            throw new ReferenceError("encodeURIComponent is undefined");
+        if (typeof encodeURIComponent !== "function") {
+            throw new ReferenceError("encodeURIComponent is not a function");
         }
-        if (typeof decodeURIComponent === "undefined") {
-            throw new ReferenceError("decodeURIComponent is undefined");
+        if (typeof decodeURIComponent !== "function") {
+            throw new ReferenceError("decodeURIComponent is not a function");
+        }
+        if (typeof document !== "object") {
+            throw new ReferenceError("document is not an object");
         }
     }
 }
@@ -99,6 +101,14 @@ function getFilename() {
     return __filename;
 }
 
+function getBuffer() {
+    return Buffer;
+}
+
+function getDocument() {
+    return document;
+}
+
 // different styles of exports in moduleA.js and moduleB.js
 exports.setMyNumber = setMyNumber;
 exports.getMyNumber = getMyNumber;
@@ -108,4 +118,6 @@ exports.readFileSync = readFileSync;
 exports.checkSomeGlobals = checkSomeGlobals;
 exports.getConsole = getConsole;
 exports.getFilename = getFilename;
+exports.getBuffer = getBuffer;
+exports.getDocument = getDocument;
 exports.someOtherModule = someOtherModule;
