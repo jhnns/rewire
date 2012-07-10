@@ -28,6 +28,18 @@ function readFileSync() {
 }
 
 function checkSomeGlobals() {
+    var isLowerIE,
+        typeOfGlobalFunc;
+
+    if (typeof navigator !== "undefined") {
+        isLowerIE = /MSIE [6-8]\.[0-9]/g.test(navigator.userAgent);
+    }
+    if (isLowerIE) {
+        typeOfGlobalFunc = "object";
+    } else {
+        typeOfGlobalFunc = "function";
+    }
+
     if (typeof global !== "object") {
         throw new ReferenceError("global is not an object");
     }
@@ -52,16 +64,16 @@ function checkSomeGlobals() {
     if (typeof __filename !== "string") {
         throw new ReferenceError("__filename is not a string");
     }
-    if (typeof setTimeout !== "function") {
+    if (typeof setTimeout !== typeOfGlobalFunc) {
         throw new ReferenceError("setTimeout is not a function");
     }
-    if (typeof clearTimeout !== "function") {
+    if (typeof clearTimeout !== typeOfGlobalFunc) {
         throw new ReferenceError("clearTimeout is not a function");
     }
-    if (typeof setInterval !== "function") {
+    if (typeof setInterval !== typeOfGlobalFunc) {
         throw new ReferenceError("setInterval is not a function");
     }
-    if (typeof clearInterval !== "function") {
+    if (typeof clearInterval !== typeOfGlobalFunc) {
         throw new ReferenceError("clearInterval is not a function");
     }
     if (typeof Error !== "function") {

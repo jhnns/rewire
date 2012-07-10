@@ -36,7 +36,9 @@ describe("browserifyRewire", function () {
     before(require("./testHelpers/createFakePackageJSON.js"));
     after(require("./testHelpers/removeFakePackageJSON.js"));
     it("should run all sharedTestCases without exception", function () {
-        var b = browserify({debug: true}),
+        var b = browserify({
+                //debug: true
+            }),
             middleware = require("rewire").browserify,
             browserOutput = __dirname + "/browserify/bundle.js",
             browserBundle,
@@ -49,9 +51,6 @@ describe("browserifyRewire", function () {
 
         // Setup for mocha
         browserBundle = "function enableTests() {" + browserBundle + "}";
-
-            /*
-        vmBundle += 'window.browserifyRequire("/test/testModules/sharedTestCases.js");'; */
 
         // Output for browser-testing
         fs.writeFileSync(browserOutput, browserBundle, "utf8");

@@ -7,7 +7,7 @@ var expect = require("expect.js"),
 
 function expectError(ErrConstructor) {
     return function expectReferenceError(err) {
-        expect(err.constructor.name === ErrConstructor.name).to.be(true);
+        expect(err.constructor.name).to.be(ErrConstructor.name);
     };
 }
 
@@ -16,61 +16,61 @@ describe("__set__", function () {
 
     beforeEach(function () {
         moduleFake = {
-            myNumber: 0,    // copy by value
-            myObj: {},       // copy by reference
-
-            // these variables are used within the set method
-            // because there is a eval() statement within the set method
-            // these variables should not override same-named vars of the module
-            key: "key",
-            env: "env",
-            src: "src"
+            myValue: 0,    // copy by value
+            myReference: {}       // copy by reference
         };
 
         vm.runInNewContext(
             "__set__ = " + __set__.toString() + "; " +
-            "getNumber = function () { return myNumber; }; " +
-            "getObj = function () { return myObj; }; ",
+            "getValue = function () { return myValue; }; " +
+            "getReference = function () { return myReference; }; ",
             moduleFake
         );
     });
-    it("should set the new number when calling with varName, varValue", function () {
-        expect(moduleFake.getNumber() === 0).to.be(true);
-        moduleFake.__set__("myNumber", 2);
-        expect(moduleFake.getNumber() === 2).to.be(true);
+    it("should set the new value when calling with varName, varValue", function () {
+        expect(moduleFake.getValue()).to.be(0);
+        moduleFake.__set__("myValue", undefined);
+        expect(moduleFake.getValue()).to.be(undefined);
+        moduleFake.__set__("myValue", null);
+        expect(moduleFake.getValue()).to.be(null);
+        moduleFake.__set__("myValue", 2);
+        expect(moduleFake.getValue()).to.be(2);
+        moduleFake.__set__("myValue", "hello");
+        expect(moduleFake.getValue()).to.be("hello");
     });
-    it("should set the new object when calling with varName, varValue", function () {
-        var newObj = { hello: "hello" };
+    it("should set the new reference when calling with varName, varValue", function () {
+        var newObj = { hello: "hello" },
+            newArr = [1, 2, 3],
+            regExp = /123/gi;
 
-        expect(moduleFake.getObj()).to.eql({});
-        moduleFake.__set__("myObj", newObj);
-        expect(moduleFake.getObj() === newObj).to.be(true);
+        function newFn() {
+            console.log("hello");
+        }
+
+        expect(moduleFake.getReference()).to.eql({});
+        moduleFake.__set__("myReference", newObj);
+        expect(moduleFake.getReference()).to.be(newObj);
+        moduleFake.__set__("myReference", newArr);
+        expect(moduleFake.getReference()).to.be(newArr);
+        moduleFake.__set__("myReference", newFn);
+        expect(moduleFake.getReference()).to.be(newFn);
+        moduleFake.__set__("myReference", regExp);
+        expect(moduleFake.getReference()).to.be(regExp);
     });
     it("should set the new number and the new obj when calling with an env-obj", function () {
         var newObj = { hello: "hello" };
 
-        expect(moduleFake.getNumber() === 0).to.be(true);
-        expect(moduleFake.getObj()).to.eql({});
+        expect(moduleFake.getValue()).to.be(0);
+        expect(moduleFake.getReference()).to.eql({});
         moduleFake.__set__({
-            myNumber: 2,
-            myObj: newObj
+            myValue: 2,
+            myReference: newObj
         });
-        expect(moduleFake.getNumber() === 2).to.be(true);
-        expect(moduleFake.getObj() === newObj).to.be(true);
+        expect(moduleFake.getValue()).to.be(2);
+        expect(moduleFake.getReference()).to.be(newObj);
     });
     it("should return undefined", function () {
-        expect(moduleFake.__set__("myNumber", 4) === undefined).to.be(true);
-    });
-    it("should throw a ReferenceError when trying to set non-existing vars", function () {
-        expect(function () {
-            moduleFake.__set__("notExisting", 3);
-        }).to.throwException();
-        expect(function () {
-            moduleFake.__set__({
-                notExisting: "bla",
-                notExistingAsWell: "blabla"
-            });
-        }).to.throwException(expectReferenceError);
+        expect(moduleFake.__set__("myValue", 4)).to.be(undefined);
     });
     it("should throw a TypeError when passing misfitting params", function () {
         expect(function () {

@@ -7,7 +7,7 @@ var expect = require("expect.js"),
 
 function expectError(ErrConstructor) {
     return function expectReferenceError(err) {
-        expect(err.constructor.name === ErrConstructor.name).to.be(true);
+        expect(err.constructor.name).to.be(ErrConstructor.name);
     };
 }
 
@@ -31,7 +31,7 @@ describe("__get__", function () {
         );
     });
     it("should return the initial value", function () {
-        expect(moduleFake.__get__("myNumber") === 0).to.be(true);
+        expect(moduleFake.__get__("myNumber")).to.be(0);
         expect(moduleFake.__get__("myObj")).to.eql({});
     });
     it("should return the changed value of the number", function () {
@@ -39,8 +39,8 @@ describe("__get__", function () {
 
         moduleFake.setNumber(2);
         moduleFake.setObj(newObj);
-        expect(moduleFake.__get__("myNumber") === 2).to.be(true);
-        expect(moduleFake.__get__("myObj") === newObj).to.be(true);
+        expect(moduleFake.__get__("myNumber")).to.be(2);
+        expect(moduleFake.__get__("myObj")).to.be(newObj);
     });
     it("should throw a ReferenceError when getting not existing vars", function () {
         expect(function () {

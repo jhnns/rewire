@@ -8,7 +8,10 @@
   <script type="text/javascript">
       window.onload = function () {
           console.log("These tests will only work in all browsers with the console open");
-          mocha.setup("bdd");
+          mocha.setup({
+              ui: 'bdd',
+              globals: [ 'someGlobalVar' ]
+          });
           enableTests();
           mocha.run();
       };
