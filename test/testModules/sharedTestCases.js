@@ -31,14 +31,28 @@ function cleanRequireCache() {
     }
 }
 
-describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), function () {
+describe("rewire " + (typeof window === "undefined"? "(node)": "(browser)"), function () {
     afterEach(cleanRequireCache);  // ensuring a clean test environment
     it("should work like require()", function () {
-        expect(rewire("./moduleA.js")).to.be(require("./moduleA.js"));
+        var rewiredModule;
+
+        rewiredModule = rewire("./moduleA.js");
+        delete rewiredModule.__set__;
+        delete rewiredModule.__get__;
+        expect(rewiredModule).to.eql(require("./moduleA.js"));
         cleanRequireCache();
-        expect(rewire("../testModules/moduleA.js")).to.be(require("../testModules/moduleA.js"));
+
+        rewiredModule = rewire("../testModules/moduleA.js");
+        delete rewiredModule.__set__;
+        delete rewiredModule.__get__;
+        expect(rewiredModule).to.eql(require("../testModules/moduleA.js"));
         cleanRequireCache();
-        expect(rewire("./moduleA.js")).to.be(require("./moduleA.js"));
+
+        rewiredModule = rewire("./moduleA.js");
+        delete rewiredModule.__set__;
+        delete rewiredModule.__get__;
+        expect(rewiredModule).to.eql(require("./moduleA.js"));
+        cleanRequireCache();
     });
     it("should modify the module so it provides a __set__ - function", function () {
         expect(rewire("./moduleA.js").__set__).to.be.a(Function);
@@ -53,8 +67,6 @@ describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), 
 
         expect(require("./someOtherModule.js").__set__).to.be(undefined);
         expect(require("./someOtherModule.js").__get__).to.be(undefined);
-        expect(require("fs").__set__).to.be(undefined);
-        expect(require("fs").__get__).to.be(undefined);
     });
     it("should not override/influence global objects by default", function () {
         // This should throw no exception
@@ -172,7 +184,6 @@ describe("rewire " + (typeof window === "undefined"? "(node.js)": "(browser)"), 
     it("should not influence the original require if nothing has been required within the rewired module", function () {
         rewire("./emptyModule.js"); // nothing happens here because emptyModule doesn't require anything
         expect(require("./moduleA.js").__set__).to.be(undefined); // if restoring the original node require didn't worked, the module would have a setter
-
     });
     it("subsequent calls of rewire should always return a new instance", function () {
         expect(rewire("./moduleA.js")).not.to.be(rewire("./moduleA.js"));

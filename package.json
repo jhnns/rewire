@@ -30,9 +30,10 @@
         "node" : "<0.9.x"
     },
     "devDependencies": {
-        "mocha": "1.3.x",
-        "expect.js": "0.1.x",
-        "browserify": ">=1.13.5 <1.14.x"
+        "mocha": "1.x",
+        "expect.js": "0.x",
+        "browserify": "1.x",
+        "webpack": "0.5.8"
     },
     "scripts" : {
         "test" : "node node_modules/mocha/bin/mocha -R spec"

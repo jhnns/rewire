@@ -2,6 +2,4 @@
 
 __filename = "/test/testModules/someOtherModule.js";    // unifying filename for the pretty stack trace test
 
-var fs = require("fs");
-
-exports.fs = fs;
+exports.fs = {};
