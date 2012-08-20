@@ -116,14 +116,28 @@ Since rewire relies heavily on node's require mechanism it can't be used on the 
 ###browserify
 
 ```javascript
-var b = browserify();
+var b = browserify(),
+    bundleSrc;
+
+// Add rewire as browserify middleware
+// @see https://github.com/substack/node-browserify/blob/master/doc/methods.markdown#busefn
 b.use(require("rewire").bundlers.browserify);
+
+b.addEntry("entry.js");
+bundleSrc = b.bundle();
 ```
 
 ###webpack
 
 ```javascript
-var options = {};
+var webpackOptions = {
+    output: "bundle.js"
+};
 
-require("rewire").bundlers.webpack(options);
+// This function modifies the webpack options object.
+// It adds a postLoader and postProcessor to the bundling process.
+// @see https://github.com/webpack/webpack#programmatically-usage
+require("rewire").bundlers.webpack(webpackOptions);
+
+webpack("entry.js", webpackOptions, function () {});
 ```
