@@ -38,7 +38,7 @@ describe("rewire bundled with browserify", function () {
         var b = browserify({
                 debug: true
             }),
-            middleware = require("rewire").browserify,
+            middleware = require("rewire").bundlers.browserify,
             browserOutput = __dirname + "/bundlers/browserify/bundle.js",
             browserBundle,
             vmBundle;
