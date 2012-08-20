@@ -1,6 +1,6 @@
 {
     "name" : "rewire",
-    "version" : "0.3.2",
+    "version" : "1.0.0",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
         "dependency",
@@ -33,7 +33,7 @@
         "mocha": "1.x",
         "expect.js": "0.x",
         "browserify": "1.x",
-        "webpack": "0.5.8"
+        "webpack": "0.x"
     },
     "scripts" : {
         "test" : "node node_modules/mocha/bin/mocha -R spec"

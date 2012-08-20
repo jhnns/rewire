@@ -25,7 +25,8 @@ function runInFakeBrowserContext(src, filename) {
         encodeURIComponent: function () {},
         decodeURIComponent: function () {},
         document: {},
-        console: console
+        console: console,
+        testEnv: "webpack"
     };
     context.window = context;
     vm.runInNewContext(src, context, filename);
@@ -35,7 +36,6 @@ describe("rewire bundled with webpack", function () {
     before(require("./testHelpers/createFakePackageJSON.js"));
     after(require("./testHelpers/removeFakePackageJSON.js"));
     it("should run all sharedTestCases without exception", function (done) {
-        done(); return;
         var webpackOptions,
             src,
             outputPath =  __dirname + "/bundlers/webpack/bundle.js",
@@ -49,10 +49,9 @@ describe("rewire bundled with webpack", function () {
         configureWebpack(webpackOptions);
 
         webpack(__dirname + "/testModules/sharedTestCases.js", webpackOptions, function onWebpackFinished(err, stats) {
-
             expect(err).to.be(null);
             expect(stats.errors).to.have.length(0);
-            //expect(stats.warnings).to.have.length(0);
+            expect(stats.warnings).to.have.length(0);
 
             // Read generated source
             src = fs.readFileSync(outputPath, "utf8");

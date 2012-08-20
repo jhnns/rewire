@@ -4,16 +4,13 @@ rewire
 
 rewire adds a special setter and getter to modules so you can modify their behaviour for better unit testing. You may
 
-- introduce mocks for other modules
+- inject mocks for other modules
 - leak private variables
 - override variables within the module.
 
 rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own require to load the module. Thus your module behaves exactly the same in your test environment as under regular circumstances (except your modifications).
 
-**Debugging is fully supported.**
-
-Furthermore rewire comes also with support for [browserify](https://github.com/substack/node-browserify). You just
-have to add rewire as a middleware (see below).
+Furthermore rewire comes also with support for various client-side bundlers (see [below](#client-side-bundlers)).
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 
@@ -23,20 +20,6 @@ Installation
 ------------
 
 `npm install rewire`
-
-**For older node versions:**<br />
-rewire is tested with node 0.6.x - 0.8.x. I recommend to run the unit tests via `mocha` in the rewire-folder before
-using rewire with other node versions.
-
-**Use with [browserify](https://github.com/substack/node-browserify):**<br />
-
-```javascript
-var b = require("browserify")({debug: true});
-
-b.use(require("rewire").browserify);
-```
-
-After that rewire works exactly as in node.
 
 <br />
 
@@ -51,6 +34,7 @@ var rewire = require("rewire");
 var myModule = rewire("../lib/myModule.js");
 
 
+// Just with one difference:
 // Your module will now export a special setter and getter for private variables.
 myModule.__set__("myPrivateVar", 123);
 myModule.__get__("myPrivateVar"); // = 123
@@ -66,10 +50,6 @@ myModule.__set__("fs", {
 myModule.readSomethingFromFileSystem(function (err, data) {
     console.log(data); // = Success!
 });
-
-
-// All later requires will now return the module with the mock.
-myModule === require("./myModule.js"); // = true
 
 
 // You can set different variables with one call.
@@ -96,66 +76,54 @@ myModule.__set__({
 // console instance.
 myModule.__set__("console.log", function () { /* be quiet */ });
 
-
-// By getting private variables you can test for instance if your
-// module is in a specific state
-assert.ok(myModule.__get__("currentState") === "idle");
-
-
-// You can also disable caching when loading the rewired module. All
-// subsequent calls of require() will than return the original module again.
-rewire("./myModule.js") === require("./myModule.js"); // = true
-rewire("./myModule.js", false) === require("./myModule.js"); // = false
-
-
-// Every call of rewire returns a new instance and overwrites the old
-// one in the module cache.
+// There is another difference to require:
+// Every call of rewire() returns a new instance.
 rewire("./myModule.js") === rewire("./myModule.js"); // = false
-
-
-// If you want to remove all your rewired modules from
-// cache just call rewire.reset().
-// Do this after every single unit test to ensure a clean testing environment.
-rewire.reset();
 ```
 
 <br />
 
 ##API
 
-**rewire(***filename, cache***): {RewiredModule}**
+###rewire(filename): rewiredModule
 
-- *{!String} filename*: <br/>
+- *filename*: <br/>
 Path to the module that shall be rewired. Use it exactly like require().
 
-- *{Boolean=true} cache (optional)*: <br />
-Indicates whether the rewired module should be cached by node so subsequent calls of `require()` will
-return the rewired module. Further calls of `rewire()` will always overwrite the cache.
+###rewiredModule.&#95;&#95;set&#95;&#95;(name, value)
 
-**rewire.reset()**
+- *name*: <br/>
+Name of the variable to set. The variable should be global or defined with `var` in the top-leve scope of the module.
+- *value*: <br/>
+The value to set.
 
-Removes all rewired modules from `require.cache`. Every `require()` will now return the original module again.
-
-**RewiredModule.&#95;&#95;set&#95;&#95;(***name, value***)**
-
-- *{!String} name*: <br/>
-Name of the variable to set. The variable should be a global or defined with `var` in the top-level
-scope of the module.
-
-- *{&lowast;} value*: <br/>
-The value to set
-
-**RewiredModule.&#95;&#95;set&#95;&#95;(***env***)**
-
-- *{!Object} env*: <br/>
+###rewiredModule.&#95;&#95;set&#95;&#95;(env)
+- *env*: <br/>
 Takes all keys as variable names and sets the values respectively.
 
-**RewiredModule.&#95;&#95;get&#95;&#95;(***name***): {&lowast;}**
+###rewiredModule.&#95;&#95;get&#95;&#95;(name): value
 
 Returns the private variable.
 
 <br />
 
-## Credits
+##Client-Side Bundlers
+Since rewire relies heavily on node's require mechanism it can't be used on the client-side without adding special middleware to the bundling process. Currently supported bundlers are:
 
-This module is inspired by the great [injectr](https://github.com/nathanmacinnes/injectr "injectr")-module.
+- [browserify](https://github.com/substack/node-browserify)
+- [webpack](https://github.com/webpack/webpack)
+
+###browserify
+
+```javascript
+var b = browserify();
+b.use(require("rewire").bundlers.browserify);
+```
+
+###webpack
+
+```javascript
+var options = {};
+
+require("rewire").bundlers.webpack(options);
+```

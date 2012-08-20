@@ -24,7 +24,8 @@ function runInFakeBrowserContext(src, filename) {
         encodeURIComponent: function () {},
         decodeURIComponent: function () {},
         document: {},
-        console: console
+        console: console,
+        testEnv: "browserify"
     };
     context.window = context;
     vm.runInNewContext(src, context, filename);
@@ -34,7 +35,6 @@ describe("rewire bundled with browserify", function () {
     before(require("./testHelpers/createFakePackageJSON.js"));
     after(require("./testHelpers/removeFakePackageJSON.js"));
     it("should run all sharedTestCases without exception", function () {
-        return;
         var b = browserify({
                 debug: true
             }),
@@ -49,7 +49,7 @@ describe("rewire bundled with browserify", function () {
         browserBundle = vmBundle;
 
         // Setup for mocha
-        browserBundle = "function enableTests() {" + browserBundle + "}";
+        browserBundle = "function enableTests() { " + browserBundle + " }";
 
         // Output for browser-testing
         fs.writeFileSync(browserOutput, browserBundle, "utf8");
