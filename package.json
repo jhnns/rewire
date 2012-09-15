@@ -1,6 +1,6 @@
 {
     "name" : "rewire",
-    "version" : "1.0.0",
+    "version" : "1.0.1",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
         "dependency",
@@ -17,9 +17,9 @@
         "web" : "http://johannesewald.de"
     },
     "main" : "lib/index.js",
-    "homepage": "http://jhnns.github.com/rewire",
+    "homepage": "https://github.com/jhnns/rewire",
     "bugs" : {
-        "url" : "http://github.com/jhnns/rewire/issues",
+        "url" : "https://github.com/jhnns/rewire/issues",
         "email" : "mail@johannesewald.de"
     },
     "repository": {

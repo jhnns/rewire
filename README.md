@@ -114,7 +114,7 @@ Since rewire relies heavily on node's require mechanism it can't be used on the 
 - [webpack](https://github.com/webpack/webpack)
 
 **Please note:** Unfortunately the line numbers in stack traces have an offset of +2 (browserify) / +1 (webpack).
-This is caused by generated code that is added during the bundling process.
+This is caused by generated code that is added during the bundling process. I'm working on that ... :)
 
 ###browserify
 
