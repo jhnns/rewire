@@ -1,5 +1,8 @@
 ##Changelog
 
+###v1.0.2
+- Improved strict mode detection
+
 ###v1.0.1
 - Fixed crash when a global module has been used in the browser
 
