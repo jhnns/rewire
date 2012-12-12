@@ -26,19 +26,42 @@ Installation
 Examples
 --------
 
-```javascript
-var rewire = require("rewire");
+Imagine you want to test this module:
 
+```javascript
+// lib/myModule.js
+
+// With rewire you can change all these variables
+var fs = require("fs"),
+    http = require("http"),
+    someOtherVar = "hi",
+    myPrivateVar = 1;
+    
+function readSomethingFromFileSystem(cb) {
+    // But no scoped variables
+    var path;
+    
+    console.log("Reading from file system ..."):
+    fs.readFile(path, "utf8", cb);
+}
+
+exports.readSomethingFromFileSystem = readSomethingFromFileSystem;
+```
+
+Now within your test module:
+
+```javascript
+// test/myModule.test.js
+
+var rewire = require("rewire");
 
 // rewire acts exactly like require.
 var myModule = rewire("../lib/myModule.js");
-
 
 // Just with one difference:
 // Your module will now export a special setter and getter for private variables.
 myModule.__set__("myPrivateVar", 123);
 myModule.__get__("myPrivateVar"); // = 123
-
 
 // This allows you to mock almost everything within the module e.g. the fs-module.
 // Just pass the variable name as first parameter and your mock as second.
@@ -51,14 +74,12 @@ myModule.readSomethingFromFileSystem(function (err, data) {
     console.log(data); // = Success!
 });
 
-
 // You can set different variables with one call.
 myModule.__set__({
     fs: fsMock,
     http: httpMock,
     someOtherVar: "hello"
 });
-
 
 // You may also override globals. These changes are only within the module, so
 // you don't have to be concerned that other modules are influenced by your mock.
@@ -70,7 +91,6 @@ myModule.__set__({
         argv: ["testArg1", "testArg2"]
     }
 });
-
 
 // But be careful, if you do something like this you'll change your global
 // console instance.
