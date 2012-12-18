@@ -41,7 +41,7 @@ function readSomethingFromFileSystem(cb) {
     // But no scoped variables
     var path = "/somewhere/on/the/disk";
     
-    console.log("Reading from file system ..."):
+    console.log("Reading from file system ...");
     fs.readFile(path, "utf8", cb);
 }
 
