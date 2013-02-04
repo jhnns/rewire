@@ -111,10 +111,10 @@ Returns the private variable.
 Since rewire relies heavily on node's require mechanism it can't be used on the client-side without adding special middleware to the bundling process. Currently supported bundlers are:
 
 - [browserify](https://github.com/substack/node-browserify)
-- [webpack](https://github.com/webpack/webpack)
+- [webpack](https://github.com/webpack/webpack) < 0.9.x
 
 **Please note:** Unfortunately the line numbers in stack traces have an offset of +2 (browserify) / +1 (webpack).
-This is caused by generated code that is added during the bundling process. I'm working on that ... :)
+This is caused by generated code that is added during the bundling process.
 
 ###browserify
 
@@ -131,6 +131,8 @@ bundleSrc = b.bundle();
 ```
 
 ###webpack
+
+rewire doesn't run with webpack 0.9 because of various breaking api changes. I'm working on that.
 
 ```javascript
 var webpackOptions = {
