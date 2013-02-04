@@ -13,6 +13,8 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 Furthermore rewire comes also with support for various client-side bundlers (see [below](#client-side-bundlers)).
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
+[![Dependency Status](http://david-dm.org/jhnns/rewire/status.png)](http://david-dm.org/jhnns/rewire)
+Dependency tracking by [David](http://david-dm.org/)
 
 <br />
 
@@ -36,11 +38,11 @@ var fs = require("fs"),
     http = require("http"),
     someOtherVar = "hi",
     myPrivateVar = 1;
-    
+
 function readSomethingFromFileSystem(cb) {
     // But no scoped variables
     var path = "/somewhere/on/the/disk";
-    
+
     console.log("Reading from file system ...");
     fs.readFile(path, "utf8", cb);
 }
