@@ -13,7 +13,7 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 Furthermore rewire comes also with support for various client-side bundlers (see [below](#client-side-bundlers)).
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
-[![Dependency Status](http://david-dm.org/nisaacson/rewire/status.png)](http://david-dm.org/nisaacson/rewire)
+[![Dependency Status](http://david-dm.org/jhnns/rewire/status.png)](http://david-dm.org/jhnns/rewire)
 Dependency tracking by [David](http://david-dm.org/)
 
 <br />
