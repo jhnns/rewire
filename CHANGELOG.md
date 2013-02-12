@@ -1,5 +1,8 @@
 ##Changelog
 
+###v1.0.4
+- Improved client-side rewire() with webpack
+
 ###v1.0.3
 - Fixed error with client-side bundlers when a module was ending with a comment
 
