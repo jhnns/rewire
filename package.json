@@ -29,11 +29,18 @@
     "engines" : {
         "node" : "<0.9.x"
     },
+    "dependencies": {
+        "enhanced-resolve": "0.5.x"
+    },
     "devDependencies": {
         "mocha": "1.x",
         "expect.js": "0.x",
         "browserify": "1.x",
-        "webpack": "0.8.x"
+        "webpack": "0.8.x",
+        "css-loader": "0.5.x",
+        "style-loader": "0.5.x",
+        "mocha-loader": "0.5.x",
+        "chai": "1.5.x"
     },
     "scripts" : {
         "test" : "node node_modules/mocha/bin/mocha -R spec"
