@@ -1,5 +1,11 @@
 var should = require("chai/lib/chai").should();
 
+describe("module replacement", function() {
+	it("should be able to require the module without rewire", function() {
+		require("../../testModules/moduleA").should.not.have.property("__get__");
+	});
+});
+
 describe("__get__ & __set__", function() {
 
 	var moduleA;
