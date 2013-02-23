@@ -33,7 +33,8 @@
         "mocha": "1.x",
         "expect.js": "0.x",
         "browserify": "1.x",
-        "webpack": "0.8.x"
+        "webpack": "0.8.x",
+        "coffee-script": "1.x"
     },
     "scripts" : {
         "test" : "node node_modules/mocha/bin/mocha -R spec"
