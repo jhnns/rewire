@@ -1,11 +1,13 @@
 {
     "name" : "rewire",
-    "version" : "1.0.4",
+    "version" : "1.1.0",
     "description" : "Dependency injection for node.js applications",
     "keywords" : [
         "dependency",
         "injection",
         "mock",
+        "shim",
+        "module",
         "unit",
         "test",
         "leak",
@@ -13,8 +15,7 @@
     ],
     "author" : {
         "name" : "Johannes Ewald",
-        "email" : "mail@johannesewald.de",
-        "web" : "http://johannesewald.de"
+        "email" : "mail@johannesewald.de"
     },
     "main" : "lib/index.js",
     "homepage": "https://github.com/jhnns/rewire",
@@ -27,7 +28,7 @@
         "url": "git://github.com/jhnns/rewire.git"
     },
     "engines" : {
-        "node" : "<0.9.x"
+        "node" : "<0.10.x"
     },
     "devDependencies": {
         "mocha": "1.x",

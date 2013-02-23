@@ -1,5 +1,9 @@
 ##Changelog
 
+###v1.1.0
+- Added Coffee-Script support
+- Removed Makefile: Use `npm test` instead.
+
 ###v1.0.4
 - Improved client-side rewire() with webpack
 

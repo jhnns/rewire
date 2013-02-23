@@ -4,13 +4,13 @@ rewire
 
 rewire adds a special setter and getter to modules so you can modify their behaviour for better unit testing. You may
 
-- inject mocks for other modules
+- inject mocks for other modules or globals like `process`
 - leak private variables
 - override variables within the module.
 
 rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own require to load the module. Thus your module behaves exactly the same in your test environment as under regular circumstances (except your modifications).
 
-Furthermore rewire comes also with support for various client-side bundlers (see [below](#client-side-bundlers)).
+Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this case CS needs to be listed in your devDependencies.
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 [![Dependency Status](http://david-dm.org/jhnns/rewire/status.png)](http://david-dm.org/jhnns/rewire)
@@ -130,31 +130,31 @@ Returns the private variable.
 <br />
 
 ##Client-Side Bundlers
-Since rewire relies heavily on node's require mechanism it can't be used on the client-side without adding special middleware to the bundling process. Currently supported bundlers are:
 
-- [browserify](https://github.com/substack/node-browserify)
-- [webpack](https://github.com/webpack/webpack) < 0.9.x
+rewire comes also with support for client-side bundlers. But since it relies heavily on node's require mechanism it can't be used on the client-side without adding special middleware to the bundling process. Currently supported bundlers are:
+
+- [browserify](https://github.com/substack/node-browserify) @1.x
+- [webpack](https://github.com/webpack/webpack) @ 0.8.x
+
+However, expect this feature to be extracted into own bundler-specific modules soon.
 
 **Please note:** Unfortunately the line numbers in stack traces have an offset of +2 (browserify) / +1 (webpack).
 This is caused by generated code that is added during the bundling process.
 
 ###browserify
 
+rewire currently only supports browserify@1.x. I'm not planing to continue development, but if you're relying on this feature [please let me know](https://github.com/jhnns/rewire/issues/13).
+
 ```javascript
-var b = browserify(),
-    bundleSrc;
+var b = browserify();
 
 // Add rewire as browserify middleware
-// @see https://github.com/substack/node-browserify/blob/master/doc/methods.markdown#busefn
 b.use(require("rewire").bundlers.browserify);
-
-b.addEntry("entry.js");
-bundleSrc = b.bundle();
 ```
 
 ###webpack
 
-rewire doesn't run with webpack 0.9 because of various breaking api changes. I'm working on that.
+rewire doesn't run with webpack@0.9.x because of various breaking api changes. I'm [working on that](https://github.com/jhnns/rewire/issues/10).
 
 ```javascript
 var webpackOptions = {
@@ -168,3 +168,9 @@ require("rewire").bundlers.webpack(webpackOptions);
 
 webpack("entry.js", webpackOptions, function () {});
 ```
+
+<br />
+
+##License
+
+MIT
