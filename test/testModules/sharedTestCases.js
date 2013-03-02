@@ -145,6 +145,12 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
             }
         }
     });
+    it("should not be a problem to have a comment on file end", function () {
+        var rewired = rewire("./emptyModule.js");
+
+        rewired.__set__("someVar", "hello");
+        expect(rewired.__get__("someVar")).to.be("hello");
+    });
     it("should not influence the original require if nothing has been required within the rewired module", function () {
         rewire("./emptyModule.js"); // nothing happens here because emptyModule doesn't require anything
         expect(require("./moduleA.js").__set__).to.be(undefined); // if restoring the original node require didn't worked, the module would have a setter
