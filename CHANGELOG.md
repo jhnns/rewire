@@ -1,5 +1,8 @@
 ##Changelog
 
+###v1.1.1
+- Fixed bug with modules that had a comment on the last line
+
 ###v1.1.0
 - Added Coffee-Script support
 - Removed Makefile: Use `npm test` instead.
