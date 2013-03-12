@@ -154,20 +154,7 @@ b.use(require("rewire").bundlers.browserify);
 
 ###webpack
 
-rewire doesn't run with webpack@0.9.x because of various breaking api changes. I'm [working on that](https://github.com/jhnns/rewire/issues/10).
-
-```javascript
-var webpackOptions = {
-    output: "bundle.js"
-};
-
-// This function modifies the webpack options object.
-// It adds a postLoader and postProcessor to the bundling process.
-// @see https://github.com/webpack/webpack#programmatically-usage
-require("rewire").bundlers.webpack(webpackOptions);
-
-webpack("entry.js", webpackOptions, function () {});
-```
+see [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 
 <br />
 
