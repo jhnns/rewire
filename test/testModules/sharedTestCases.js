@@ -158,7 +158,7 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
     it("subsequent calls of rewire should always return a new instance", function () {
         expect(rewire("./moduleA.js")).not.to.be(rewire("./moduleA.js"));
     });
-    it("should preserve the strict mode (not IE)", function () {
+    it("should preserve the strict mode", function () {
         var strictModule = rewire("./strictModule.js");
 
         expect(function () {
