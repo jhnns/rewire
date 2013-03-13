@@ -165,4 +165,15 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
             strictModule.doSomethingUnstrict();
         }).to.throwException(checkForTypeError);
     });
+    it("should not modify line numbers in stack traces", function () {
+        var throwError = rewire("./throwError.js");
+
+        try {
+            throwError();
+        } catch (err) {
+            if (err.stack) {
+                expect(err.stack.split("\n")[1]).to.match(/:2:11/);
+            }
+        }
+    });
 });

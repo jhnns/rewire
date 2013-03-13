@@ -12,6 +12,8 @@ rewire does **not** load the file and eval the contents to emulate node's requir
 
 Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this case CS needs to be listed in your devDependencies.
 
+If you want to use rewire also on the client-side take a look at [client-side bundlers](https://github.com/jhnns/rewire#client-side-bundlers)
+
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
 [![Dependency Status](http://david-dm.org/jhnns/rewire/status.png)](http://david-dm.org/jhnns/rewire)
 Dependency tracking by [David](http://david-dm.org/)
@@ -131,30 +133,11 @@ Returns the private variable.
 
 ##Client-Side Bundlers
 
-rewire comes also with support for client-side bundlers. But since it relies heavily on node's require mechanism it can't be used on the client-side without adding special middleware to the bundling process. Currently supported bundlers are:
-
-- [browserify](https://github.com/substack/node-browserify) @1.x
-- [webpack](https://github.com/webpack/webpack) @ 0.8.x
-
-However, expect this feature to be extracted into own bundler-specific modules soon.
-
-**Please note:** Unfortunately the line numbers in stack traces have an offset of +2 (browserify) / +1 (webpack).
-This is caused by generated code that is added during the bundling process.
+###webpack
+See [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 
 ###browserify
-
 rewire currently only supports browserify@1.x. I'm not planing to continue development, but if you're relying on this feature [please let me know](https://github.com/jhnns/rewire/issues/13).
-
-```javascript
-var b = browserify();
-
-// Add rewire as browserify middleware
-b.use(require("rewire").bundlers.browserify);
-```
-
-###webpack
-
-see [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 
 <br />
 

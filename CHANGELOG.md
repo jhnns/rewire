@@ -1,5 +1,9 @@
 ##Changelog
 
+###v1.1.2
+- Added deprecation warning for client-side bundlers
+- Updated package.json for node v0.10
+
 ###v1.1.1
 - Fixed bug with modules that had a comment on the last line
 
