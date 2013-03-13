@@ -15,7 +15,7 @@ describe("rewire", function () {
         rewire("./testModules/moduleA.js").getFilename();
         require("./testModules/moduleA.js").getFilename();
         expect(rewire("./testModules/moduleA.js").getFilename()).to.eql(require("./testModules/moduleA.js").getFilename());
-        expect(rewire(".testModules/someOtherModule.js").filename).to.eql(require("./testModules/someOtherModule.js").filename);
+        expect(rewire("./testModules/someOtherModule.js").filename).to.eql(require("./testModules/someOtherModule.js").filename);
     });
     it("should return a fresh instance of the module", function () {
         var someOtherModule = require("./testModules/someOtherModule.js"),
