@@ -15,8 +15,7 @@ Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http:/
 If you want to use rewire also on the client-side take a look at [client-side bundlers](https://github.com/jhnns/rewire#client-side-bundlers)
 
 [![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
-[![Dependency Status](http://david-dm.org/jhnns/rewire/status.png)](http://david-dm.org/jhnns/rewire)
-Dependency tracking by [David](http://david-dm.org/)
+[![Dependency Status](https://david-dm.org/jhnns/rewire/status.png)](http://david-dm.org/jhnns/rewire)
 
 <br />
 
