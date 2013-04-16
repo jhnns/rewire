@@ -1,5 +1,8 @@
 ##Changelog
 
+###v1.1.3
+- removed IDE stuff from npm package
+
 ###v1.1.2
 - Added deprecation warning for client-side bundlers
 - Updated package.json for node v0.10
