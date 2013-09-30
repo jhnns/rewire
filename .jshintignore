@@ -1,0 +1,5 @@
+lib/__get__.js
+lib/__set__.js
+test/testModules/strictModule.js
+test/testModules/someOtherModule.js
+node_modules
