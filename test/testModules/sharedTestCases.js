@@ -2,8 +2,7 @@
 // In case this module was in strict mode, all other modules called by this would also be strict.
 // But when testing if the strict mode is preserved, we must ensure that this module is NOT strict.
 
-var path = require("path"),
-    expect = require("expect.js"),
+var expect = require("expect.js"),
     rewire = require("rewire");
 
 function checkForTypeError(err) {
@@ -46,7 +45,7 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         expect(rewire("./moduleB.js").__get__).to.be.a(Function);
     });
     it("should not influence other modules", function () {
-        var rewiredModuleA = rewire("./moduleA.js");
+        rewire("./moduleA.js");
 
         expect(require("./someOtherModule.js").__set__).to.be(undefined);
         expect(require("./someOtherModule.js").__get__).to.be(undefined);
