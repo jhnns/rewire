@@ -1,7 +1,11 @@
 ##Changelog
 
+###v2.0.0
+- Removed client-side bundler extensions. Browserify is not supported anymore. Webpack support has been extracted
+  into separate repository https://github.com/jhnns/rewire-webpack
+
 ###v1.1.3
-- removed IDE stuff from npm package
+- Removed IDE stuff from npm package
 
 ###v1.1.2
 - Added deprecation warning for client-side bundlers
