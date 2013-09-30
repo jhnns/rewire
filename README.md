@@ -8,7 +8,12 @@ rewire adds a special setter and getter to modules so you can modify their behav
 - leak private variables
 - override variables within the module.
 
-rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own require to load the module. Thus your module behaves exactly the same in your test environment as under regular circumstances (except your modifications).
+rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own
+require to load the module. Thus your module behaves exactly the same in your test environment as under regular
+circumstances (except your modifications).
+
+Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this
+case CoffeeScript needs to be listed in your devDependencies.
 
 If you want to use rewire also on the client-side take a look at [client-side bundlers](https://github.com/jhnns/rewire#client-side-bundlers)
 
