@@ -139,7 +139,7 @@ Returns the private variable.
 See [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 
 ###browserify
-rewire currently only supports browserify@1.x. I'm not planing to continue development, but if you're relying on this feature [please let me know](https://github.com/jhnns/rewire/issues/13).
+If you're using browserify and want to use rewire with browserify [please let me know](https://github.com/jhnns/rewire/issues/13).
 
 <br />
 
