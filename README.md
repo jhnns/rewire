@@ -19,7 +19,7 @@ If you want to use rewire also on the client-side take a look at [client-side bu
 
 [![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](http://travis-ci.org/jhnns/rewire)
 [![Dependency Status](https://david-dm.org/jhnns/rewire.svg)](https://david-dm.org/jhnns/rewire)
-[![Coverage Status](https://coveralls.io/repos/jhnns/rewire/badge.png)](https://coveralls.io/r/jhnns/rewire)
+[![Coverage Status](https://img.shields.io/coveralls/jhnns/rewire.svg)](https://coveralls.io/r/jhnns/rewire)
 
 <br />
 
