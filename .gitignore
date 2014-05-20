@@ -13,5 +13,6 @@ results
 
 npm-debug.log
 /node_modules
-coverage
-.idea
+/coverage
+/examples
+/.idea

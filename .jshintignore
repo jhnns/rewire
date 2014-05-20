@@ -12,13 +12,12 @@ logs
 results
 
 npm-debug.log
-node_modules
-coverage
-examples
-.idea
+/node_modules
+/coverage
+/examples
+/.idea
 
-lib/__get__.js
-lib/__set__.js
-test/testModules/strictModule.js
-test/testModules/someOtherModule.js
-node_modules
+/lib/__get__.js
+/lib/__set__.js
+/test/testModules/strictModule.js
+/test/testModules/someOtherModule.js
