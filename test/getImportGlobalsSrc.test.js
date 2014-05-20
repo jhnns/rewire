@@ -13,7 +13,12 @@ describe("getImportGlobalsSrc", function () {
 
         src = getImportGlobalsSrc();
         vm.runInNewContext(src, context);
-        actualGlobals = Object.keys(context);
+        actualGlobals = Object.keys(context).filter(function (key) {
+            // node v0.10 does not set a constructor property on the context
+            // node v0.11 does set a constructor property
+            // so just lets filter it, because it doesn't make sense to mock it anyway
+            return key !== "constructor";
+        });
         actualGlobals.sort();
         expectedGlobals.sort();
         expect(actualGlobals).to.eql(expectedGlobals);
@@ -28,12 +33,18 @@ describe("getImportGlobalsSrc", function () {
             actualGlobals,
             expectedGlobals = Object.keys(global);
 
-        src = getImportGlobalsSrc(ignore);
+        // getImportGlobalsSrc modifies the ignore array, so let's create a copy
+        src = getImportGlobalsSrc(ignore.slice(0));
         expectedGlobals = expectedGlobals.filter(function filterIgnoredVars(value) {
             return ignore.indexOf(value) === -1;
         });
         vm.runInNewContext(src, context);
-        actualGlobals = Object.keys(context);
+        actualGlobals = Object.keys(context).filter(function (key) {
+            // node v0.10 does not set a constructor property on the context
+            // node v0.11 does set a constructor property
+            // so just lets filter it, because it doesn't make sense to mock it anyway
+            return key !== "constructor";
+        });
         actualGlobals.sort();
         expectedGlobals.sort();
         expect(actualGlobals).to.eql(expectedGlobals);
