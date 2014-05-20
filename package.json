@@ -1,7 +1,7 @@
 {
     "name" : "rewire",
     "version" : "2.0.0",
-    "description" : "Dependency injection for node.js applications",
+    "description" : "Easy dependency injection for node.js unit testing",
     "keywords" : [
         "dependency",
         "injection",
@@ -27,15 +27,13 @@
         "type": "git",
         "url": "git://github.com/jhnns/rewire.git"
     },
-    "engines" : {
-        "node" : "<0.12.x"
-    },
     "devDependencies": {
         "mocha": "1.x",
         "expect.js": "0.x",
         "coffee-script": "1.x"
     },
     "scripts" : {
-        "test" : "node node_modules/mocha/bin/mocha -R spec"
+        "test" : "node node_modules/mocha/bin/mocha -R spec",
+        "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
     }
 }
