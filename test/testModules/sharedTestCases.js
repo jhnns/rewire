@@ -175,4 +175,9 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
             }
         }
     });
+    it("should throw a TypeError if the path is not a string", function () {
+        expect(function () {
+            rewire(null);
+        }).to.throwException(checkForTypeError);
+    });
 });

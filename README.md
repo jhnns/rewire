@@ -1,6 +1,6 @@
 rewire
 =====
-**Dependency injection for node.js applications**.
+**Easy dependency injection for node.js unit testing**.
 
 rewire adds a special setter and getter to modules so you can modify their behaviour for better unit testing. You may
 
@@ -17,8 +17,9 @@ case CoffeeScript needs to be listed in your devDependencies.
 
 If you want to use rewire also on the client-side take a look at [client-side bundlers](https://github.com/jhnns/rewire#client-side-bundlers)
 
-[![Build Status](https://secure.travis-ci.org/jhnns/rewire.png?branch=master)](http://travis-ci.org/jhnns/rewire)
-[![Dependency Status](https://david-dm.org/jhnns/rewire/status.png)](http://david-dm.org/jhnns/rewire)
+[![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](http://travis-ci.org/jhnns/rewire)
+[![Dependency Status](https://david-dm.org/jhnns/rewire.svg)](https://david-dm.org/jhnns/rewire)
+[![Coverage Status](https://coveralls.io/repos/jhnns/rewire/badge.png)](https://coveralls.io/r/jhnns/rewire)
 
 <br />
 
