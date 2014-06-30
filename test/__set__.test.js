@@ -69,8 +69,31 @@ describe("__set__", function () {
         expect(moduleFake.getValue()).to.be(2);
         expect(moduleFake.getReference()).to.be(newObj);
     });
-    it("should return undefined", function () {
-        expect(moduleFake.__set__("myValue", 4)).to.be(undefined);
+    it("should return a function that when invoked reverts to the values before set was called", function () {
+        undo = moduleFake.__set__("myValue", 4)
+        expect(typeof undo).to.be("function");
+        expect(moduleFake.getValue()).to.be(4);
+        undo()
+        expect(moduleFake.getValue()).to.be(0);
+    });
+    it("should be able to revert when calling with an env-obj", function () {
+        var newObj = { hello: "hello" };
+
+        expect(moduleFake.getValue()).to.be(0);
+        expect(moduleFake.getReference()).to.eql({});
+
+        var undo = moduleFake.__set__({
+            myValue: 2,
+            myReference: newObj
+        });
+
+        expect(moduleFake.getValue()).to.be(2);
+        expect(moduleFake.getReference()).to.be(newObj);
+
+        undo();
+
+        expect(moduleFake.getValue()).to.be(0);
+        expect(moduleFake.getReference()).to.eql({});
     });
     it("should throw a TypeError when passing misfitting params", function () {
         expect(function () {
