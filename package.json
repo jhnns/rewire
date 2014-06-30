@@ -31,7 +31,7 @@
     "mocha": "1.x",
     "expect.js": "0.x",
     "coffee-script": "1.x",
-    "coffee-react": "^0.4.0"
+    "coffee-react": "0.4.0"
   },
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha -R spec",
