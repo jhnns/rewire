@@ -31,4 +31,16 @@ describe("rewire", function () {
         });
         expect(coffeeModule.readFileSync()).to.be("It works!");
     });
+    it("should also work with cjsx", function () {
+        var cjsxModule;
+
+        rewire = require("../");
+        cjsxModule = rewire("./testModules/module.cjsx");
+        cjsxModule.__set__("fs", {
+            readFileSync: function () {
+                return "It works!";
+            }
+        });
+        expect(cjsxModule.readFileSync()).to.be("It works!");
+    });
 });

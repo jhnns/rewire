@@ -1,39 +1,40 @@
 {
-    "name" : "rewire",
-    "version" : "2.0.1",
-    "description" : "Easy dependency injection for node.js unit testing",
-    "keywords" : [
-        "dependency",
-        "injection",
-        "mock",
-        "shim",
-        "module",
-        "unit",
-        "test",
-        "leak",
-        "inspect"
-    ],
-    "author" : {
-        "name" : "Johannes Ewald",
-        "email" : "mail@johannesewald.de"
-    },
-    "main" : "lib/index.js",
-    "homepage": "https://github.com/jhnns/rewire",
-    "bugs" : {
-        "url" : "https://github.com/jhnns/rewire/issues",
-        "email" : "mail@johannesewald.de"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/jhnns/rewire.git"
-    },
-    "devDependencies": {
-        "mocha": "1.x",
-        "expect.js": "0.x",
-        "coffee-script": "1.x"
-    },
-    "scripts" : {
-        "test" : "node node_modules/mocha/bin/mocha -R spec",
-        "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
-    }
+  "name": "rewire",
+  "version": "2.0.1",
+  "description": "Easy dependency injection for node.js unit testing",
+  "keywords": [
+    "dependency",
+    "injection",
+    "mock",
+    "shim",
+    "module",
+    "unit",
+    "test",
+    "leak",
+    "inspect"
+  ],
+  "author": {
+    "name": "Johannes Ewald",
+    "email": "mail@johannesewald.de"
+  },
+  "main": "lib/index.js",
+  "homepage": "https://github.com/jhnns/rewire",
+  "bugs": {
+    "url": "https://github.com/jhnns/rewire/issues",
+    "email": "mail@johannesewald.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jhnns/rewire.git"
+  },
+  "devDependencies": {
+    "mocha": "1.x",
+    "expect.js": "0.x",
+    "coffee-script": "1.x",
+    "coffee-react": "^0.4.0"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha -R spec",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
+  }
 }
