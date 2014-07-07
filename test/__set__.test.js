@@ -2,7 +2,6 @@ var expect = require("expect.js"),
     __set__ = require("../lib/__set__.js"),
     vm = require("vm"),
 
-    expectReferenceError = expectError(ReferenceError),
     expectTypeError = expectError(TypeError);
 
 function expectError(ErrConstructor) {
@@ -12,7 +11,8 @@ function expectError(ErrConstructor) {
 }
 
 describe("__set__", function () {
-    var moduleFake;
+    var moduleFake,
+        undo;
 
     beforeEach(function () {
         moduleFake = {
@@ -24,6 +24,7 @@ describe("__set__", function () {
         };
 
         vm.runInNewContext(
+            //__set__ requires __set__ to be present on module.exports
             "__set__ = module.exports.__set__ = " + __set__.toString() + "; " +
             "getValue = function () { return myValue; }; " +
             "getReference = function () { return myReference; }; ",
@@ -74,7 +75,7 @@ describe("__set__", function () {
     });
     it("should return a function that when invoked reverts to the values before set was called", function () {
         undo = moduleFake.__set__("myValue", 4);
-        expect(typeof undo).to.be("function");
+        expect(undo).to.be.a("function");
         expect(moduleFake.getValue()).to.be(4);
         undo();
         expect(moduleFake.getValue()).to.be(0);
@@ -85,7 +86,7 @@ describe("__set__", function () {
         expect(moduleFake.getValue()).to.be(0);
         expect(moduleFake.getReference()).to.eql({});
 
-        var undo = moduleFake.__set__({
+        undo = moduleFake.__set__({
             myValue: 2,
             myReference: newObj
         });
