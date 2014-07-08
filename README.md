@@ -108,7 +108,7 @@ myModule.__set__({
 
 ### Caveats
 
-**Difference to require()**
+**Difference to require()**<br>
 Every call of rewire() executes the module again and returns a fresh instance.
 
 ```javascript 
@@ -117,7 +117,7 @@ rewire("./myModule.js") === rewire("./myModule.js"); // = false
 
 This can especially be a problem if the module is not idempotent [like mongoose models](https://github.com/jhnns/rewire/issues/27).
 
-**Changing globals**
+**Changing globals**<br>
 Be careful, if you do something like this you'll change your global console instance.
 
 ```javascript
