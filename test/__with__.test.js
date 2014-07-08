@@ -111,4 +111,71 @@ describe("__with__", function() {
         expect(callWithFunction({})).to.throwError(expectTypeError);
         expect(callWithFunction(function(){})).to.not.throwError(expectTypeError);
     });
+
+    describe("using promises", function () {
+        var promiseFake;
+
+        beforeEach(function () {
+            promiseFake = {
+                then: function (onResolve, onReject) {
+                    promiseFake.onResolve = onResolve;
+                    promiseFake.onReject = onReject;
+                }
+            };
+        });
+
+        it("should pass the returned promise through", function () {
+            var fn = moduleFake.__with__({});
+
+            expect(fn(function () {
+                return promiseFake;
+            })).to.equal(promiseFake);
+        });
+
+        it("should not undo any changes until the promise has been resolved", function () {
+            expect(moduleFake.getValue()).to.be(0);
+            expect(moduleFake.getReference()).to.eql({});
+
+            moduleFake.__with__({
+                myValue: 2,
+                myReference: newObj
+            })(function () {
+                return promiseFake;
+            });
+
+            // the change should still be present at this point
+            expect(moduleFake.getValue()).to.be(2);
+            expect(moduleFake.getReference()).to.be(newObj);
+
+            promiseFake.onResolve();
+
+            // now everything should be back to normal
+            expect(moduleFake.getValue()).to.be(0);
+            expect(moduleFake.getReference()).to.eql({});
+        });
+
+        it("should also undo any changes if the promise has been rejected", function () {
+            expect(moduleFake.getValue()).to.be(0);
+            expect(moduleFake.getReference()).to.eql({});
+
+            moduleFake.__with__({
+                myValue: 2,
+                myReference: newObj
+            })(function () {
+                return promiseFake;
+            });
+
+            // the change should still be present at this point
+            expect(moduleFake.getValue()).to.be(2);
+            expect(moduleFake.getReference()).to.be(newObj);
+
+            promiseFake.onReject();
+
+            // now everything should be back to normal
+            expect(moduleFake.getValue()).to.be(0);
+            expect(moduleFake.getReference()).to.eql({});
+        });
+
+    });
+
 });
