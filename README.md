@@ -41,14 +41,9 @@ Imagine you want to test this module:
 
 // With rewire you can change all these variables
 var fs = require("fs"),
-    http = require("http"),
-    someOtherVar = "hi",
-    myPrivateVar = 1;
+    path = "/somewhere/on/the/disk";
 
 function readSomethingFromFileSystem(cb) {
-    // But no scoped variables
-    var path = "/somewhere/on/the/disk";
-
     console.log("Reading from file system ...");
     fs.readFile(path, "utf8", cb);
 }
@@ -63,34 +58,44 @@ Now within your test module:
 
 var rewire = require("rewire");
 
-// rewire acts exactly like require.
 var myModule = rewire("../lib/myModule.js");
+```
 
-// Just with one difference:
-// Your module will now export a special setter and getter for private variables.
-myModule.__set__("myPrivateVar", 123);
-myModule.__get__("myPrivateVar"); // = 123
+rewire acts exactly like require. Just with one difference: Your module will now export a special setter and getter for private variables.
 
-// This allows you to mock almost everything within the module e.g. the fs-module.
-// Just pass the variable name as first parameter and your mock as second.
-myModule.__set__("fs", {
+```javascript
+myModule.__set__("path", "/dev/null");
+myModule.__get__("path"); // = '/dev/null'
+```
+
+This allows you to mock everything in the top-level scope of the module, like the fs-module for example. Just pass the variable name as first parameter and your mock as second.
+
+```javascript
+var fsMock = {
     readFile: function (path, encoding, cb) {
+        expect(path).to.equal("/somewhere/on/the/disk");
         cb(null, "Success!");
     }
-});
+};
+myModule.__set__("fs", fsMock);
+
 myModule.readSomethingFromFileSystem(function (err, data) {
     console.log(data); // = Success!
 });
+```
 
-// You can set different variables with one call.
+You can also set different variables with one call.
+
+```javascript
 myModule.__set__({
     fs: fsMock,
-    http: httpMock,
-    someOtherVar: "hello"
+    path: "/dev/null"
 });
+```
 
-// You may also override globals. These changes are only within the module, so
-// you don't have to be concerned that other modules are influenced by your mock.
+You may also override globals. These changes are only within the module, so you don't have to be concerned that other modules are influenced by your mock.
+
+```javascript
 myModule.__set__({
     console: {
         log: function () { /* be quiet */ }
@@ -99,14 +104,24 @@ myModule.__set__({
         argv: ["testArg1", "testArg2"]
     }
 });
+```
 
-// But be careful, if you do something like this you'll change your global
-// console instance.
-myModule.__set__("console.log", function () { /* be quiet */ });
+### Caveats
 
-// There is another difference to require:
-// Every call of rewire() returns a new instance.
+**Difference to require()**
+Every call of rewire() executes the module again and returns a fresh instance.
+
+```javascript 
 rewire("./myModule.js") === rewire("./myModule.js"); // = false
+```
+
+This can especially be a problem if the module is not idempotent [like mongoose models](https://github.com/jhnns/rewire/issues/27).
+
+**Changing globals**
+Be careful, if you do something like this you'll change your global console instance.
+
+```javascript
+myModule.__set__("console.log", function () { /* be quiet */ });
 ```
 
 <br />
