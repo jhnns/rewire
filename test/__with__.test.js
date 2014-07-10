@@ -176,6 +176,21 @@ describe("__with__", function() {
             expect(moduleFake.getReference()).to.eql({});
         });
 
+        it("should ignore any returned value which doesn't provide a then()-method", function () {
+            expect(moduleFake.getValue()).to.be(0);
+            expect(moduleFake.getReference()).to.eql({});
+
+            moduleFake.__with__({
+                myValue: 2,
+                myReference: newObj
+            })(function () {
+                return {};
+            });
+
+            expect(moduleFake.getValue()).to.be(0);
+            expect(moduleFake.getReference()).to.eql({});
+        });
+
     });
 
 });
