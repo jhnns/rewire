@@ -66,6 +66,18 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         expect(rewire("./moduleB.js").__with__.toString()).to.be(__with__Src);
     });
 
+    it("should provide __set__ as a non-enumerable property", function () {
+        expect(Object.keys(rewire("./moduleA.js")).indexOf("__set__")).to.be(-1)
+    });
+
+    it("should provide __get__ as a non-enumerable property", function () {
+        expect(Object.keys(rewire("./moduleA.js")).indexOf("__get__")).to.be(-1)
+    });
+
+    it("should provide __with__ as a non-enumerable property", function () {
+        expect(Object.keys(rewire("./moduleA.js")).indexOf("__with__")).to.be(-1)
+    });
+
     it("should not influence other modules", function () {
         rewire("./moduleA.js");
 
