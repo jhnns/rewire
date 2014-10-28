@@ -16,6 +16,14 @@ describe("rewire", function () {
             fs.renameSync(fakeNodeModules, path.resolve(__dirname, "testModules/node_modules"));
         }
     });
+    it("should keep not leak globals", function () {
+        // This test should run first, as the global space may be already polluted if 
+        //   require("../") is run before this test.
+        var originalGlobalKeys = Object.keys(global),
+            rewire = require("../"),
+            emptyModule = rewire("./testModules/emptyModule.js");
+        expect(Object.keys(global)).to.eql(originalGlobalKeys);
+    });
     it("should pass all shared test cases", function () {
         require("./testModules/sharedTestCases.js");
     });
@@ -30,8 +38,5 @@ describe("rewire", function () {
             }
         });
         expect(coffeeModule.readFileSync()).to.be("It works!");
-    });
-    it("should keep src variable in function scope", function () {
-        expect(global.src).to.be(undefined);
     });
 });
