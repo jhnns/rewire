@@ -32,9 +32,6 @@ describe("rewire", function () {
         expect(coffeeModule.readFileSync()).to.be("It works!");
     });
     it("should keep src variable in function scope", function () {
-        //expect(src).to.be(undefined);
-        // detectStrictMode();
-        // console.dir(global);
         expect(global.src).to.be(undefined);
     });
 });
