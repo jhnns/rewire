@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.1.1
+- Made magic `__set__`, `__get__` and `__with__` not enumerable [#32](https://github.com/jhnns/rewire/pull/32)
+
 ### 2.1.0
 - Added revert feature of `__set__` method
 - Introduced `__with__` method to revert changes automatically
