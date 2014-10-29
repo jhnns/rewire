@@ -1,6 +1,10 @@
 Changelog
 ---------
 
+### 2.1.2
+
+- Fixed missing `var` statement which lead to pollution of global namespace [#33](https://github.com/jhnns/rewire/pull/33)
+
 ### 2.1.1
 - Made magic `__set__`, `__get__` and `__with__` not enumerable [#32](https://github.com/jhnns/rewire/pull/32)
 
