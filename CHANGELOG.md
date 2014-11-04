@@ -1,8 +1,10 @@
 Changelog
 ---------
 
-### 2.1.2
+### 2.1.3
+- Fix shadowing of internal `module`, `exports` and `require` when a global counterpart exists [jhnns/rewire-webpack#6](https://github.com/jhnns/rewire-webpack/pull/6)
 
+### 2.1.2
 - Fixed missing `var` statement which lead to pollution of global namespace [#33](https://github.com/jhnns/rewire/pull/33)
 
 ### 2.1.1
