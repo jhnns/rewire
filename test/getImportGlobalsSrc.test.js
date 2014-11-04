@@ -7,11 +7,24 @@ describe("getImportGlobalsSrc", function () {
         var context = {
                 global: global
             },
+            expectedGlobals,
             src,
-            actualGlobals,
-            expectedGlobals = Object.keys(global);
+            actualGlobals;
+
+        // Temporarily set module-internal variables on the global scope to check if getImportGlobalsSrc()
+        // ignores them properly
+        global.module = module;
+        global.exports = exports;
+        global.require = require;
 
         src = getImportGlobalsSrc();
+
+        delete global.module;
+        delete global.exports;
+        delete global.require;
+
+        expectedGlobals = Object.keys(global);
+
         vm.runInNewContext(src, context);
         actualGlobals = Object.keys(context).filter(function (key) {
             // node v0.10 does not set a constructor property on the context
