@@ -248,6 +248,16 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         }
     });
 
+    it("should be possible to set implicit globals", function () {
+        var implicitGlobalModule = rewire("./implicitGlobal.js");
+
+        implicitGlobalModule.__set__("implicitGlobal", true);
+        expect(implicitGlobalModule.__get__("implicitGlobal")).to.be(true);
+        // setting implicit global vars will change them globally instead of locally.
+        // that's a shortcoming of the current implementation which can't be solved easily.
+        //expect(implicitGlobal).to.be.a("string");
+    });
+
     it("should throw a TypeError if the path is not a string", function () {
         expect(function () {
             rewire(null);
