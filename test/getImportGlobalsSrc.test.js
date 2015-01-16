@@ -17,11 +17,15 @@ describe("getImportGlobalsSrc", function () {
         global.exports = exports;
         global.require = require;
 
+        // Also make sure it ignores invalid variable names
+        global['a-b'] = true;
+
         src = getImportGlobalsSrc();
 
         delete global.module;
         delete global.exports;
         delete global.require;
+        delete global['a-b'];
 
         expectedGlobals = Object.keys(global);
 
