@@ -151,6 +151,15 @@ Be careful, if you do something like this you'll change your global console inst
 myModule.__set__("console.log", function () { /* be quiet */ });
 ```
 
+**Globals with invalid variable names**<br>
+rewire imports global variables into the local scope by prepending a list of `var` declarations:
+
+```javascript
+var someGlobalVar = global.someGlobalVar;
+```
+
+If `someGlobalVar` is not a valid variable name, rewire just ignores it. **In this case you're not able to override the global variable locally**. 
+
 <br />
 
 API
