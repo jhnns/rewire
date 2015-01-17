@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.1.4
+- Fix problems when an illegal variable name is used for a global
+
 ### 2.1.3
 - Fix shadowing of internal `module`, `exports` and `require` when a global counterpart exists [jhnns/rewire-webpack#6](https://github.com/jhnns/rewire-webpack/pull/6)
 
