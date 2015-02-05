@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.1.5
+- Fix issues with reverting nested properties
+
 ### 2.1.4
 - Fix problems when an illegal variable name is used for a global
 
