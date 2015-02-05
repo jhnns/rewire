@@ -33,7 +33,7 @@
     "mocha": "^2.1.0"
   },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha -R spec",
+    "test": "mocha -R spec --check-leaks",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   }
 }

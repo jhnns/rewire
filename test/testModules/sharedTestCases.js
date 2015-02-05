@@ -256,6 +256,9 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         // setting implicit global vars will change them globally instead of locally.
         // that's a shortcoming of the current implementation which can't be solved easily.
         //expect(implicitGlobal).to.be.a("string");
+
+        // Cleaning up...
+        delete global.implicitGlobal;
     });
 
     it("should throw a TypeError if the path is not a string", function () {
