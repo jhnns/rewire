@@ -267,4 +267,23 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         }).to.throwException(checkForTypeError);
     });
 
+    it("should also revert nested changes (with dot notation)", function () {
+        var rewiredModuleA = rewire("./moduleA.js"),
+            revert;
+
+        revert = rewiredModuleA.__set__("myObj.test", true);
+        expect(rewiredModuleA.getMyObj()).to.eql({
+            test: true
+        });
+        revert();
+        // This test also demonstrates a known drawback of the current implementation
+        // If the value doesn't exist at the time it is about to be set, it will be
+        // reverted to undefined instead deleting it from the object
+        // However, this is probably not a real world use-case because why would you
+        // want to mock something when it is not set.
+        expect(rewiredModuleA.getMyObj()).to.eql({
+            test: undefined
+        });
+    });
+
 });
