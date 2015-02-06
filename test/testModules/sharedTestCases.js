@@ -284,6 +284,18 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         expect(rewiredModuleA.getMyObj()).to.eql({
             test: undefined
         });
+
+        revert = rewiredModuleA.__set__({
+            "myObj.test": true
+        });
+        expect(rewiredModuleA.getMyObj()).to.eql({
+            test: true
+        });
+        revert();
+        expect(rewiredModuleA.getMyObj()).to.eql({
+            test: undefined
+        });
+
     });
 
 });
