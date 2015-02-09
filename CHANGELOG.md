@@ -1,8 +1,11 @@
 Changelog
 ---------
 
+### 2.2.0
+- Add support for dot notation in __set__(env) calls [#39](https://github.com/jhnns/rewire/issues/39)
+
 ### 2.1.5
-- Fix issues with reverting nested properties
+- Fix issues with reverting nested properties [#39](https://github.com/jhnns/rewire/issues/39)
 
 ### 2.1.4
 - Fix problems when an illegal variable name is used for a global
