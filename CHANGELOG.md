@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.3.0
+- Add possibility to mock undefined, implicit globals [#35](https://github.com/jhnns/rewire/issues/35)
+
 ### 2.2.0
 - Add support for dot notation in __set__(env) calls [#39](https://github.com/jhnns/rewire/issues/39)
 
