@@ -249,16 +249,28 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
     });
 
     it("should be possible to set implicit globals", function () {
-        var implicitGlobalModule = rewire("./implicitGlobal.js");
+        var implicitGlobalModule,
+            err;
 
-        implicitGlobalModule.__set__("implicitGlobal", true);
-        expect(implicitGlobalModule.__get__("implicitGlobal")).to.be(true);
-        // setting implicit global vars will change them globally instead of locally.
-        // that's a shortcoming of the current implementation which can't be solved easily.
-        //expect(implicitGlobal).to.be.a("string");
+        try {
+            implicitGlobalModule = rewire("./implicitGlobal.js");
 
-        // Cleaning up...
-        delete global.implicitGlobal;
+            implicitGlobalModule.__set__("implicitGlobal", true);
+            expect(implicitGlobalModule.__get__("implicitGlobal")).to.be(true);
+            // setting implicit global vars will change them globally instead of locally.
+            // that's a shortcoming of the current implementation which can't be solved easily.
+            //expect(implicitGlobal).to.be.a("string");
+        } catch (e) {
+            err = e;
+        } finally {
+            // Cleaning up...
+            delete global.implicitGlobal;
+            delete global.undefinedImplicitGlobal;
+        }
+
+        if (err) {
+            throw err;
+        }
     });
 
     it("should throw a TypeError if the path is not a string", function () {
@@ -296,6 +308,33 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
             test: undefined
         });
 
+    });
+
+    it("should be possible to mock undefined, implicit globals", function () {
+        var implicitGlobalModule,
+            err;
+
+        try {
+            implicitGlobalModule = rewire("./implicitGlobal.js");
+            implicitGlobalModule.__set__("undefinedImplicitGlobal", "yoo!");
+            expect(implicitGlobalModule.__get__("undefinedImplicitGlobal")).to.equal("yoo!");
+
+            implicitGlobalModule = rewire("./implicitGlobal.js");
+            implicitGlobalModule.__set__({
+                undefinedImplicitGlobal: "bro!"
+            });
+            expect(implicitGlobalModule.__get__("undefinedImplicitGlobal")).to.equal("bro!");
+        } catch (e) {
+            err = e;
+        } finally {
+            // Cleaning up...
+            delete global.implicitGlobal;
+            delete global.undefinedImplicitGlobal;
+        }
+
+        if (err) {
+            throw err;
+        }
     });
 
 });
