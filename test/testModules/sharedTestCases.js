@@ -337,4 +337,17 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         }
     });
 
+    it("should be possible to mock and revert JSON.parse (see #40)", function () {
+        var moduleA = rewire("./moduleA.js"),
+            revert;
+
+        revert = moduleA.__set__({
+            JSON: {
+                parse: function () { return true; }
+            }
+        });
+
+        revert();
+    });
+
 });

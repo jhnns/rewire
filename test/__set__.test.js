@@ -121,11 +121,5 @@ describe("__set__", function () {
         expect(function () {
             moduleFake.__set__(function () {});
         }).to.throwException(expectTypeError);
-        expect(function () {
-            moduleFake.__set__({}, true);   // misfitting number of params
-        }).to.throwException(expectTypeError);
-        expect(function () {
-            moduleFake.__set__("someVar");  // misfitting number of params
-        }).to.throwException(expectTypeError);
     });
 });
