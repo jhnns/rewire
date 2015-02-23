@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.3.1
+- Fix problems when global objects like JSON, etc. have been rewired [#40](https://github.com/jhnns/rewire/issues/40)
+
 ### 2.3.0
 - Add possibility to mock undefined, implicit globals [#35](https://github.com/jhnns/rewire/issues/35)
 
