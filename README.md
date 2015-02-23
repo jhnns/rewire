@@ -158,7 +158,10 @@ rewire imports global variables into the local scope by prepending a list of `va
 var someGlobalVar = global.someGlobalVar;
 ```
 
-If `someGlobalVar` is not a valid variable name, rewire just ignores it. **In this case you're not able to override the global variable locally**. 
+If `someGlobalVar` is not a valid variable name, rewire just ignores it. **In this case you're not able to override the global variable locally**.
+
+**Special globals**<br>
+Please be aware that you can't rewire `eval()` or the global object itself.
 
 <br />
 
