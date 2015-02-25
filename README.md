@@ -22,7 +22,7 @@ case CoffeeScript needs to be listed in your devDependencies.
 
 If you want to use rewire also on the client-side take a look at [client-side bundlers](https://github.com/jhnns/rewire#client-side-bundlers)
 
-[![npm status](https://nodei.co/npm/rewire.svg?downloads=true&stars=true)](https://npmjs.org/package/rewire)
+[![npm status](https://nodei.co/npm/rewire.svg?downloads=true&stars=true&downloadRank=true)](https://npmjs.org/package/rewire)
 
 <br />
 
@@ -106,7 +106,7 @@ var revert = myModule.__set__("port", 3000);
 
 // port is now 3000
 revert();
-// port is now the previous value 
+// port is now the previous value
 ```
 
 For your convenience you can also use the `__with__` method which reverts the given changes after it finished.
@@ -138,7 +138,7 @@ myModule.__with__({
 **Difference to require()**<br>
 Every call of rewire() executes the module again and returns a fresh instance.
 
-```javascript 
+```javascript
 rewire("./myModule.js") === rewire("./myModule.js"); // = false
 ```
 
@@ -170,7 +170,7 @@ API
 
 ### rewire(filename: String): rewiredModule
 
-Returns a rewired version of the module found at `filename`. Use `rewire()` exactly like `require()`. 
+Returns a rewired version of the module found at `filename`. Use `rewire()` exactly like `require()`.
 
 ### rewiredModule.&#95;&#95;set&#95;&#95;(name: String, value: *): Function
 
