@@ -54,7 +54,7 @@ var rewire = require("rewire");
 var myModule = rewire("../lib/myModule.js");
 ```
 
-rewire acts exactly like require. Just with one difference: Your module will now export a special setter and getter for private variables.
+rewire acts exactly like require. With just one difference: Your module will now export a special setter and getter for private variables.
 
 ```javascript
 myModule.__set__("path", "/dev/null");
