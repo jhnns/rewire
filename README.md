@@ -1,5 +1,5 @@
 rewire
-=====
+======
 **Easy dependency injection for node.js unit testing**.
 
 [![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](http://travis-ci.org/jhnns/rewire)
@@ -27,7 +27,7 @@ If you want to use rewire also on the client-side take a look at [client-side bu
 <br />
 
 Introduction
---------
+------------
 
 Imagine you want to test this module:
 
@@ -144,12 +144,16 @@ rewire("./myModule.js") === rewire("./myModule.js"); // = false
 
 This can especially be a problem if the module is not idempotent [like mongoose models](https://github.com/jhnns/rewire/issues/27).
 
-**Changing globals**<br>
-Be careful, if you do something like this you'll change your global console instance.
+**Dot notation**<br>
+Although it is possible to use dot notation when calling `__set__`, it is strongly discouraged in most cases. For instance, writing `myModule.__set__("console.log", fn)` is effectively the same as just writing `console.log = fn`. It would be better to write:
 
 ```javascript
-myModule.__set__("console.log", function () { /* be quiet */ });
+myModule.__set__("console", {
+    log: function () {}
+});
 ```
+
+This replaces `console` just inside `myModule`. That is, because rewire is using `eval()` to turn the key expression into an assignment. Hence, calling `myModule.__set__("console.log", fn)` modifies the `log` function on the *global* `console` object.
 
 **Globals with invalid variable names**<br>
 rewire imports global variables into the local scope by prepending a list of `var` declarations:
@@ -166,7 +170,7 @@ Please be aware that you can't rewire `eval()` or the global object itself.
 <br />
 
 API
-------
+---
 
 ### rewire(filename: String): rewiredModule
 
@@ -190,16 +194,16 @@ Returns a function which - when being called - sets `obj`, executes the given `c
 
 <br />
 
-##Client-Side Bundlers
+## Client-Side Bundlers
 
-###webpack
+### webpack
 See [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 
-###browserify
+### browserify
 If you're using browserify and want to use rewire with browserify [please let me know](https://github.com/jhnns/rewire/issues/13).
 
 <br />
 
-##License
+## License
 
 MIT
