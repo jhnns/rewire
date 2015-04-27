@@ -133,6 +133,39 @@ myModule.__with__({
 // port is still 3000 here because the promise hasn't been resolved yet
 ```
 
+### Limitations
+
+**Variables inside functions**<br>
+Variables inside functions can not be changed by rewire. This is constrained by JavaScript and can't be circumvented by rewire.
+
+```javascript
+// myModule.js
+(function () {
+    // Can't be changed by rewire
+    var someVariable;
+})()
+```
+
+**Modules that export primitives**<br>
+rewire is not able to attach the `__set__`- and `__get__`-method if your module is just exporting a primitive. Rewiring does not work in this case.
+
+```javascript
+// Will throw an error if it's loaded with rewire()
+module.exports = 2;
+```
+
+**Globals with invalid variable names**<br>
+rewire imports global variables into the local scope by prepending a list of `var` declarations:
+
+```javascript
+var someGlobalVar = global.someGlobalVar;
+```
+
+If `someGlobalVar` is not a valid variable name, rewire just ignores it. **In this case you're not able to override the global variable locally**.
+
+**Special globals**<br>
+Please be aware that you can't rewire `eval()` or the global object itself.
+
 ### Caveats
 
 **Difference to require()**<br>
@@ -154,18 +187,6 @@ myModule.__set__("console", {
 ```
 
 This replaces `console` just inside `myModule`. That is, because rewire is using `eval()` to turn the key expression into an assignment. Hence, calling `myModule.__set__("console.log", fn)` modifies the `log` function on the *global* `console` object.
-
-**Globals with invalid variable names**<br>
-rewire imports global variables into the local scope by prepending a list of `var` declarations:
-
-```javascript
-var someGlobalVar = global.someGlobalVar;
-```
-
-If `someGlobalVar` is not a valid variable name, rewire just ignores it. **In this case you're not able to override the global variable locally**.
-
-**Special globals**<br>
-Please be aware that you can't rewire `eval()` or the global object itself.
 
 <br />
 
