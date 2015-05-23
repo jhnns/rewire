@@ -32,6 +32,7 @@
     "expect.js": "^0.3.1",
     "mocha": "^2.1.0"
   },
+  "license": "MIT",
   "scripts": {
     "test": "mocha -R spec --check-leaks",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
