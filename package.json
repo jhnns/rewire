@@ -11,7 +11,9 @@
     "unit",
     "test",
     "leak",
-    "inspect"
+    "inspect",
+    "fake",
+    "require"
   ],
   "author": {
     "name": "Johannes Ewald",
