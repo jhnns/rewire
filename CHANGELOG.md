@@ -1,12 +1,15 @@
 Changelog
 ---------
 
+### 2.3.4
+- Add license and keywords to package.json [#59](https://github.com/jhnns/rewire/issues/59) [#60](https://github.com/jhnns/rewire/issues/60)
+
 ### 2.3.3
 - Fix issue where the strict mode was not detected when a comment was before "strict mode"; [#54](https://github.com/jhnns/rewire/issues/54)
 
 ### 2.3.2
 - Fix a problem when a function declaration had the same name as a global variable [#56](https://github.com/jhnns/rewire/issues/56)
-- Added README section about rewire's limitations
+- Add README section about rewire's limitations
 
 ### 2.3.1
 - Fix problems when global objects like JSON, etc. have been rewired [#40](https://github.com/jhnns/rewire/issues/40)
