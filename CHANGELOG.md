@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.4.0
+- Make rewire's special methods `__set__`, `__get__` and `__with__` writable [#78](https://github.com/jhnns/rewire/pull/78)
+
 ### 2.3.4
 - Add license and keywords to package.json [#59](https://github.com/jhnns/rewire/issues/59) [#60](https://github.com/jhnns/rewire/issues/60)
 
