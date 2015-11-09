@@ -93,6 +93,35 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         rewire("./moduleB.js").checkSomeGlobals();
     });
 
+    it("should mock targeted require calls if given an object", function () {
+        var dummySomeOtherModule = {};
+        expect(rewire("./moduleA.js", {
+            './someOtherModule.js' : dummySomeOtherModule
+        }).someOtherModule).to.equal(dummySomeOtherModule);
+
+        var dummyFs = {readFileSync:function(){}};
+        expect(rewire("./module.coffee", {
+            'fs' : dummyFs
+        }).__get__('fs')).to.equal(dummyFs);
+    });
+
+    it("should mock targeted require calls if given a function", function () {
+        var dummySomeOtherModule = {};
+        expect(rewire("./moduleA.js", function(path){
+            return /someOtherModule.js/.test(path) && dummySomeOtherModule;
+        }).someOtherModule).to.equal(dummySomeOtherModule);
+
+        var dummyFs = {readFileSync:function(){}};
+        expect(rewire("./module.coffee", function (path) {
+            return path == 'fs' && dummyFs;
+        }).__get__('fs')).to.equal(dummyFs);
+
+        var realFs = require('fs');
+        expect(rewire("./module.coffee", function (path) {
+            return undefined;
+        }).__get__('fs')).to.equal(realFs);
+    });
+
     // This is just an integration test for the __set__ method
     // You can find a full test for __set__ under /test/__set__.test.js
     it("should provide a working __set__ method", function () {
