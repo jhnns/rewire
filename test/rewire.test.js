@@ -17,13 +17,13 @@ describe("rewire", function () {
         }
     });
     it("should pass all shared test cases", function () {
-        require("./testModules/sharedTestCases.js");
+        require("../lib/testModules/sharedTestCases.js");
     });
     it("should also work with CoffeeScript", function () {
         var coffeeModule;
 
         rewire = require("../");
-        coffeeModule = rewire("./testModules/module.coffee");
+        coffeeModule = rewire("../lib/testModules/module.coffee");
         coffeeModule.__set__("fs", {
             readFileSync: function () {
                 return "It works!";
