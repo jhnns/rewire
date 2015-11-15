@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.5.0
+- Provide shared test cases to other modules that mimic rewire's behavior in other environments [jhnns/rewire-webpack#18](https://github.com/jhnns/rewire-webpack/pull/18)
+
 ### 2.4.0
 - Make rewire's special methods `__set__`, `__get__` and `__with__` writable [#78](https://github.com/jhnns/rewire/pull/78)
 
