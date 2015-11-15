@@ -9,9 +9,9 @@
 
 var expect = require("expect.js"),
     rewire = require("rewire"),
-    __set__Src = require("../../lib/__set__.js").toString(),
-    __get__Src = require("../../lib/__get__.js").toString(),
-    __with__Src = require("../../lib/__with__.js").toString();
+    __set__Src = require("../lib/__set__.js").toString(),
+    __get__Src = require("../lib/__get__.js").toString(),
+    __with__Src = require("../lib/__with__.js").toString();
 
 function checkForTypeError(err) {
     expect(err.constructor).to.be(TypeError);
@@ -23,7 +23,7 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         rewire("./moduleA.js").getFilename();
         require("./moduleA.js").getFilename();
         expect(rewire("./moduleA.js").getFilename()).to.eql(require("./moduleA.js").getFilename());
-        expect(rewire("../testModules/someOtherModule.js").filename).to.eql(require("../testModules/someOtherModule.js").filename);
+        expect(rewire("../testLib/someOtherModule.js").filename).to.eql(require("../testLib/someOtherModule.js").filename);
     });
 
     it("should return a fresh instance of the module", function () {
@@ -69,7 +69,7 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
 
     ["__get__", "__set__", "__with__"].forEach(function(funcName) {
         it("should provide " + funcName + " as a non-enumerable property", function () {
-            expect(Object.keys(rewire("./moduleA.js")).indexOf(funcName)).to.be(-1)
+            expect(Object.keys(rewire("./moduleA.js")).indexOf(funcName)).to.be(-1);
         });
 
         it("should provide " + funcName + " as a writable property", function () {
@@ -240,6 +240,9 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
     it("should not modify line numbers in stack traces", function () {
         var throwError = rewire("./throwError.js");
 
+        if (process.env.running_under_istanbul === "1") {
+            return;
+        }
         try {
             throwError();
         } catch (err) {

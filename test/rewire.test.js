@@ -10,20 +10,20 @@ var rewire;
 
 describe("rewire", function () {
     before(function () {
-        var fakeNodeModules = path.resolve(__dirname, "testModules/fake_node_modules");
+        var fakeNodeModules = path.resolve(__dirname, "../testLib/fake_node_modules");
 
         if (fs.existsSync(fakeNodeModules)) {
-            fs.renameSync(fakeNodeModules, path.resolve(__dirname, "testModules/node_modules"));
+            fs.renameSync(fakeNodeModules, path.resolve(__dirname, "../testLib/node_modules"));
         }
     });
     it("should pass all shared test cases", function () {
-        require("../lib/testModules/sharedTestCases.js");
+        require("../testLib/sharedTestCases.js");
     });
     it("should also work with CoffeeScript", function () {
         var coffeeModule;
 
         rewire = require("../");
-        coffeeModule = rewire("../lib/testModules/module.coffee");
+        coffeeModule = rewire("../testLib/module.coffee");
         coffeeModule.__set__("fs", {
             readFileSync: function () {
                 return "It works!";
