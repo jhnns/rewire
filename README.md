@@ -188,6 +188,11 @@ myModule.__set__("console", {
 
 This replaces `console` just inside `myModule`. That is, because rewire is using `eval()` to turn the key expression into an assignment. Hence, calling `myModule.__set__("console.log", fn)` modifies the `log` function on the *global* `console` object.
 
+**Transpiled ES6 modules**<br>
+If you are using Babel with ES6 rewire does not know how to mock the top level references in a module because Babel has remapped them (see #62).
+
+In this case you should use [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire) instead.
+
 <br />
 
 API
