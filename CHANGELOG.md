@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.5.1
+- Ignore modules that export non-extensible values like primitives or sealed objects [#83](https://github.com/jhnns/rewire/pull/83)
+
 ### 2.5.0
 - Provide shared test cases to other modules that mimic rewire's behavior in other environments [jhnns/rewire-webpack#18](https://github.com/jhnns/rewire-webpack/pull/18)
 
