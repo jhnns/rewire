@@ -220,6 +220,24 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         expect(rewired.__get__("someVar")).to.be("hello");
     });
 
+    it("should not be a problem to have a module that exports a boolean", function() {
+        expect(function() {
+            var rewired = rewire("./boolean.js");
+        }).to.not.throwException();
+    });
+
+    it("should not be a problem to have a module that exports null", function() {
+        expect(function() {
+            var rewired = rewire("./null.js");
+        }).to.not.throwException();
+    });
+
+    it("should not be a problem to have a module that exports a sealed object", function() {
+        expect(function() {
+            var rewired = rewire("./sealedObject.js");
+        }).to.not.throwException();
+    });
+
     it("should not influence the original require if nothing has been required within the rewired module", function () {
         rewire("./emptyModule.js"); // nothing happens here because emptyModule doesn't require anything
         expect(require("./moduleA.js").__set__).to.be(undefined); // if restoring the original node require didn't worked, the module would have a setter
