@@ -1,6 +1,6 @@
 rewire
 ======
-**Easy dependency injection for node.js unit testing**.
+**Easy monkey-patching for node.js unit testing**.
 
 [![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](http://travis-ci.org/jhnns/rewire)
 [![Dependency Status](https://david-dm.org/jhnns/rewire.svg)](https://david-dm.org/jhnns/rewire)
