@@ -146,6 +146,9 @@ Variables inside functions can not be changed by rewire. This is constrained by 
 })()
 ```
 
+**const**
+Rewire does not work with const [see this issue](https://github.com/jhnns/rewire/issues/79)
+
 **Modules that export primitives**<br>
 rewire is not able to attach the `__set__`- and `__get__`-method if your module is just exporting a primitive. Rewiring does not work in this case.
 
