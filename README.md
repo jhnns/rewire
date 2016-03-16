@@ -1,28 +1,29 @@
 rewire
 ======
-**Easy monkey-patching for node.js unit testing**.
+**Easy monkey-patching for node.js unit tests**
 
-[![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](http://travis-ci.org/jhnns/rewire)
+[![](https://img.shields.io/npm/v/rewire.svg)](https://www.npmjs.com/package/rewire)
+[![](https://img.shields.io/npm/dm/rewire.svg)](https://www.npmjs.com/package/rewire)
 [![Dependency Status](https://david-dm.org/jhnns/rewire.svg)](https://david-dm.org/jhnns/rewire)
-[![Coverage Status](https://img.shields.io/coveralls/jhnns/rewire.svg)](https://coveralls.io/r/jhnns/rewire)
-[![Gittip Donate Button](http://img.shields.io/gittip/peerigon.svg)](https://www.gittip.com/peerigon/)
+[![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](https://travis-ci.org/rewire/jhnns)
+[![Coverage Status](https://img.shields.io/coveralls/jhnns/rewire.svg)](https://coveralls.io/r/jhnns/rewire?branch=master)
 
 rewire adds a special setter and getter to modules so you can modify their behaviour for better unit testing. You may
 
 - inject mocks for other modules or globals like `process`
-- leak private variables
+- inspect private variables
 - override variables within the module.
 
-rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own
-require to load the module. Thus your module behaves exactly the same in your test environment as under regular
-circumstances (except your modifications).
+rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own require to load the module. Thus your module behaves exactly the same in your test environment as under regular circumstances (except your modifications).
 
-Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this
-case CoffeeScript needs to be listed in your devDependencies.
+**Please note:** The current version of rewire is not compatible with `const` or [babel](http://babeljs.io/). See [Limitations](https://github.com/jhnns/rewire#limitations).
 
-If you want to use rewire also on the client-side take a look at [client-side bundlers](https://github.com/jhnns/rewire#client-side-bundlers)
+<br>
 
-[![npm status](https://nodei.co/npm/rewire.svg?downloads=true&stars=true&downloadRank=true)](https://npmjs.org/package/rewire)
+Installation
+------------
+
+`npm install rewire`
 
 <br />
 
@@ -31,8 +32,8 @@ Introduction
 
 Imagine you want to test this module:
 
-`lib/myModule.js`
 ```javascript
+// lib/myModules.js
 // With rewire you can change all these variables
 var fs = require("fs"),
     path = "/somewhere/on/the/disk";
@@ -47,8 +48,8 @@ exports.readSomethingFromFileSystem = readSomethingFromFileSystem;
 
 Now within your test module:
 
-`test/myModule.test.js`
 ```javascript
+// test/myModule.test.js
 var rewire = require("rewire");
 
 var myModule = rewire("../lib/myModule.js");
@@ -133,10 +134,19 @@ myModule.__with__({
 // port is still 3000 here because the promise hasn't been resolved yet
 ```
 
-### Limitations
+<br />
+
+Limitations
+-----------
+
+**Using `const`**<br>
+It's not possible to rewire `const` (see [#79](https://github.com/jhnns/rewire/issues/79)). This can probably be solved with [proxies](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) someday but requires further research. 
+
+**Transpilers**<br>
+Some transpilers, like babel, rename variables in order to emulate certain language features. Rewire will not work in these cases (see [#62](https://github.com/jhnns/rewire/issues/62)). A possible solution might be switching to [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire).
 
 **Variables inside functions**<br>
-Variables inside functions can not be changed by rewire. This is constrained by JavaScript and can't be circumvented by rewire.
+Variables inside functions can not be changed by rewire. This is constrained by the language.
 
 ```javascript
 // myModule.js
@@ -145,9 +155,6 @@ Variables inside functions can not be changed by rewire. This is constrained by 
     var someVariable;
 })()
 ```
-
-**const**
-Rewire does not work with const [see this issue](https://github.com/jhnns/rewire/issues/79)
 
 **Modules that export primitives**<br>
 rewire is not able to attach the `__set__`- and `__get__`-method if your module is just exporting a primitive. Rewiring does not work in this case.
@@ -169,32 +176,6 @@ If `someGlobalVar` is not a valid variable name, rewire just ignores it. **In th
 **Special globals**<br>
 Please be aware that you can't rewire `eval()` or the global object itself.
 
-### Caveats
-
-**Difference to require()**<br>
-Every call of rewire() executes the module again and returns a fresh instance.
-
-```javascript
-rewire("./myModule.js") === rewire("./myModule.js"); // = false
-```
-
-This can especially be a problem if the module is not idempotent [like mongoose models](https://github.com/jhnns/rewire/issues/27).
-
-**Dot notation**<br>
-Although it is possible to use dot notation when calling `__set__`, it is strongly discouraged in most cases. For instance, writing `myModule.__set__("console.log", fn)` is effectively the same as just writing `console.log = fn`. It would be better to write:
-
-```javascript
-myModule.__set__("console", {
-    log: function () {}
-});
-```
-
-This replaces `console` just inside `myModule`. That is, because rewire is using `eval()` to turn the key expression into an assignment. Hence, calling `myModule.__set__("console.log", fn)` modifies the `log` function on the *global* `console` object.
-
-**Transpiled ES6 modules**<br>
-If you are using Babel with ES6 rewire does not know how to mock the top level references in a module because Babel has remapped them (see #62).
-
-In this case you should use [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire) instead.
 
 <br />
 
@@ -223,13 +204,41 @@ Returns a function which - when being called - sets `obj`, executes the given `c
 
 <br />
 
-## Client-Side Bundlers
+Caveats
+-------
 
-### webpack
+**Difference to require()**<br>
+Every call of rewire() executes the module again and returns a fresh instance.
+
+```javascript
+rewire("./myModule.js") === rewire("./myModule.js"); // = false
+```
+
+This can especially be a problem if the module is not idempotent [like mongoose models](https://github.com/jhnns/rewire/issues/27).
+
+**Dot notation**<br>
+Although it is possible to use dot notation when calling `__set__`, it is strongly discouraged in most cases. For instance, writing `myModule.__set__("console.log", fn)` is effectively the same as just writing `console.log = fn`. It would be better to write:
+
+```javascript
+myModule.__set__("console", {
+    log: function () {}
+});
+```
+
+This replaces `console` just inside `myModule`. That is, because rewire is using `eval()` to turn the key expression into an assignment. Hence, calling `myModule.__set__("console.log", fn)` modifies the `log` function on the *global* `console` object.
+
+<br />
+
+webpack
+-------
 See [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 
-### browserify
-If you're using browserify and want to use rewire with browserify [please let me know](https://github.com/jhnns/rewire/issues/13).
+<br />
+
+CoffeeScript
+------------
+
+Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this case CoffeeScript needs to be listed in your devDependencies.
 
 <br />
 
