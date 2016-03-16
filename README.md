@@ -216,6 +216,9 @@ rewire("./myModule.js") === rewire("./myModule.js"); // = false
 
 This can especially be a problem if the module is not idempotent [like mongoose models](https://github.com/jhnns/rewire/issues/27).
 
+**Globals are imported into the module's scope at the time of rewiring**<br>
+Since rewire imports all gobals into the module's scope at the time of rewiring, property changes on the `global` object after that are not recognized anymore. This is a [problem when using sinon's fake timers *after* you've called `rewire()`](http://stackoverflow.com/questions/34885024/when-using-rewire-and-sinon-faketimer-order-matters/36025128).
+
 **Dot notation**<br>
 Although it is possible to use dot notation when calling `__set__`, it is strongly discouraged in most cases. For instance, writing `myModule.__set__("console.log", fn)` is effectively the same as just writing `console.log = fn`. It would be better to write:
 
