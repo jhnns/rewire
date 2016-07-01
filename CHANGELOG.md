@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 2.5.2
+- Fix cluttering of `require.extensions` even if CoffeeScript is not installed [#98](https://github.com/jhnns/rewire/pull/98)
+
 ### 2.5.1
 - Ignore modules that export non-extensible values like primitives or sealed objects [#83](https://github.com/jhnns/rewire/pull/83)
 
