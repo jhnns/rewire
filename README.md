@@ -5,7 +5,7 @@ rewire
 [![](https://img.shields.io/npm/v/rewire.svg)](https://www.npmjs.com/package/rewire)
 [![](https://img.shields.io/npm/dm/rewire.svg)](https://www.npmjs.com/package/rewire)
 [![Dependency Status](https://david-dm.org/jhnns/rewire.svg)](https://david-dm.org/jhnns/rewire)
-[![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](https://travis-ci.org/rewire/jhnns)
+[![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](https://travis-ci.org/jhnns/rewire)
 [![Coverage Status](https://img.shields.io/coveralls/jhnns/rewire.svg)](https://coveralls.io/r/jhnns/rewire?branch=master)
 
 rewire adds a special setter and getter to modules so you can modify their behaviour for better unit testing. You may
@@ -140,7 +140,7 @@ Limitations
 -----------
 
 **Using `const`**<br>
-It's not possible to rewire `const` (see [#79](https://github.com/jhnns/rewire/issues/79)). This can probably be solved with [proxies](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) someday but requires further research. 
+It's not possible to rewire `const` (see [#79](https://github.com/jhnns/rewire/issues/79)). This can probably be solved with [proxies](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) someday but requires further research.
 
 **Transpilers**<br>
 Some transpilers, like babel, rename variables in order to emulate certain language features. Rewire will not work in these cases (see [#62](https://github.com/jhnns/rewire/issues/62)). A possible solution might be switching to [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire).
