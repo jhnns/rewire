@@ -372,4 +372,32 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         revert();
     });
 
+    it("Should be possible to mock a const variable using __with__ syntax", function() {
+        var ES2015Module = rewire("./ES2015Module", {
+            convertConst: true
+        });
+
+        ES2015Module.__with__({
+            language: "en"
+        })(function() {
+            expect(ES2015Module.getLang()).to.equal("en");
+            expect(ES2015Module.getOtherModuleName()).to.equal("somOtherModule");
+        })
+    })
+
+    it("Should be possible to mock a const required variable using __with__ syntax", function() {
+        var ES2015Module = rewire("./ES2015Module", {
+            convertConst: true
+        });
+
+        ES2015Module.__with__({
+            someOtherModule: {
+                name: "mocked"
+            }
+        })(function() {
+            expect(ES2015Module.getLang()).to.equal("nl");
+            expect(ES2015Module.getOtherModuleName()).to.equal("mocked");
+        })
+    })
+
 });
