@@ -382,8 +382,8 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         })(function() {
             expect(ES2015Module.getLang()).to.equal("en");
             expect(ES2015Module.getOtherModuleName()).to.equal("somOtherModule");
-        })
-    })
+        });
+    });
 
     it("Should be possible to mock a const required variable using __with__ syntax", function() {
         var ES2015Module = rewire("./ES2015Module", {
@@ -397,7 +397,21 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         })(function() {
             expect(ES2015Module.getLang()).to.equal("nl");
             expect(ES2015Module.getOtherModuleName()).to.equal("mocked");
-        })
+        });
+    });
+
+    it("Should be possible to mock a set a const variable using __set__ syntax", function() {
+        var ES2015Module = rewire("./ES2015Module", {
+            convertConst: true
+        });
+
+        ES2015Module.__set__("language", "de");
+
+        expect(ES2015Module.getLang()).to.equal("de");
+
+        ES2015Module.__set__("language", "nl");
+
+        expect(ES2015Module.getLang()).to.equal("nl");
     })
 
 });
