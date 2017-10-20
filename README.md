@@ -139,9 +139,6 @@ myModule.__with__({
 Limitations
 -----------
 
-**Using `const`**<br>
-It's not possible to rewire `const` (see [#79](https://github.com/jhnns/rewire/issues/79)). This can probably be solved with [proxies](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) someday but requires further research. 
-
 **Transpilers**<br>
 Some transpilers, like babel, rename variables in order to emulate certain language features. Rewire will not work in these cases (see [#62](https://github.com/jhnns/rewire/issues/62)). A possible solution might be switching to [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire).
 
@@ -182,9 +179,14 @@ Please be aware that you can't rewire `eval()` or the global object itself.
 API
 ---
 
-### rewire(filename: String): rewiredModule
+### rewire(filename: String, [options]): rewiredModule
 
 Returns a rewired version of the module found at `filename`. Use `rewire()` exactly like `require()`.
+
+#### Options
+| Property | Default | Description |
+|----------|---------|-------------|
+| convertConst | false | Set to true to convert all `const` variables of the required module to `let`. This way you can mock const variables. **Caution**: Setting this to true can lead to inaccurate tests.
 
 ### rewiredModule.&#95;&#95;set&#95;&#95;(name: String, value: *): Function
 
