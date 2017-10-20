@@ -414,4 +414,9 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         expect(ES2015Module.getLang()).to.equal("nl");
     })
 
+    it("Should have correct __filename and __dirname when mocked using convertConst", function() {
+        expect(rewire("./ES2015Module", { convertConst: true }).filename).to.equal(require("./ES2015Module").filename);
+        expect(rewire("./ES2015Module", { convertConst: true }).dirname).to.equal(require("./ES2015Module").dirname);
+    })
+
 });
