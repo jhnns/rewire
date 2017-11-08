@@ -179,14 +179,9 @@ Please be aware that you can't rewire `eval()` or the global object itself.
 API
 ---
 
-### rewire(filename: String, [options]): rewiredModule
+### rewire(filename: String): rewiredModule
 
 Returns a rewired version of the module found at `filename`. Use `rewire()` exactly like `require()`.
-
-#### Options
-| Property | Default | Description |
-|----------|---------|-------------|
-| convertConst | false | Set to true to convert all `const` variables of the required module to `let`. This way you can mock const variables. **Caution**: Setting this to true can lead to inaccurate tests.
 
 ### rewiredModule.&#95;&#95;set&#95;&#95;(name: String, value: *): Function
 
