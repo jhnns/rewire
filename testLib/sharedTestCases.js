@@ -17,7 +17,7 @@ function checkForTypeError(err) {
     expect(err.constructor).to.be(TypeError);
 }
 
-describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + ")"), function () {
+describe(typeof testEnv === "undefined"? "(node)": "(" + testEnv + ")", function () {
 
     it("should work like require()", function () {
         rewire("./moduleA.js").getFilename();
@@ -265,7 +265,7 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
             throwError();
         } catch (err) {
             if (err.stack) {
-                expect(err.stack.split("\n")[1]).to.match(/:2:11/);
+                expect(err.stack.split("\n")[1]).to.match(/:7:11/);
             }
         }
     });
@@ -372,51 +372,22 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         revert();
     });
 
-    it("Should be possible to mock a const variable using __with__ syntax", function() {
-        var ES2015Module = rewire("./ES2015Module", {
-            convertConst: true
+    it("should be possible to mock a set a const variable using __set__ syntax", function() {
+        var constModule = rewire("./constModule");
+
+        constModule.__set__("language", "de");
+        constModule.__set__("someOtherModule", {
+            name: "differentModule"
         });
-
-        ES2015Module.__with__({
-            language: "en"
-        })(function() {
-            expect(ES2015Module.getLang()).to.equal("en");
-            expect(ES2015Module.getOtherModuleName()).to.equal("somOtherModule");
-        });
-    });
-
-    it("Should be possible to mock a const required variable using __with__ syntax", function() {
-        var ES2015Module = rewire("./ES2015Module", {
-            convertConst: true
-        });
-
-        ES2015Module.__with__({
-            someOtherModule: {
-                name: "mocked"
-            }
-        })(function() {
-            expect(ES2015Module.getLang()).to.equal("nl");
-            expect(ES2015Module.getOtherModuleName()).to.equal("mocked");
-        });
-    });
-
-    it("Should be possible to mock a set a const variable using __set__ syntax", function() {
-        var ES2015Module = rewire("./ES2015Module", {
-            convertConst: true
-        });
-
-        ES2015Module.__set__("language", "de");
-
-        expect(ES2015Module.getLang()).to.equal("de");
-
-        ES2015Module.__set__("language", "nl");
-
-        expect(ES2015Module.getLang()).to.equal("nl");
+        expect(constModule.getLang()).to.equal("de");
+        expect(constModule.getOtherModuleName()).to.equal("differentModule");
     })
 
-    it("Should have correct __filename and __dirname when mocked using convertConst", function() {
-        expect(rewire("./ES2015Module", { convertConst: true }).filename).to.equal(require("./ES2015Module").filename);
-        expect(rewire("./ES2015Module", { convertConst: true }).dirname).to.equal(require("./ES2015Module").dirname);
+    it("should have correct __filename and __dirname when mocked using convertConst", function() {
+        var constModule = rewire("./constModule");
+
+        expect(constModule.filename).to.equal(require("./constModule").filename);
+        expect(constModule.dirname).to.equal(require("./constModule").dirname);
     });
 
 });

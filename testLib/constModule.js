@@ -1,4 +1,3 @@
-
 const someOtherModule = require("./someOtherModule");
 const language = "nl";
 
