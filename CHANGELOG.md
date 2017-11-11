@@ -1,6 +1,10 @@
 Changelog
 ---------
 
+### 3.0.0
+- **Breaking:** Remove support for node versions below 4
+- Add support for `const` [#79](https://github.com/jhnns/rewire/issues/79) [#95](https://github.com/jhnns/rewire/issues/95) [#117](https://github.com/jhnns/rewire/pull/117) [#118](https://github.com/jhnns/rewire/pull/118)
+
 ### 2.5.2
 - Fix cluttering of `require.extensions` even if CoffeeScript is not installed [#98](https://github.com/jhnns/rewire/pull/98)
 
