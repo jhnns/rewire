@@ -25,6 +25,7 @@ describe("getImportGlobalsSrc", function () {
         delete global.module;
         delete global.exports;
         delete global.require;
+        delete global['__core-js_shared__'];
         delete global['a-b'];
 
         expectedGlobals = Object.keys(global);
@@ -60,7 +61,7 @@ describe("getImportGlobalsSrc", function () {
             // node v0.10 does not set a constructor property on the context
             // node v0.11 does set a constructor property
             // so just lets filter it, because it doesn't make sense to mock it anyway
-            return key !== "constructor";
+            return key !== "constructor"
         });
         actualGlobals.sort();
         expectedGlobals.sort();

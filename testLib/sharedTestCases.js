@@ -17,7 +17,7 @@ function checkForTypeError(err) {
     expect(err.constructor).to.be(TypeError);
 }
 
-describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + ")"), function () {
+module.exports = function () {
 
     it("should work like require()", function () {
         rewire("./moduleA.js").getFilename();
@@ -265,7 +265,7 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
             throwError();
         } catch (err) {
             if (err.stack) {
-                expect(err.stack.split("\n")[1]).to.match(/:2:11/);
+                expect(err.stack.split("\n")[1]).to.match(/:7:11/);
             }
         }
     });
@@ -372,4 +372,22 @@ describe("rewire " + (typeof testEnv === "undefined"? "(node)": "(" + testEnv + 
         revert();
     });
 
-});
+    it("should be possible to mock a set a const variable using __set__ syntax", function() {
+        var constModule = rewire("./constModule");
+
+        constModule.__set__("language", "de");
+        constModule.__set__("someOtherModule", {
+            name: "differentModule"
+        });
+        expect(constModule.getLang()).to.equal("de");
+        expect(constModule.getOtherModuleName()).to.equal("differentModule");
+    })
+
+    it("should have correct __filename and __dirname when mocked using convertConst", function() {
+        var constModule = rewire("./constModule");
+
+        expect(constModule.filename).to.equal(require("./constModule").filename);
+        expect(constModule.dirname).to.equal(require("./constModule").dirname);
+    });
+
+};

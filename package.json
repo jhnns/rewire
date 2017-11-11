@@ -36,7 +36,11 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "mocha -R spec --check-leaks",
+    "test": "mocha -R spec",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-es2015-block-scoping": "^6.26.0"
   }
 }

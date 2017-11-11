@@ -139,9 +139,6 @@ myModule.__with__({
 Limitations
 -----------
 
-**Using `const`**<br>
-It's not possible to rewire `const` (see [#79](https://github.com/jhnns/rewire/issues/79)). This can probably be solved with [proxies](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) someday but requires further research. 
-
 **Transpilers**<br>
 Some transpilers, like babel, rename variables in order to emulate certain language features. Rewire will not work in these cases (see [#62](https://github.com/jhnns/rewire/issues/62)). A possible solution might be switching to [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire).
 
