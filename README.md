@@ -14,9 +14,7 @@ rewire adds a special setter and getter to modules so you can modify their behav
 - inspect private variables
 - override variables within the module.
 
-rewire does **not** load the file and eval the contents to emulate node's require mechanism. In fact it uses node's own require to load the module. Thus your module behaves exactly the same in your test environment as under regular circumstances (except your modifications).
-
-**Please note:** The current version of rewire is not compatible with `const` or [babel](http://babeljs.io/). See [Limitations](https://github.com/jhnns/rewire#limitations).
+**Please note:** The current version of rewire is only compatible with CommonJS modules. See [Limitations](https://github.com/jhnns/rewire#limitations).
 
 <br>
 
@@ -139,8 +137,8 @@ myModule.__with__({
 Limitations
 -----------
 
-**Transpilers**<br>
-Some transpilers, like babel, rename variables in order to emulate certain language features. Rewire will not work in these cases (see [#62](https://github.com/jhnns/rewire/issues/62)). A possible solution might be switching to [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire).
+**Babel's ES module emulation**<br>
+During the transpilation step from ESM to CJS modules, Babel renames internal variables. Rewire will not work in these cases (see [#62](https://github.com/jhnns/rewire/issues/62)). Other Babel transforms, however, should be fine. Another solution might be switching to [babel-plugin-rewire](https://github.com/speedskater/babel-plugin-rewire).
 
 **Variables inside functions**<br>
 Variables inside functions can not be changed by rewire. This is constrained by the language.
