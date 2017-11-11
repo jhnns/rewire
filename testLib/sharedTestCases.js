@@ -17,7 +17,7 @@ function checkForTypeError(err) {
     expect(err.constructor).to.be(TypeError);
 }
 
-describe(typeof testEnv === "undefined"? "(node)": "(" + testEnv + ")", function () {
+module.exports = function () {
 
     it("should work like require()", function () {
         rewire("./moduleA.js").getFilename();
@@ -390,4 +390,4 @@ describe(typeof testEnv === "undefined"? "(node)": "(" + testEnv + ")", function
         expect(constModule.dirname).to.equal(require("./constModule").dirname);
     });
 
-});
+};
