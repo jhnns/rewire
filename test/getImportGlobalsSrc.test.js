@@ -31,12 +31,7 @@ describe("getImportGlobalsSrc", function () {
         expectedGlobals = Object.keys(global);
 
         vm.runInNewContext(src, context);
-        actualGlobals = Object.keys(context).filter(function (key) {
-            // node v0.10 does not set a constructor property on the context
-            // node v0.11 does set a constructor property
-            // so just lets filter it, because it doesn't make sense to mock it anyway
-            return key !== "constructor";
-        });
+        actualGlobals = Object.keys(context);
         actualGlobals.sort();
         expectedGlobals.sort();
         expect(actualGlobals).to.eql(expectedGlobals);
@@ -57,12 +52,7 @@ describe("getImportGlobalsSrc", function () {
             return ignore.indexOf(value) === -1;
         });
         vm.runInNewContext(src, context);
-        actualGlobals = Object.keys(context).filter(function (key) {
-            // node v0.10 does not set a constructor property on the context
-            // node v0.11 does set a constructor property
-            // so just lets filter it, because it doesn't make sense to mock it anyway
-            return key !== "constructor"
-        });
+        actualGlobals = Object.keys(context);
         actualGlobals.sort();
         expectedGlobals.sort();
         expect(actualGlobals).to.eql(expectedGlobals);
