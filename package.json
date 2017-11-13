@@ -1,6 +1,6 @@
 {
   "name": "rewire",
-  "version": "2.5.2",
+  "version": "3.0.0",
   "description": "Easy dependency injection for node.js unit testing",
   "keywords": [
     "dependency",
@@ -32,15 +32,15 @@
   "devDependencies": {
     "coffee-script": "^1.8.0",
     "expect.js": "^0.3.1",
-    "mocha": "^2.1.0"
+    "mocha": "^4.0.1"
   },
   "license": "MIT",
   "scripts": {
-    "test": "mocha -R spec --check-leaks --globals __core-js_shared__",
+    "test": "mocha -R spec",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "babel-core": "~6.26.0",
-    "babel-plugin-transform-es2015-constants": "~6.1.4"
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-es2015-block-scoping": "^6.26.0"
   }
 }

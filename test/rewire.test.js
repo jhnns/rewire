@@ -16,9 +16,7 @@ describe("rewire", function () {
             fs.renameSync(fakeNodeModules, path.resolve(__dirname, "../testLib/node_modules"));
         }
     });
-    it("should pass all shared test cases", function () {
-        require("../testLib/sharedTestCases.js");
-    });
+    require("../testLib/sharedTestCases.js")();
     it("should also work with CoffeeScript", function () {
         var coffeeModule;
 
