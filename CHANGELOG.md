@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 3.0.1
+- Fix Unknown Plugin "transform-es2015-block-scoping" [#121](https://github.com/jhnns/rewire/issues/121) [#122](https://github.com/jhnns/rewire/pull/122)
+
 ### 3.0.0
 - **Breaking:** Remove support for node versions below 4
 - Add support for `const` [#79](https://github.com/jhnns/rewire/issues/79) [#95](https://github.com/jhnns/rewire/issues/95) [#117](https://github.com/jhnns/rewire/pull/117) [#118](https://github.com/jhnns/rewire/pull/118)
