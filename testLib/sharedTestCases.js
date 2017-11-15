@@ -390,4 +390,17 @@ module.exports = function () {
         expect(constModule.dirname).to.equal(require("./constModule").dirname);
     });
 
+    it("should be possible to create a class", function() {
+        var BClass = rewire("./ClassB");
+
+        expect(function() {
+            new BClass();
+        }).to.not.throw;
+
+        var b = new BClass();
+
+        expect(b.prop1).to.equal("B");
+        expect(b.prop2).to.equal("something")
+    });
+
 };
