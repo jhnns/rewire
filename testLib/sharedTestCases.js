@@ -400,7 +400,7 @@ module.exports = function () {
         var b = new BClass();
 
         expect(b.prop1).to.equal("B");
-        expect(b.prop2).to.equal("something")
+        expect(b.prop2).to.equal("something");
     });
 
 };
