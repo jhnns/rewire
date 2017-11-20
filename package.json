@@ -1,6 +1,6 @@
 {
   "name": "rewire",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Easy dependency injection for node.js unit testing",
   "keywords": [
     "dependency",
