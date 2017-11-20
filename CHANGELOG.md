@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 3.0.2
+- Fix a bug where rewire used the project's .babelrc [#119](https://github.com/jhnns/rewire/issues/119) [#123](https://github.com/jhnns/rewire/pull/123)
+
 ### 3.0.1
 - Fix Unknown Plugin "transform-es2015-block-scoping" [#121](https://github.com/jhnns/rewire/issues/121) [#122](https://github.com/jhnns/rewire/pull/122)
 
