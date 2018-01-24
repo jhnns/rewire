@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "babel-core": "^6.26.0",
-    "babel-plugin-transform-es2015-block-scoping": "^6.26.0"
+    "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0"
   }
 }
