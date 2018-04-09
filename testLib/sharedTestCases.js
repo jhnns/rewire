@@ -220,34 +220,24 @@ module.exports = function () {
         expect(rewired.__get__("someVar")).to.be("hello");
     });
 
-    it("should not be a problem to have a module that exports a boolean", function() {
-        expect(function() {
-            var rewired = rewire("./boolean.js");
-        }).to.not.throwException();
+    it("should not be a problem to have a module that exports a boolean", function( ) {
+        rewire("./boolean.js"); // should not throw
     });
 
-    it("should not be a problem to have a module that exports null", function() {
-        expect(function() {
-            var rewired = rewire("./null.js");
-        }).to.not.throwException();
+    it("should not be a problem to have a module that exports null", function () {
+        rewire("./null.js"); // should not throw
     });
 
-    it("should not be a problem to have a module that exports a sealed object", function() {
-        expect(function() {
-            var rewired = rewire("./sealedObject.js");
-        }).to.not.throwException();
+    it("should not be a problem to have a module that exports a sealed object", function () {
+        rewire("./sealedObject.js"); // should not throw
     });
 
-    it("should not be a problem to have a module that uses object spread operator", function() {
-        expect(function() {
-            var rewired = rewire("./objectSpreadOperator.js");
-        }).to.not.throwException();
+    it("should not be a problem to have a module that uses object spread operator", function () {
+        rewire("./objectSpreadOperator.js"); // should not throw
     });
 
-    it("should not be a problem to have a module that uses object rest operator", function() {
-        expect(function() {
-            var rewired = rewire("./objectRestOperator.js");
-        }).to.not.throwException();
+    it("should not be a problem to have a module that uses object rest operator", function () {
+        rewire("./objectRestOperator.js"); // should not throw
     });
 
     it("should not influence the original require if nothing has been required within the rewired module", function () {
@@ -384,22 +374,19 @@ module.exports = function () {
         revert();
     });
 
-    it("should be possible to mock a set a const variable using __set__ syntax", function() {
+    it("should be possible to set a const variable", function () {
         var constModule = rewire("./constModule");
 
-        constModule.__set__("language", "de");
-        constModule.__set__("someOtherModule", {
-            name: "differentModule"
+        "abcdefghij".split("").forEach(letter => {
+            constModule.__set__(letter, "this has been changed"); // should not throw
+            expect(constModule[letter]()).to.equal("this has been changed");
         });
-        expect(constModule.getLang()).to.equal("de");
-        expect(constModule.getOtherModuleName()).to.equal("differentModule");
-    })
+    });
 
-    it("should have correct __filename and __dirname when mocked using convertConst", function() {
-        var constModule = rewire("./constModule");
-
-        expect(constModule.filename).to.equal(require("./constModule").filename);
-        expect(constModule.dirname).to.equal(require("./constModule").dirname);
+    it("should fail with a helpful TypeError when const is re-assigned", function () {
+        expect(function () {
+            rewire("./wrongConstModule");
+        }).to.throwException(/^Assignment to constant variable at .+?wrongConstModule\.js:4:1$/);
     });
 
 };

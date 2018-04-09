@@ -1,4 +1,4 @@
-// Using const here because we know that Babel will transform that part
+// Using deliberately const here because we know that we're transform const to let
 const test = 1;
 
 module.exports = function () {
