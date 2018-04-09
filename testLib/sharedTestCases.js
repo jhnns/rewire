@@ -13,6 +13,23 @@ var expect = require("expect.js"),
     __get__Src = require("../lib/__get__.js").toString(),
     __with__Src = require("../lib/__with__.js").toString();
 
+var supportsObjectSpread = (function () {
+    try {
+        eval("({...{}})");
+        return true;
+    } catch (err) {
+        return false;
+    }
+})();
+var supportsObjectRest = (function () {
+    try {
+        eval("const {...a} = {}");
+        return true;
+    } catch (err) {
+        return false;
+    }
+})();
+
 function checkForTypeError(err) {
     expect(err.constructor).to.be(TypeError);
 }
@@ -232,11 +249,11 @@ module.exports = function () {
         rewire("./sealedObject.js"); // should not throw
     });
 
-    it("should not be a problem to have a module that uses object spread operator", function () {
+    (supportsObjectSpread ? it : it.skip)("should not be a problem to have a module that uses object spread operator", function () {
         rewire("./objectSpreadOperator.js"); // should not throw
     });
 
-    it("should not be a problem to have a module that uses object rest operator", function () {
+    (supportsObjectRest ? it : it.skip)("should not be a problem to have a module that uses object rest operator", function () {
         rewire("./objectRestOperator.js"); // should not throw
     });
 
@@ -263,9 +280,7 @@ module.exports = function () {
         try {
             throwError();
         } catch (err) {
-            if (err.stack) {
-                expect(err.stack.split("\n")[1]).to.match(/:6:26/);
-            }
+            expect(err.stack.split("\n")[1]).to.match(/:6:26/);
         }
     });
 
