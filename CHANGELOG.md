@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+### 4.0.0
+- **Breaking**: Remove official node v4 support. It probably still works with node v4, but no guarantees anymore.
+- **Potentially breaking**: Replace babel with regex-based transformation [9b77ed9a293c538ec3eb5160bcb933e012ce517f](https://github.com/jhnns/rewire/commit/9b77ed9a293c538ec3eb5160bcb933e012ce517f).
+This should not break, but it has been flagged as major version bump as the regex might not catch all cases reliably and thus fail for some users.
+- Improve runtime performance [#132](https://github.com/jhnns/rewire/issues/132)
+- Use `coffeescript` package in favor of deprecated `coffee-script` [#134](https://github.com/jhnns/rewire/pull/134)
+
 ### 3.0.2
 - Fix a bug where rewire used the project's .babelrc [#119](https://github.com/jhnns/rewire/issues/119) [#123](https://github.com/jhnns/rewire/pull/123)
 
