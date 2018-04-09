@@ -5,7 +5,7 @@ rewire
 [![](https://img.shields.io/npm/v/rewire.svg)](https://www.npmjs.com/package/rewire)
 [![](https://img.shields.io/npm/dm/rewire.svg)](https://www.npmjs.com/package/rewire)
 [![Dependency Status](https://david-dm.org/jhnns/rewire.svg)](https://david-dm.org/jhnns/rewire)
-[![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](https://travis-ci.org/rewire/jhnns)
+[![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](https://travis-ci.org/jhnns/rewire)
 [![Coverage Status](https://img.shields.io/coveralls/jhnns/rewire.svg)](https://coveralls.io/r/jhnns/rewire?branch=master)
 
 rewire adds a special setter and getter to modules so you can modify their behaviour for better unit testing. You may
@@ -236,7 +236,7 @@ See [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 CoffeeScript
 ------------
 
-Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this case CoffeeScript needs to be listed in your devDependencies.
+Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this case you need to install the `coffeescript` package.
 
 <br />
 
