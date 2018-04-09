@@ -260,14 +260,11 @@ module.exports = function () {
     it("should not modify line numbers in stack traces", function () {
         var throwError = rewire("./throwError.js");
 
-        if (process.env.running_under_istanbul === "1") {
-            return;
-        }
         try {
             throwError();
         } catch (err) {
             if (err.stack) {
-                expect(err.stack.split("\n")[1]).to.match(/:7:11/);
+                expect(err.stack.split("\n")[1]).to.match(/:6:26/);
             }
         }
     });
