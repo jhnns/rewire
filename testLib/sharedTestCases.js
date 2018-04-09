@@ -238,6 +238,18 @@ module.exports = function () {
         }).to.not.throwException();
     });
 
+    it("should not be a problem to have a module that uses object spread operator", function() {
+        expect(function() {
+            var rewired = rewire("./objectSpreadOperator.js");
+        }).to.not.throwException();
+    });
+
+    it("should not be a problem to have a module that uses object rest operator", function() {
+        expect(function() {
+            var rewired = rewire("./objectRestOperator.js");
+        }).to.not.throwException();
+    });
+
     it("should not influence the original require if nothing has been required within the rewired module", function () {
         rewire("./emptyModule.js"); // nothing happens here because emptyModule doesn't require anything
         expect(require("./moduleA.js").__set__).to.be(undefined); // if restoring the original node require didn't worked, the module would have a setter
