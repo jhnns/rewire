@@ -1,8 +1,7 @@
-// Using const here because we know that Babel will transform that part
-const test = 1;
+// Using deliberately const here because we know that we're transform const to let
+const a = "a";
 
 module.exports = function () {
-    let test = 1;
-
-    throw new Error();
+    // Ensure that column numbers are correct
+    const b = "b"; throw new Error();
 };
