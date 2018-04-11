@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "coffeescript": "^2.1.1",
+    "eslint": "^4.19.1",
     "expect.js": "^0.3.1",
     "mocha": "^4.0.1"
   },
@@ -38,8 +39,5 @@
   "scripts": {
     "test": "mocha -R spec",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
-  },
-  "dependencies": {
-    "eslint": "^4.19.1"
   }
 }
