@@ -388,10 +388,13 @@ module.exports = function () {
 
     it("should be possible to set a const variable", function () {
         var constModule = rewire("./constModule");
+        var varNames = Object.keys(constModule);
 
-        "abcdefghij".split("").forEach(letter => {
-            constModule.__set__(letter, "this has been changed"); // should not throw
-            expect(constModule[letter]()).to.equal("this has been changed");
+        expect(varNames.length).to.be.greaterThan(0);
+
+        varNames.forEach(varName => {
+            constModule.__set__(varName, "this has been changed"); // should not throw
+            expect(constModule[varName]()).to.equal("this has been changed");
         });
     });
 
