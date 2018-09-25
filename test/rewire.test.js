@@ -32,30 +32,23 @@ describe("rewire", function () {
         expect(coffeeModule.readFileSync()).to.be("It works!");
     });
 
-    it("should also work with JSX", function () {
+    it("should work with file types without loaders", function () {
         var jsxModule;
 
         rewire = require("../");
         jsxModule = rewire("../testLib/module.jsx");
-        jsxModule.__set__("fs", {
-            readFileSync: function () {
-                return "It works!";
-            }
-        });
-        expect(jsxModule.readFileSync()).to.be("It works!");
+        jsxModule.__set__("testModuleB", "Different Thing");
+        expect(jsxModule.testModuleB()).to.be("Different Thing");
 
     });
 
-    it("should NOT work with TypeScript", function () {
+    it("should NOT work with file types which do have loaders", function () {
         var tsModule;
+        require.extensions['.ts'] = require.extensions['.js'];
 
         rewire = require("../");
         tsModule = rewire("../testLib/module.ts");
-        tsModule.__set__("fs", {
-            readFileSync: function () {
-                return "It works!";
-            }
-        });
-        expect(tsModule.readFileSync()).to.be("It works!");
+        tsModule.__set__("testModuleB", "Different Thing");
+        expect(tsModule.testModuleB()).to.be("Different Thing");
     });
 });

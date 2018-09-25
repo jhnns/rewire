@@ -1,3 +1,5 @@
-﻿fs = require "fs"
+﻿const testModuleB = require("./moduleC.js");
 
-exports.readFileSync = () -> fs.readFileSync()
+exports.testModuleB = function() {
+  return testModuleB;
+};
