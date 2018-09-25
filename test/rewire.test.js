@@ -47,8 +47,7 @@ describe("rewire", function () {
         require.extensions['.ts'] = require.extensions['.js'];
 
         rewire = require("../");
-        tsModule = rewire("../testLib/module.ts");
-        tsModule.__set__("testModuleB", "Different Thing");
-        expect(tsModule.testModuleB()).to.be("Different Thing");
+        tsModule = rewire.bind(null, "../testLib/module.ts");
+        expect(tsModule).to.throwException(/rather than expected/);
     });
 });
