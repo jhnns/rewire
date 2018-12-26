@@ -88,6 +88,10 @@ myModule.__set__({
 You may also override globals. These changes are only within the module, so you don't have to be concerned that other modules are influenced by your mock.
 
 ```javascript
+var options = {
+    overridable: ["console", "process"]
+};
+var myModule = rewire("../lib/myModule.js", options);
 myModule.__set__({
     console: {
         log: function () { /* be quiet */ }

@@ -178,8 +178,11 @@ module.exports = function () {
     });
 
     it("should provide the ability to mock global objects just within the module", function () {
-        var rewiredModuleA = rewire("./moduleA.js"),
-            rewiredModuleB = rewire("./moduleB.js"),
+        var options = {
+                overridable: ["console", "__filename", "Buffer", "document"]
+            },
+            rewiredModuleA = rewire("./moduleA.js", options),
+            rewiredModuleB = rewire("./moduleB.js", options),
             consoleMock = {},
             bufferMock = {},
             documentMock = {},
@@ -213,14 +216,18 @@ module.exports = function () {
 
         if (typeof window === "undefined") {
             global.someGlobalVar = "test";
-            rewiredModule = rewire("./moduleA.js");
+            rewiredModule = rewire("./moduleA.js", {
+                overridable: ["someGlobalVar"]
+            });
             rewiredModule.__set__("someGlobalVar", "other value");
             expect(global.someGlobalVar).to.be("test");
             expect(rewiredModule.__get__("someGlobalVar")).to.be("other value");
             delete global.someGlobalVar;
         } else {
             window.someGlobalVar = "test";
-            rewiredModule = rewire("./moduleA.js");
+            rewiredModule = rewire("./moduleA.js", {
+                overridable: ["someGlobalVar"]
+            });
             rewiredModule.__set__("someGlobalVar", "other value");
             expect(window.someGlobalVar).to.be("test");
             expect(rewiredModule.__get__("someGlobalVar")).to.be("other value");
