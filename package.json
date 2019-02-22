@@ -30,9 +30,9 @@
     "url": "git://github.com/jhnns/rewire.git"
   },
   "devDependencies": {
-    "coffeescript": "^2.1.1",
+    "coffeescript": "^2.3.2",
     "expect.js": "^0.3.1",
-    "mocha": "^4.0.1"
+    "mocha": "^6.0.1"
   },
   "license": "MIT",
   "scripts": {
@@ -40,6 +40,6 @@
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "eslint": "^4.19.1"
+    "eslint": "^5.14.1"
   }
 }
