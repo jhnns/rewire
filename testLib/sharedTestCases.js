@@ -280,7 +280,18 @@ module.exports = function () {
         try {
             throwError();
         } catch (err) {
-            expect(err.stack.split("\n")[1]).to.match(/:6:26/);
+
+            // Firefox implements a different error-stack format,
+            // but does offer line and column numbers on errors: we use
+            // those instead.
+            if (err.lineNumber !== undefined && err.columnNumber !== undefined) {
+                expect(err.lineNumber).to.equal(6)
+                expect(err.columnNumber).to.equal(26)
+            }
+            // This is for the V8 stack trace format (Node, Chrome)
+            else {
+                expect(err.stack.split("\n")[1]).to.match(/:6:26/);
+            }
         }
     });
 
