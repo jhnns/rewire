@@ -32,7 +32,8 @@
   "devDependencies": {
     "coffeescript": "^2.1.1",
     "expect.js": "^0.3.1",
-    "mocha": "^4.0.1"
+    "mocha": "^7.1.0",
+    "rewire": "file://."
   },
   "license": "MIT",
   "scripts": {
@@ -40,6 +41,6 @@
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "eslint": "^4.19.1"
+    "eslint": "^6.8.0"
   }
 }
