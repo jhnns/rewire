@@ -1,7 +1,8 @@
 Changelog
 ---------
 
-### 4.0.2
+### 5.0.0
+- **Breaking**: Remove Node v6 support. We had to do this because one of our dependencies had security issues and the version with the fix dropped Node v6 as well.
 - Update dependencies [#159](https://github.com/jhnns/rewire/pull/159) [#172](https://github.com/jhnns/rewire/issues/172) [#154](https://github.com/jhnns/rewire/issues/154) [#166](https://github.com/jhnns/rewire/issues/166)
 
 ### 4.0.1
