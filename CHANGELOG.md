@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 4.0.2
+- Update dependencies [#159](https://github.com/jhnns/rewire/pull/159) [#172](https://github.com/jhnns/rewire/issues/172) [#154](https://github.com/jhnns/rewire/issues/154) [#166](https://github.com/jhnns/rewire/issues/166)
+
 ### 4.0.1
 - Fix a bug where `const` was not properly detected [#139](https://github.com/jhnns/rewire/pull/139)
 
