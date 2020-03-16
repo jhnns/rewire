@@ -16,7 +16,9 @@ describe("rewire", function () {
             fs.renameSync(fakeNodeModules, path.resolve(__dirname, "../testLib/node_modules"));
         }
     });
+
     require("../testLib/sharedTestCases.js")();
+
     it("should also work with CoffeeScript", function () {
         var coffeeModule;
 
@@ -28,5 +30,24 @@ describe("rewire", function () {
             }
         });
         expect(coffeeModule.readFileSync()).to.be("It works!");
+    });
+
+    it("should work with file types without loaders", function () {
+        var jsxModule;
+
+        rewire = require("../");
+        jsxModule = rewire("../testLib/module.jsx");
+        jsxModule.__set__("testModuleB", "Different Thing");
+        expect(jsxModule.testModuleB()).to.be("Different Thing");
+
+    });
+
+    it("should NOT work with file types which do have loaders", function () {
+        var tsModule;
+        require.extensions['.ts'] = require.extensions['.js'];
+
+        rewire = require("../");
+        tsModule = rewire.bind(null, "../testLib/module.ts");
+        expect(tsModule).to.throwException(/rather than expected/);
     });
 });
