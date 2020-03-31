@@ -408,4 +408,9 @@ module.exports = function () {
         }).to.throwException(/^Assignment to constant variable at .+?wrongConstModule\.js:4:1$/);
     });
 
+    it("should be possible to rewire shebang modules", function () {
+        expect(function () {
+            rewire("./shebangModule");
+        }).to.not.throwError();
+    });
 };
