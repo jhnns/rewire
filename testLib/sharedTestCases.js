@@ -408,4 +408,17 @@ module.exports = function () {
         }).to.throwException(/^Assignment to constant variable at .+?wrongConstModule\.js:4:1$/);
     });
 
+    it("should not rewire nested requires by default", function () {
+        const a = rewire('./moduleA')
+        const b = rewire('./moduleB')
+
+        expect(a.someOtherModule.date).to.equal(b.someOtherModule.date)
+    })
+
+    it("should rewire nested requires by default", function () {
+        const a = rewire('./moduleA', true)
+        const b = rewire('./moduleB', true)
+
+        expect(a.someOtherModule.date).not.to.equal(b.someOtherModule.date)
+    })
 };
