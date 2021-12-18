@@ -409,8 +409,10 @@ module.exports = function () {
     });
 
     it("should be possible to rewire shebang modules", function () {
-        expect(function () {
-            rewire("./shebangModule");
-        }).to.not.throwError();
+        var shebangModule = rewire("./shebangModule");
+        var shebangs = shebangModule.__get__("shebangs");
+
+        expect(typeof shebangs).to.be("function");
+        expect(shebangModule.shebangs()).to.be(true);
     });
 };
