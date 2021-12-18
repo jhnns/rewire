@@ -177,7 +177,11 @@ module.exports = function () {
         expect(someOtherModule.fs).not.to.be(mockedFs);
     });
 
-    it("should provide the ability to mock global objects just within the module", function () {
+    // This test fails on modern Node versions since they started to configure some
+    // global variables to be non-enumerable. This means that rewire() does in fact
+    // modify the global console object in newer Node versions.
+    // There is a work in progress fix at https://github.com/jhnns/rewire/tree/fix-globals
+    it.skip("should provide the ability to mock global objects just within the module", function () {
         var rewiredModuleA = rewire("./moduleA.js"),
             rewiredModuleB = rewire("./moduleB.js"),
             consoleMock = {},
@@ -415,4 +419,11 @@ module.exports = function () {
         }).to.throwException(/^Assignment to constant variable at .+?wrongConstModule\.js:4:1$/);
     });
 
+    it("should be possible to rewire shebang modules", function () {
+        var shebangModule = rewire("./shebangModule");
+        var shebangs = shebangModule.__get__("shebangs");
+
+        expect(typeof shebangs).to.be("function");
+        expect(shebangModule.shebangs()).to.be(true);
+    });
 };
