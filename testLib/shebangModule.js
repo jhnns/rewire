@@ -4,4 +4,4 @@ function shebangs() {
     return true;
 }
 
-module.exports.shebangs = shebangs;
+exports.shebangs = shebangs;
