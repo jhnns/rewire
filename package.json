@@ -1,6 +1,6 @@
 {
   "name": "rewire",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Easy dependency injection for node.js unit testing",
   "keywords": [
     "dependency",
@@ -32,7 +32,9 @@
   "devDependencies": {
     "coffeescript": "^2.1.1",
     "expect.js": "^0.3.1",
-    "mocha": "^4.0.1"
+    "istanbul": "^0.4.5",
+    "mocha": "^9.1.2",
+    "rewire": "file://."
   },
   "license": "MIT",
   "scripts": {
@@ -40,6 +42,6 @@
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "dependencies": {
-    "eslint": "^4.19.1"
+    "eslint": "^7.32.0"
   }
 }
