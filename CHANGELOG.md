@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+### 6.0.0
+- **Breaking**: Remove Node v8 support. We had to do this because one of our dependencies had security issues and the version with the fix dropped Node v8 as well.
+- Update dependencies [#193](https://github.com/jhnns/rewire/issues/193)
+- Fix Modifying globals within module leaks to global with Node >=10 [#167](https://github.com/jhnns/rewire/issues/167)
+- Fixed import errors on modules with shebang declarations [#179](https://github.com/jhnns/rewire/pull/179)
+
 ### 5.0.0
 - **Breaking**: Remove Node v6 support. We had to do this because one of our dependencies had security issues and the version with the fix dropped Node v6 as well.
 - Update dependencies [#159](https://github.com/jhnns/rewire/pull/159) [#172](https://github.com/jhnns/rewire/issues/172) [#154](https://github.com/jhnns/rewire/issues/154) [#166](https://github.com/jhnns/rewire/issues/166)
