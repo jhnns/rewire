@@ -1,0 +1,8 @@
+{
+    "exclude": [
+        "lib/__get__.js",
+        "lib/__set__.js",
+        "lib/__with__.js",
+        "testLib/*"
+    ]
+}

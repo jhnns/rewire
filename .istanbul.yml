@@ -1,9 +1,0 @@
-instrumentation:
-    excludes: [
-        # These functions will be stringified and evaled again. Thus it's difficult to include them into the test coverage
-        'lib/__get__.js',
-        'lib/__set__.js',
-        'lib/__with__.js',
-        # Ignore shared test cases. These are just in the lib folder because they should
-        'testLib/*'
-        ]

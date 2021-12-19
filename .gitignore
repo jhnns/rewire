@@ -16,3 +16,5 @@ npm-debug.log
 /coverage
 /examples
 /.idea
+
+.nyc_output
