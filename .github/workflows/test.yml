@@ -1,0 +1,47 @@
+name: 🧪 Test
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 16.x]
+
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@a40b8845c0683271d9f53dfcb887a7e181d3918b # pin@0.9.1
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # pin@v2
+      - name: ⎔ Setup node ${{ matrix.node-version }}
+        uses: actions/setup-node@25316bbc1f10ac9d8798711f44914b1cf3c4e954 # pin@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - name: 🗄 Cache node_modules
+        id: cache-node_modules
+        uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # pin@v2
+        with:
+          path: "**/node_modules"
+          key: node_modules-${{ runner.os }}-node-${{ matrix.node-version }}-${{
+            hashFiles('**/package-lock.json') }}
+      - name: 📥 Install dependencies
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        run: |
+          npm ci --ignore-scripts
+      - name: 🧪 Test
+        run: |
+          npm test
+        env:
+          CI: true
+      - name: ⬆️ Upload coverage report
+        uses: coverallsapp/github-action@9ba913c152ae4be1327bfb9085dc806cedb44057 # pin@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
