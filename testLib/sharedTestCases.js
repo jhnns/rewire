@@ -422,4 +422,12 @@ module.exports = function () {
         expect(typeof shebangs).to.be("function");
         expect(shebangModule.shebangs()).to.be(true);
     });
+
+    it("should be possible to re-assign consts", function () {
+        var test = rewire("./constModule.js");
+
+        test.__set__("j", "some other value");
+
+        expect(test.j()).to.be("some other value");
+    });
 };
