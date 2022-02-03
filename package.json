@@ -41,6 +41,6 @@
     "test": "nyc --reporter=html --reporter=lcov mocha -R spec"
   },
   "dependencies": {
-    "eslint": "^7.32.0"
+    "eslint": "^8.8.0"
   }
 }
