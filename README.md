@@ -4,7 +4,6 @@ rewire
 
 [![](https://img.shields.io/npm/v/rewire.svg)](https://www.npmjs.com/package/rewire)
 [![](https://img.shields.io/npm/dm/rewire.svg)](https://www.npmjs.com/package/rewire)
-[![Dependency Status](https://david-dm.org/jhnns/rewire.svg)](https://david-dm.org/jhnns/rewire)
 [![Build Status](https://travis-ci.org/jhnns/rewire.svg?branch=master)](https://travis-ci.org/jhnns/rewire)
 [![Coverage Status](https://img.shields.io/coveralls/jhnns/rewire.svg)](https://coveralls.io/r/jhnns/rewire?branch=master)
 
