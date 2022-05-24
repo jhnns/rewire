@@ -29,4 +29,15 @@ describe("rewire", function () {
         });
         expect(coffeeModule.readFileSync()).to.be("It works!");
     });
+    it('should work with typescript', function () {
+        var tsModule;
+        rewire = require("../");
+        tsModule = rewire("../testLib/module.ts");
+        tsModule.__set__("fs", {
+            readFileSync: function () {
+                return "It works!";
+            }
+        });
+        expect(tsModule.readFileSync()).to.be("It works!");
+    });
 });
