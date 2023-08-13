@@ -17,19 +17,7 @@ describe("rewire", function () {
         }
     });
     require("../testLib/sharedTestCases.js")();
-    it("should also work with CoffeeScript", function () {
-        var coffeeModule;
-
-        rewire = require("../");
-        coffeeModule = rewire("../testLib/module.coffee");
-        coffeeModule.__set__("fs", {
-            readFileSync: function () {
-                return "It works!";
-            }
-        });
-        expect(coffeeModule.readFileSync()).to.be("It works!");
-    });
-    it('should work with typescript', function () {
+    it("should work with TypeScript", function () {
         var tsModule;
         rewire = require("../");
         tsModule = rewire("../testLib/module.ts");

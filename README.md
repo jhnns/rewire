@@ -233,13 +233,6 @@ See [rewire-webpack](https://github.com/jhnns/rewire-webpack)
 
 <br />
 
-CoffeeScript
-------------
-
-Good news to all caffeine-addicts: rewire works also with [Coffee-Script](http://coffeescript.org/). Note that in this case you need to install the `coffeescript` package.
-
-<br />
-
 ## License
 
 MIT
