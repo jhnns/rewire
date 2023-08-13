@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+### 7.0.0
+- **Breaking**: Remove official Node v10, v12, v14 and v16 support. We had to do this because one of our dependencies had security issues and the version with the fix dropped Node v10 as well. Additionally, there were also package-lock.json issues because of a breaking change at npm [6deb9bd3edb1d3531ffa689968339f9fd390a5d5](https://github.com/jhnns/rewire/commit/6deb9bd3edb1d3531ffa689968339f9fd390a5d5) [092e554955db2591d09b57d3b87a575ee0d510a9](https://github.com/jhnns/rewire/commit/092e554955db2591d09b57d3b87a575ee0d510a9)
+- **Breaking**: Remove CoffeeScript support [e0ea17d2e13ef4fb054980c1c5c62edcfd10632f](https://github.com/jhnns/rewire/commit/e0ea17d2e13ef4fb054980c1c5c62edcfd10632f)
+- Add TypeScript support [#204](https://github.com/jhnns/rewire/pull/204)
+
 ### 6.0.0
 - **Breaking**: Remove Node v8 support. We had to do this because one of our dependencies had security issues and the version with the fix dropped Node v8 as well.
 - Update dependencies [#193](https://github.com/jhnns/rewire/issues/193)
