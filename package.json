@@ -1,6 +1,6 @@
 {
   "name": "rewire",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "Easy dependency injection for node.js unit testing",
   "keywords": [
     "dependency",
@@ -44,5 +44,8 @@
   },
   "dependencies": {
     "eslint": "^8.47.0"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }
