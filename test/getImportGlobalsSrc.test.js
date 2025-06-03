@@ -5,9 +5,7 @@ var expect = require("expect.js"),
 describe("getImportGlobalsSrc", function () {
 
     it("should declare all globals with a var", function () {
-        var context = {
-                global: global
-            },
+        var context = {},
             expectedGlobals,
             src,
             actualGlobals;
@@ -29,12 +27,13 @@ describe("getImportGlobalsSrc", function () {
         delete global['__core-js_shared__'];
         delete global['a-b'];
 
-        const ignoredGlobals = ["module", "exports", "require", "undefined", "eval", "arguments", "GLOBAL", "root", "NaN", "Infinity"];
+        const ignoredGlobals = ["module", "exports", "require", "undefined", "eval", "arguments", "GLOBAL", "root", "NaN", "Infinity", "globalThis"];
 
         const globals = Object.getOwnPropertyNames(global);
         expectedGlobals = globals.filter((el) => !ignoredGlobals.includes(el));
 
         vm.runInNewContext(src, context);
+
         actualGlobals = Object.getOwnPropertyNames(context);
 
         actualGlobals.sort();
@@ -44,15 +43,13 @@ describe("getImportGlobalsSrc", function () {
     });
 
     it("should ignore the given variables", function () {
-        var context = {
-                global: global
-            },
+        var context = {},
             ignore = ["console", "setTimeout"],
             src,
             actualGlobals,
             expectedGlobals = Object.getOwnPropertyNames(global);
 
-        const ignoredGlobals = ["module", "exports", "require", "undefined", "eval", "arguments", "GLOBAL", "root", "NaN", "Infinity"];
+        const ignoredGlobals = ["module", "exports", "require", "undefined", "eval", "arguments", "GLOBAL", "root", "NaN", "Infinity", "globalThis"];
         ignore = ignore.concat(ignoredGlobals);
 
         // getImportGlobalsSrc modifies the ignore array, so let's create a copy
