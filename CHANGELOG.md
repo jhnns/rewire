@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 9.0.0
+- **Breaking**: Update ESLint runtime dependency to v9 [#218](https://github.com/jhnns/rewire/pull/218). This is most likely not a breaking change for rewire users but we can't know for certain.
+
 ### 8.0.0
 - **Breaking**: Remove official Node v18 support. There is no known issue but our CI won't test against it anymore.
 - Fix [Node v22 issues](https://github.com/nodejs/node/pull/58388#issuecomment-2894893538)
