@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+### 9.0.1
+- Fix: Use pirates for proper load extensions install/uninstall handling [#219](https://github.com/jhnns/rewire/pull/219)
+
 ### 9.0.0
 - **Breaking**: Update ESLint runtime dependency to v9 [#218](https://github.com/jhnns/rewire/pull/218). This is most likely not a breaking change for rewire users but we can't know for certain.
 
