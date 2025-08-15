@@ -43,7 +43,8 @@
     "test": "nyc --reporter=html --reporter=lcov mocha -r ts-node/register -R spec"
   },
   "dependencies": {
-    "eslint": "^9.30"
+    "eslint": "^9.30",
+    "pirates": "^4.0.7"
   },
   "files": [
     "lib"
